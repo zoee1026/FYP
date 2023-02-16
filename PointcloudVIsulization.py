@@ -59,7 +59,7 @@ def GetAllTrainFile():
         print(os.listdir(os.path.join(PATH, date)))
         print(len(sum([files
                                    for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data')) if not subdir
-                                   ])),[])
+                                   ]),[]))
         
         lidar_files.extend(sorted([file
                                    for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data'))
@@ -67,7 +67,7 @@ def GetAllTrainFile():
 
         # label_files.extend(sorted([file
         #                            for path, subdir, files in os.walk(os.path.join(PATH, date, 'Label'))
-        #                            for file in glob(os.path.join(path, "*bin.json"))]))
+        #                            for file in glob(os.path.join(pgitath, "*bin.json"))]))
 
     # print(len(lidar_files),len(label_files))
     print(len(lidar_files))
