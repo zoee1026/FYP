@@ -76,7 +76,8 @@ def GetAllTrainFile():
     print('-----------------------------------------------------------------')
     # checking
     for i in range(len(label_files)):
-        filenametarget=label_files[i].split("\\")[-1].split('.')[0]
+        filenametarget=label_files[i].split("/")[-1].split('.')[0]
+        
         print(filenametarget)
         filename=[file for file in lidar_filess if filenametarget in file]
         if filename:
