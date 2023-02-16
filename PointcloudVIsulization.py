@@ -57,33 +57,34 @@ def GetAllTrainFile():
         # Get lidar file
         # print(os.path.join(PATH, date, 'Data'))
         print(os.listdir(os.path.join(PATH, date)))
-        print(len([file
-                                   for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data'))
-                                   for file in glob(os.path.join(path, "*.bin"))]))
+        print(len([files
+                                   for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data')) if not subdir
+                                   ]))
         
         lidar_files.extend(sorted([file
                                    for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data'))
-                                   for file in glob(os.path.join(path, "*.bin"))]))
+                                   for file in glob.glob(os.path.join(path, "*.bin"))]))
 
         # label_files.extend(sorted([file
         #                            for path, subdir, files in os.walk(os.path.join(PATH, date, 'Label'))
         #                            for file in glob(os.path.join(path, "*bin.json"))]))
 
-    print(len(lidar_files),len(label_files))
+    # print(len(lidar_files),len(label_files))
     print('-----------------------------------------------------------------')
     # checking
-    for i in lidar_files:
-        for j in label_files:
-            if i.split("\\")[-1] == j.split("\\")[-1]:
-                continue
-            else:
-                print(i, j)
-                break
+    # for i in lidar_files:
+    #     for j in label_files:
+    #         if i.split("\\")[-1] == j.split("\\")[-1]:
+    #             continue
+    #         else:
+    #             print(i, j)
+    #             break
 
-    return [lidar_files, label_files]
+    # return [lidar_files, label_files]
 
 
 if __name__ == "__main__":
-    lidar_files, label_files = GetAllTrainFile()
-    PCVisualization(lidar_files[0])
-    ReadLabelInOneFile(label_files[0])
+    # lidar_files, label_files = GetAllTrainFile()
+    GetAllTrainFile()
+    # PCVisualization(lidar_files[0])
+    # ReadLabelInOneFile(label_files[0])
