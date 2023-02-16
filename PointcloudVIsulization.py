@@ -56,15 +56,18 @@ def GetAllTrainFile():
     for date in  ['south_gate_1680_8Feb2022','south_gate_2Dec2020']:
         # Get lidar file
         # print(os.path.join(PATH, date, 'Data'))
-        # print(os.listdir(os.path.join(PATH, date)))
-
+        print(os.listdir(os.path.join(PATH, date)))
+        print(len([file
+                                   for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data'))
+                                   for file in glob(os.path.join(path, "*.bin"))]))
+        
         lidar_files.extend(sorted([file
                                    for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data'))
                                    for file in glob(os.path.join(path, "*.bin"))]))
 
-        label_files.extend(sorted([file
-                                   for path, subdir, files in os.walk(os.path.join(PATH, date, 'Label'))
-                                   for file in glob(os.path.join(path, "*bin.json"))]))
+        # label_files.extend(sorted([file
+        #                            for path, subdir, files in os.walk(os.path.join(PATH, date, 'Label'))
+        #                            for file in glob(os.path.join(path, "*bin.json"))]))
 
     print(len(lidar_files),len(label_files))
     print('-----------------------------------------------------------------')
