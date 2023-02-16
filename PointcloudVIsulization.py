@@ -70,17 +70,17 @@ def GetAllTrainFile():
                                    for file in glob.glob(os.path.join(path, "*bin.json"))]))
         print(len(lidar_files),len(label_files))
 
-
+    print(lidar_files[0],label_files[0])
     lidar_files, label_files=[sorted(lidar_files), sorted(label_files)]
     lidar_filess=[]
     print('-----------------------------------------------------------------')
     # checking
     for i in range(len(label_files)):
         filenametarget=label_files[i].split("/")[-1].split('.')[0]
-        
-        print(filenametarget)
+
         filename=[file for file in lidar_filess if filenametarget in file]
         if filename:
+            print (filename)
             lidar_filess.extend(filename)
     print(len(lidar_filess),len(label_files))
 
@@ -91,6 +91,6 @@ if __name__ == "__main__":
     lidar_files, label_files = GetAllTrainFile()
     # GetAllTrainFile()
     print ('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-    print(lidar_files[0],label_files[0])
-    PCVisualization(lidar_files[0])
+    # print(lidar_files[0],label_files[0])
+    # PCVisualization(lidar_files[0])
     ReadLabelInOneFile(label_files[0])
