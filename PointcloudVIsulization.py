@@ -47,38 +47,41 @@ def ReadLabelInOneFile(labelPath):
                     else:
                         raw[k] = [v]
         print(raw)
-       
+
 
 def GetAllTrainFile():
     lidar_files = []
     label_files = []
     for date in os.listdir(PATH)[1:]:
         # Get lidar file
-        print(os.path.join(PATH, date, 'Data'))
-        
-        print(os.listdir(os.path.join(PATH, date)))
+        # print(os.path.join(PATH, date, 'Data'))
+        # print(os.listdir(os.path.join(PATH, date)))
+        print(os.listdir(os.path.join(PATH, date, 'Data')))
+        print([file
+               for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data'))
+               for file in glob(os.path.join(path, "*.bin"))])
+
         lidar_files.extend(sorted([file
                                    for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data'))
-                                   for file in glob(os.path.join(path, "*.json"))]))
+                                   for file in glob(os.path.join(path, "*.bin"))]))
 
         label_files.extend(sorted([file
                                    for path, subdir, files in os.walk(os.path.join(PATH, date, 'Label'))
-                                   for file in glob(os.path.join(path, "*.json"))]))
+                                   for file in glob(os.path.join(path, "*bin.json"))]))
 
     # checking
     for i in lidar_files:
         for j in label_files:
-            if i.split("\\")[-1] ==j.split("\\")[-1]:
+            if i.split("\\")[-1] == j.split("\\")[-1]:
                 continue
-            else :
-                print (i,j)
+            else:
+                print(i, j)
                 break
-    
-        
-    return [lidar_files,label_files]
+
+    return [lidar_files, label_files]
 
 
 if __name__ == "__main__":
-    lidar_files, label_files=GetAllTrainFile()
+    lidar_files, label_files = GetAllTrainFile()
     PCVisualization(lidar_files[0])
     ReadLabelInOneFile(label_files[0])
