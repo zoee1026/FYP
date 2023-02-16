@@ -74,6 +74,7 @@ def GetAllTrainFile():
     print(lidar_files[0],label_files[0])
 
     lidar_files_match=[]
+    label_files_match=[]
     print('-----------------------------------------------------------------')
     # checking
     for i in range(len(label_files)):
@@ -83,10 +84,13 @@ def GetAllTrainFile():
         if filename:
             print (filename)
             lidar_files_match.extend(filename)
-    print(len(lidar_files_match),len(label_files))
+            label_files_match.extend(label_files)
 
+    print(len(lidar_files_match),len(label_files_match))
+    match_data=pd.DataFrame({"label_files":lidar_files_match,"label_files":label_files_match})
+    match_data.to_csv('MatchFileFeb16.csv')
 
-    return [lidar_files_match, label_files]
+    return [lidar_files_match, label_files_match]
 
 
 if __name__ == "__main__":
