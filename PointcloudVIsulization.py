@@ -36,7 +36,7 @@ def PCVisualization(lidarPath):
 
     # ax.view_init(elev=40, azim=180)
     plt.plot([1,2,3], [1,2,3])
-    plt.show(block=True)
+    plt.show()
 
 def ReadLabelInOneFile(labelPath):
     with open(labelPath) as json_file:
