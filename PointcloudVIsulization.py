@@ -70,8 +70,9 @@ def GetAllTrainFile():
                                    for file in glob.glob(os.path.join(path, "*bin.json"))]))
         print(len(lidar_files),len(label_files))
 
-    print(lidar_files[0],label_files[0])
     lidar_files, label_files=[sorted(lidar_files), sorted(label_files)]
+    print(lidar_files[0],label_files[0])
+
     lidar_filess=[]
     print('-----------------------------------------------------------------')
     # checking
