@@ -26,7 +26,7 @@ def PCVisualization(lidarPath):
     zs = pointcloud[:, 2][::20]
 
     ax.scatter(xs, ys, zs)
-
+    plt.show()
 
 def ReadLabelInOneFile(labelPath):
     with open(labelPath) as json_file:
@@ -101,7 +101,7 @@ if __name__ == "__main__":
     
     # GetAllTrainFile()
     print ('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-    print(lidar_files[0],label_files[0])
+    # print(lidar_files[0],label_files[0])
     PCVisualization(lidar_files[0])
     # ReadLabelInOneFile(label_files[0])
 # 
