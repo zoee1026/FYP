@@ -63,9 +63,8 @@ def GetAllTrainFile():
         # for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data')):
         #     if not subdir:
         #         print (files)
-        print([file
-               for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data'))
-               for file in glob(os.path.join(path, "*.bin"))])
+        print([files
+               for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data')) if not subdir])
 
     #     lidar_files.extend(sorted([file
     #                                for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data'))
