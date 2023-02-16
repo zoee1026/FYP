@@ -60,9 +60,9 @@ def GetAllTrainFile():
         print(os.listdir(os.path.join(PATH, date)))
 
         # print(os.listdir(os.path.join(PATH, date, 'Data')))
-        for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data')):
-            if not subdir:
-                print (files)
+        # for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data')):
+        #     if not subdir:
+        #         print (files)
         print([file
                for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data'))
                for file in glob(os.path.join(path, "*.bin"))])
