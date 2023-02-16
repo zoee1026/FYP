@@ -8,7 +8,7 @@ import json
 import glob
 
 
-PATH = '../../dettrain_20220711'
+PATH = '../dettrain_20220711'
 Lidar_Path = ''
 Label_Path = ''
 
