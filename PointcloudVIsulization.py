@@ -15,26 +15,27 @@ Label_Path = ''
 
 # match files label
 def PCVisualization(lidarPath):
-    pointcloud = np.fromfile(lidarPath, dtype=np.float32)
-    pointcloud = pointcloud.reshape((-1, 4))
-    print(pointcloud.shape)
+    # pointcloud = np.fromfile(lidarPath, dtype=np.float32)
+    # pointcloud = pointcloud.reshape((-1, 4))
+    # print(pointcloud.shape)
 
-    fig = plt.figure(figsize=(8, 8))
-    ax = fig.add_subplot(111, projection='3d')
+    # fig = plt.figure(figsize=(8, 8))
+    # ax = fig.add_subplot(111, projection='3d')
 
-    xs = pointcloud[:, 0]#[::20]
-    ys = pointcloud[:, 1]#[::20]
-    zs = pointcloud[:, 2]#[::20]
+    # xs = pointcloud[:, 0]#[::20]
+    # ys = pointcloud[:, 1]#[::20]
+    # zs = pointcloud[:, 2]#[::20]
 
-    ax.set_box_aspect((np.ptp(xs), np.ptp(ys), np.ptp(zs)))
-    ax.scatter(xs, ys, zs, s=0.01)
-    ax.grid(False)
-    ax.axis('off')
-    ax.set_xlabel('x')
-    ax.set_ylabel('y')
-    ax.set_zlabel('z')
+    # ax.set_box_aspect((np.ptp(xs), np.ptp(ys), np.ptp(zs)))
+    # ax.scatter(xs, ys, zs, s=0.01)
+    # ax.grid(False)
+    # ax.axis('off')
+    # ax.set_xlabel('x')
+    # ax.set_ylabel('y')
+    # ax.set_zlabel('z')
 
-    ax.view_init(elev=40, azim=180)
+    # ax.view_init(elev=40, azim=180)
+    plt.plot([1,2,3], [1,2,3])
     plt.show(block=True)
 
 def ReadLabelInOneFile(labelPath):
