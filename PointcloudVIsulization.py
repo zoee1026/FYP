@@ -72,12 +72,12 @@ def GetAllTrainFile():
     print(len(lidar_files),len(label_files))
     print('-----------------------------------------------------------------')
     # checking
-    for i in lidar_files:
-        for j in label_files:
-            if i.split("\\")[-1] == j.split("\\")[-1]:
-                continue
-            else:
-                print(i, j)
+    # for i in lidar_files:
+    #     for j in label_files:
+    #         if i.split("\\")[-1] == j.split("\\")[-1]:
+    #             continue
+    #         else:
+    #             print('checking', i, j)
                 break
 
     return [lidar_files, label_files]
