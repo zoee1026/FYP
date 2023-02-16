@@ -82,7 +82,6 @@ def GetAllTrainFile():
 
         filename=[file for file in lidar_files if filenametarget in file]
         if filename:
-            print (filename)
             lidar_files_match.extend(filename)
             label_files_match.extend(label_files)
 
