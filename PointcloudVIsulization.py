@@ -22,9 +22,9 @@ def PCVisualization(lidarPath):
     fig = plt.figure(figsize=(8, 8))
     ax = fig.add_subplot(111, projection='3d')
 
-    xs = pointcloud[:, 0][::20]
-    ys = pointcloud[:, 1][::20]
-    zs = pointcloud[:, 2][::20]
+    xs = pointcloud[:, 0]#[::20]
+    ys = pointcloud[:, 1]#[::20]
+    zs = pointcloud[:, 2]#[::20]
 
     ax.set_box_aspect((np.ptp(xs), np.ptp(ys), np.ptp(zs)))
     ax.scatter(xs, ys, zs, s=0.01)
@@ -35,6 +35,7 @@ def PCVisualization(lidarPath):
     ax.set_zlabel('z')
 
     ax.view_init(elev=40, azim=180)
+    plt.show(block=True)
 
 def ReadLabelInOneFile(labelPath):
     with open(labelPath) as json_file:
