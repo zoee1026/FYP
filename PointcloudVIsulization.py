@@ -8,7 +8,7 @@ import json
 import glob
 
 
-PATH = '../dettrain_20220711'
+PATH = '../../dettrain_20220711'
 Lidar_Path = ''
 Label_Path = ''
 
@@ -55,7 +55,8 @@ def GetAllTrainFile():
     for date in os.listdir(PATH)[1:]:
         # Get lidar file
         print(os.path.join(PATH, date, 'Data'))
-        print(os.getcwd())
+        
+        print(os.listdir(os.path.join(PATH, date)))
         lidar_files.extend(sorted([file
                                    for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data'))
                                    for file in glob(os.path.join(path, "*.json"))]))
