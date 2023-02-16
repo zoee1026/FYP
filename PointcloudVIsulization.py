@@ -65,7 +65,7 @@ def GetAllTrainFile():
 
         label_files.extend(sorted([file
                                    for path, subdir, files in os.walk(os.path.join(PATH, date, label_dir))
-                                   for file in glob(os.path.join(path, "*bin.json"))]))
+                                   for file in glob.glob(os.path.join(path, "*bin.json"))]))
 
         print(len(lidar_files))
 
