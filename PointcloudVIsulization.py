@@ -82,7 +82,7 @@ def GetAllTrainFile():
         filename=[file for file in lidar_files if filenametarget in file]
         if filename:
             lidar_files_match.extend(filename)
-            label_files_match.extend(i)
+            label_files_match.append(i)
 
     print(len(lidar_files_match),len(label_files_match))
     match_data=pd.DataFrame({"label_files":lidar_files_match,"label_files":label_files_match})
