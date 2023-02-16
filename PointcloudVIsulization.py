@@ -71,18 +71,16 @@ def GetAllTrainFile():
         print(len(lidar_files),len(label_files))
 
 
-    print(len(lidar_files),len(label_files))
     lidar_files, label_files=[sorted(lidar_files), sorted(label_files)]
+    lidar_filess=[]
     print('-----------------------------------------------------------------')
     # checking
-    for i in len(lidar_files):
-        if lidar_files[0].split("\\")[-1].split('.')[0] == label_files[0].split("\\")[-1].split('.')[0]:
-            continue
-        else:
-            print('checking', i, label_files[i],lidar_files[i])
-            break
+    for i in range(len(label_files)):
+        filenametarget=label_files[i].split("\\")[-1].split('.')[0]
+        lidar_filess.extend([file for file in lidar_filess if filenametarget in file])
+    print(len(lidar_files),len(label_files))
 
-    return [sorted(lidar_files), sorted(label_files)]
+    return [lidar_filess, label_files]
 
 
 if __name__ == "__main__":
