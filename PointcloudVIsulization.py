@@ -85,17 +85,25 @@ def GetAllTrainFile():
             print(i)
 
     print(len(lidar_files_match),len(label_files_match))
-    match_data=pd.DataFrame({"label_files":lidar_files_match,"label_files":label_files_match})
+    match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match})
     match_data.to_csv('MatchFileFeb16.csv')
 
     return [lidar_files_match, label_files_match]
 
+def GetMatchedDatafile(Path):
+    df=pd.read_csv(Path)
+    return [df['lidar_files'].tolist(),df['label_files'].tolist]
 
 if __name__ == "__main__":
     lidar_files, label_files = GetAllTrainFile()
+    print ('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+
+    DataPath='MatchFileFeb16.csv'
+    lidar_files, label_files = GetMatchedDatafile(DataPath)
+    
     # GetAllTrainFile()
     print ('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
     print(lidar_files[0],label_files[0])
     # PCVisualization(lidar_files[0])
-    # ReadLabelInOneFile(label_files[0])
+    ReadLabelInOneFile(label_files[0])
 # 
