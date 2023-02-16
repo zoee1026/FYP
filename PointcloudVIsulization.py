@@ -78,7 +78,7 @@ def GetAllTrainFile():
     #             continue
     #         else:
     #             print('checking', i, j)
-                break
+                # break
 
     return [lidar_files, label_files]
 
