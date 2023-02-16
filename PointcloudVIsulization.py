@@ -16,7 +16,7 @@ Label_Path = ''
 # match files label
 def PCVisualization(lidarPath):
     pointcloud = np.fromfile(lidarPath, dtype=np.float32)
-    # pointcloud = pointcloud.reshape((-1, 4))
+    pointcloud = pointcloud.reshape((-1, 4))
     print(pointcloud.shape)
 
     fig = plt.figure(figsize=(8, 8))
