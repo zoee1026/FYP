@@ -83,7 +83,7 @@ def GetAllTrainFile():
             print (filename)
             lidar_filess.extend(filename)
     print(len(lidar_filess),len(label_files))
-    df = pd.DataFrame({"lidar_files":lidar_files,"label_files":label_files})
+    df = pd.DataFrame({"lidar_files":lidar_files})
     df.to_csv('fileName.csv')
 
     return [lidar_filess, label_files]
