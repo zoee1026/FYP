@@ -78,7 +78,7 @@ def ReadLabelInOneFile(labelPath):
         for box in boundingBoxes:
             element = Label3D(
                     str(box["object_id"]),
-                    np.array(box['center'].values(), dtype=np.float32),
+                    np.array(list(box['center'].values()), dtype=np.float32),
                     np.array([box['height'],box['width'],box['length']], dtype=np.float32),
                     float(box['angle'])
                 )
@@ -135,7 +135,7 @@ def GetMatchedDatafile(Path):
     return [df['lidar_files'].tolist(),df['label_files'].tolist()]
 
 if __name__ == "__main__":
-    # lidar_files, label_files = GetAllTrainFile()
+    lidar_files, label_files = GetAllTrainFile()
 
     DataPath='MatchFileFeb16.csv'
     lidar_files, label_files = GetMatchedDatafile(DataPath)

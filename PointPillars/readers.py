@@ -74,7 +74,7 @@ class KittiDataReader(DataReader):
             for box in boundingBoxes:
                 element = Label3D(
                         str(box["object_id"]),
-                        np.array(box['center'].values(), dtype=np.float32),
+                        np.array(list(box['center'].values()), dtype=np.float32),
                         np.array([box['height'],box['width'],box['length']], dtype=np.float32),
                         float(box['angle'])
                     )
