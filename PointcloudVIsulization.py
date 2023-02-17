@@ -125,8 +125,8 @@ def GetAllTrainFile():
             lidar_files_match.extend(filename)
 
     print(len(lidar_files_match),len(label_files_match))
-    match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match})
-    match_data.to_csv('MatchFile.csv')
+    # match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match})
+    # match_data.to_csv('MatchFile.csv')
 
     return [lidar_files_match, label_files_match]
 
@@ -137,7 +137,7 @@ def GetMatchedDatafile(Path):
 if __name__ == "__main__":
     lidar_files, label_files = GetAllTrainFile()
 
-    DataPath='MatchFileFeb16.csv'
+    DataPath='MatchFile.csv'
     lidar_files, label_files = GetMatchedDatafile(DataPath)
     
     # GetAllTrainFile()
