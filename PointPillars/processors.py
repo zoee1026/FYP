@@ -175,8 +175,9 @@ class SimpleDataGenerator(DataProcessor, Sequence):
                 # occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(
                 #     label_transformed)
                 result = self.make_ground_truth(label)
-                print (result.shape)
-                
+                print (len(result),'-------------------------------------------------')
+                print(result)
+
                 occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(label)
                    
                 occupancy.append(occupancy_)
