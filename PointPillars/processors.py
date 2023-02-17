@@ -116,6 +116,7 @@ class DataProcessor(Parameters):
         ohe = tf.keras.utils.to_categorical(sel[..., 9], num_classes=self.nb_classes, dtype='float64')
         print(len(sel[..., 0]), len(sel[..., 1:4]), len(sel[..., 4:7]), len(sel[..., 7]), len(sel[..., 8]),len(ohe))
 
+
         return sel[..., 0], sel[..., 1:4], sel[..., 4:7], sel[..., 7], sel[..., 8], ohe
 
 
@@ -164,6 +165,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
 
             if self.label_files is not None:
                 label = self.data_reader.read_label(self.label_files[i])
+                print(label)
                 # R, t = self.data_reader.read_calibration(self.calibration_files[i])
                 # Labels are transformed into the lidar coordinate bounding boxes
                 # Label has 7 values, centroid, dimensions and yaw value.
@@ -172,6 +174,9 @@ class SimpleDataGenerator(DataProcessor, Sequence):
                 # We are splitting a 10 dim vector that contains this information.
                 # occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(
                 #     label_transformed)
+                result = self.make_ground_truth(label)
+                print (result.shape)
+                
                 occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(label)
                    
                 occupancy.append(occupancy_)
