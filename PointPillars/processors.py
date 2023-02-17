@@ -70,7 +70,7 @@ class DataProcessor(Parameters):
         # Label has 4 properties (Classification (0th index of labels file),
         # centroid coordinates, dimensions, yaw)
         labels = list(filter(lambda x: x.classification in self.classes, labels))
-
+        print('make true ====================')
         if len(labels) == 0:
             pX, pY = int(self.Xn / self.downscaling_factor), int(self.Yn / self.downscaling_factor)
             a = int(self.anchor_dims.shape[0])
@@ -171,7 +171,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
 
             if self.label_files is not None:
                 label = self.data_reader.read_label(self.label_files[i])
-                print(label)
+                print(label,'++++++++++++++++++++++++++++++++')
                 # R, t = self.data_reader.read_calibration(self.calibration_files[i])
                 # Labels are transformed into the lidar coordinate bounding boxes
                 # Label has 7 values, centroid, dimensions and yaw value.
