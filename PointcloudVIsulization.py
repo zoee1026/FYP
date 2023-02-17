@@ -135,7 +135,7 @@ def GetMatchedDatafile(Path):
     return [df['lidar_files'].tolist(),df['label_files'].tolist()]
 
 if __name__ == "__main__":
-    lidar_files, label_files = GetAllTrainFile()
+    # lidar_files, label_files = GetAllTrainFile()
 
     DataPath='MatchFile.csv'
     lidar_files, label_files = GetMatchedDatafile(DataPath)
