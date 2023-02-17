@@ -10,7 +10,7 @@ from network import build_point_pillar_graph
 from read_file_location import GetMatchedDatafile
 
 DATA_ROOT = "../training"
-MODEL_ROOT = "./logs"
+MODEL_ROOT = "./log"
 MODEL_PATH = "model.h5"
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"

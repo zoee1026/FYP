@@ -15,7 +15,7 @@ tf.get_logger().setLevel("ERROR")
 
 # DATA_ROOT = "../../dettrain_20220711"  # TODO make main arg
 DATA_ROOT = 'MatchFileFeb16.csv'
-MODEL_ROOT = "./logs"
+MODEL_ROOT = "./log"
 MODEL_PATH = "model.h5"
 MODEL_SAVE = "train.h5"
 
