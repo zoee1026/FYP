@@ -112,7 +112,9 @@ class DataProcessor(Parameters):
 
         # return a merged target view for all objects in the ground truth and get categorical labels
         sel = select_best_anchors(target)
+        
         ohe = tf.keras.utils.to_categorical(sel[..., 9], num_classes=self.nb_classes, dtype='float64')
+        print(len(sel[..., 0]), len(sel[..., 1:4]), len(sel[..., 4:7]), len(sel[..., 7]), len(sel[..., 8]),len(ohe))
 
         return sel[..., 0], sel[..., 1:4], sel[..., 4:7], sel[..., 7], sel[..., 8], ohe
 
