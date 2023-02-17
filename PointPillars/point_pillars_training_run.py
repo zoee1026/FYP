@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     loss = PointPillarNetworkLoss(params)
 
-    optimizer = tf.keras.optimizers.Adam(lr=params.learning_rate, decay=params.decay_rate)
+    optimizer = tf.keras.optimizers.Adam(learning_rate=params.learning_rate)
 
     pillar_net.compile(optimizer, loss=loss.losses())
 
