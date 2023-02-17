@@ -114,7 +114,13 @@ class DataProcessor(Parameters):
         sel = select_best_anchors(target)
         
         ohe = tf.keras.utils.to_categorical(sel[..., 9], num_classes=self.nb_classes, dtype='float64')
-        print(len(sel[..., 0]), len(sel[..., 1:4]), len(sel[..., 4:7]), len(sel[..., 7]), len(sel[..., 8]),len(ohe))
+        print(len(sel[..., 0]), len(sel[..., 1:4]), len(sel[..., 4:7]), len(sel[..., 7]), len(sel[..., 8]),len(ohe),'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+        print('1-------',sel[..., 0])
+        print('2-------', sel[..., 1:4])
+        print('3-------',sel[..., 4:7])
+        print('4-------',sel[..., 7])
+        print('5-------',sel[..., 8])
+        print('6-------',ohe)
 
 
         return sel[..., 0], sel[..., 1:4], sel[..., 4:7], sel[..., 7], sel[..., 8], ohe
@@ -176,7 +182,6 @@ class SimpleDataGenerator(DataProcessor, Sequence):
                 #     label_transformed)
                 result = self.make_ground_truth(label)
                 print (len(result),'-------------------------------------------------')
-                print(result)
 
                 occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(label)
                    
