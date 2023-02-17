@@ -68,17 +68,23 @@ class KittiDataReader(DataReader):
         #             elements.append(element)
         with open(file_path) as json_file:
             data = json.load(json_file)
-            raw={}
-            for k,v in data['bounding_boxes'][0].items():
-                if k=='center':
-                    for kk,vv in v.items():
-                        raw[kk]=vv
-                else:
-                    raw[k]=[v]
-       
-        return pd.DataFrame(raw)
+            elements = []
+            boundingBoxes = data['bounding_boxes']
 
-        return elements
+            for box in boundingBoxes:
+                element = Label3D(
+                        str(box["object_id"]),
+                        np.array(box['center'].values(), dtype=np.float32),
+                        np.array([box['height'],box['width'],box['length']], dtype=np.float32),
+                        float(box['angle'])
+                    )
+
+                if element.classification == "DontCare":
+                    continue
+                else:
+                    elements.append(element)
+        
+            return elements
 
     @staticmethod
     def read_calibration(file_path: str):

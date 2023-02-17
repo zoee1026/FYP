@@ -7,9 +7,11 @@ from inference_utils import generate_bboxes_from_pred, GroundTruthGenerator, foc
 from readers import KittiDataReader
 from config import Parameters
 from network import build_point_pillar_graph
+from read_file_location import GetMatchedDatafile
 
 DATA_ROOT = "../training"
 MODEL_ROOT = "./logs"
+MODEL_PATH = "model.h5"
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
@@ -18,16 +20,19 @@ if __name__ == "__main__":
 
     params = Parameters()
     pillar_net = build_point_pillar_graph(params)
-    pillar_net.load_weights(os.path.join(MODEL_ROOT, "model.h5"))
+    pillar_net.load_weights(os.path.join(MODEL_ROOT, MODEL_PATH))
     # pillar_net.summary()
 
     data_reader = KittiDataReader()
 
-    lidar_files = sorted(glob(os.path.join(DATA_ROOT, "velodyne", "*.bin")))
-    label_files = sorted(glob(os.path.join(DATA_ROOT, "label_2", "*.txt")))
-    calibration_files = sorted(glob(os.path.join(DATA_ROOT, "calib", "*.txt")))
-    assert len(lidar_files) == len(label_files) == len(calibration_files), "Input dirs require equal number of files."
-    eval_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files, label_files, calibration_files)
+    # lidar_files = sorted(glob(os.path.join(DATA_ROOT, "velodyne", "*.bin")))
+    # label_files = sorted(glob(os.path.join(DATA_ROOT, "label_2", "*.txt")))
+    # calibration_files = sorted(glob(os.path.join(DATA_ROOT, "calib", "*.txt")))
+    # assert len(lidar_files) == len(label_files) == len(calibration_files), "Input dirs require equal number of files."
+    # eval_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files, label_files, calibration_files)
+    lidar_files, label_files = GetMatchedDatafile(DATA_ROOT)
+    assert len(lidar_files) == len(label_files)
+    eval_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files, label_files)
 
     occupancy, position, size, angle, heading, classification = pillar_net.predict(eval_gen,
                                                                                    batch_size=params.batch_size)
@@ -45,8 +50,13 @@ if __name__ == "__main__":
     print('Scene 1: Boxes after NMS with iou_thr: ', len(nms_boxes[0]))
 
     # Do all the further operations on predicted_boxes array, which contains the predicted bounding boxes
-    gt_gen = GroundTruthGenerator(data_reader, label_files, calibration_files, network_format=False)
-    gt_gen0 = GroundTruthGenerator(data_reader, label_files, calibration_files, network_format=True)
+    # gt_gen = GroundTruthGenerator(data_reader, label_files, calibration_files, network_format=False)
+    # gt_gen0 = GroundTruthGenerator(data_reader, label_files, calibration_files, network_format=True)
+    
+    gt_gen = GroundTruthGenerator(data_reader, label_files, network_format=False)
+    gt_gen0 = GroundTruthGenerator(data_reader, label_files, network_format=True)
+
+
     for seq_boxes, gt_label, gt0 in zip(nms_boxes, gt_gen, gt_gen0):
         print("---------- New Scenario ---------- ")
         focal_loss_checker(gt0[0], occupancy[0], n_occs=-1)

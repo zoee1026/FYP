@@ -1,5 +1,6 @@
 # import cv2
 import datetime
+
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -11,6 +12,17 @@ import glob
 PATH = '../../dettrain_20220711'
 Lidar_Path = ''
 Label_Path = ''
+
+class Label3D:
+    def __init__(self, classification: str, centroid: np.ndarray, dimension: np.ndarray, yaw: float):
+        self.classification = classification
+        self.centroid = centroid
+        self.dimension = dimension
+        self.yaw = yaw
+
+    def __str__(self):
+        return "GT | Cls: %s, x: %f, y: %f, l: %f, w: %f, yaw: %f" % (
+            self.classification, self.centroid[0], self.centroid[1], self.dimension[0], self.dimension[1], self.yaw)
 
 
 # match files label
@@ -39,24 +51,43 @@ def PCVisualization(lidarPath):
     plt.show()
 
 def ReadLabelInOneFile(labelPath):
+    # with open(labelPath) as json_file:
+    #     data = json.load(json_file)
+    #     raw = {}
+    #     boundingBoxes = data['bounding_boxes']
+    #     for box in boundingBoxes:
+    #         for k, v in box.items():
+    #             if k == 'center':
+    #                 for kk, vv in v.items():
+    #                     if kk in raw:
+    #                         raw[kk].append(vv)
+    #                     else:
+    #                         raw[kk] = [vv]
+    #             else:
+    #                 if k in raw:
+    #                     raw[k].append(v)
+    #                 else:
+    #                     raw[k] = [v]
+    #     print(raw)
+
     with open(labelPath) as json_file:
         data = json.load(json_file)
-        raw = {}
+        elements = []
         boundingBoxes = data['bounding_boxes']
+
         for box in boundingBoxes:
-            for k, v in box.items():
-                if k == 'center':
-                    for kk, vv in v.items():
-                        if kk in raw:
-                            raw[kk].append(vv)
-                        else:
-                            raw[kk] = [vv]
-                else:
-                    if k in raw:
-                        raw[k].append(v)
-                    else:
-                        raw[k] = [v]
-        print(raw)
+            element = Label3D(
+                    str(box["object_id"]),
+                    np.array(box['center'].values(), dtype=np.float32),
+                    np.array([box['height'],box['width'],box['length']], dtype=np.float32),
+                    float(box['angle'])
+                )
+
+            if element.classification == "DontCare":
+                continue
+            else:
+                elements.append(element)
+            print(element)  
 
 
 def GetAllTrainFile():
@@ -94,8 +125,8 @@ def GetAllTrainFile():
             lidar_files_match.extend(filename)
 
     print(len(lidar_files_match),len(label_files_match))
-    # match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match})
-    # match_data.to_csv('MatchFileFeb16.csv')
+    match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match})
+    match_data.to_csv('MatchFileFeb16.csv')
 
     return [lidar_files_match, label_files_match]
 
@@ -113,5 +144,5 @@ if __name__ == "__main__":
     print ('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
     # print(lidar_files[0],label_files[0])
     PCVisualization(lidar_files[0])
-    # ReadLabelInOneFile(label_files[0])
+    ReadLabelInOneFile(label_files[0])
 # 
