@@ -117,12 +117,12 @@ class DataProcessor(Parameters):
         
         ohe = tf.keras.utils.to_categorical(sel[..., 9], num_classes=self.nb_classes, dtype='float64')
         print(len(sel[..., 0]), len(sel[..., 1:4]), len(sel[..., 4:7]), len(sel[..., 7]), len(sel[..., 8]),len(ohe),'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-        print('1-------',sel[..., 0])
-        print('2-------', sel[..., 1:4])
-        print('3-------',sel[..., 4:7])
-        print('4-------',sel[..., 7])
-        print('5-------',sel[..., 8])
-        print('6-------',ohe)
+        print('1-------',sel[..., 0].shape)
+        print('2-------', sel[..., 1:4].shape)
+        print('3-------',sel[..., 4:7].shape)
+        print('4-------',sel[..., 7].shape)
+        print('5-------',sel[..., 8].shape)
+        print('6-------',ohe.shape)
 
 
         return sel[..., 0], sel[..., 1:4], sel[..., 4:7], sel[..., 7], sel[..., 8], ohe
