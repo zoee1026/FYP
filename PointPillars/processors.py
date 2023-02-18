@@ -75,7 +75,7 @@ class DataProcessor(Parameters):
         if len(labels) == 0:
             pX, pY = int(self.Xn / self.downscaling_factor), int(self.Yn / self.downscaling_factor)
             a = int(self.anchor_dims.shape[0])
-            
+
            # occupancy_, position_, size_, angle_, heading_, classification_
             return np.zeros((pX, pY, a), dtype='float32'), np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), \
                    np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), np.zeros((pX, pY, a), dtype='float32'), \
@@ -117,14 +117,6 @@ class DataProcessor(Parameters):
         sel = select_best_anchors(target)
         
         ohe = tf.keras.utils.to_categorical(sel[..., 9], num_classes=self.nb_classes, dtype='float64')
-        print(len(sel[..., 0]), len(sel[..., 1:4]), len(sel[..., 4:7]), len(sel[..., 7]), len(sel[..., 8]),len(ohe),'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-        print('1-------',sel[..., 0].shape)
-        print('2-------', sel[..., 1:4].shape)
-        print('3-------',sel[..., 4:7].shape)
-        print('4-------',sel[..., 7].shape)
-        print('5-------',sel[..., 8].shape)
-        print('6-------',ohe.shape)
-
 
         return sel[..., 0], sel[..., 1:4], sel[..., 4:7], sel[..., 7], sel[..., 8], ohe
 
@@ -175,7 +167,6 @@ class SimpleDataGenerator(DataProcessor, Sequence):
 
             if self.label_files is not None:
                 label = self.data_reader.read_label(self.label_files[i])
-                print(label,'++++++++++++++++++++++++++++++++')
                 # R, t = self.data_reader.read_calibration(self.calibration_files[i])
                 # Labels are transformed into the lidar coordinate bounding boxes
                 # Label has 7 values, centroid, dimensions and yaw value.
@@ -185,7 +176,6 @@ class SimpleDataGenerator(DataProcessor, Sequence):
                 # occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(
                 #     label_transformed)
                 result = self.make_ground_truth(label)
-                print (len(result),'-------------------------------------------------')
 
                 occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(label)
                    
