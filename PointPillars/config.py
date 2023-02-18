@@ -25,18 +25,50 @@ class GridParameters:
 
 class DataParameters:
 
-    classes = {"Car":               0,
-               "Pedestrian":        1,
-               "Person_sitting":    1,
-               "Cyclist":           2,
-               "Truck":             3,
-               "Van":               3,
-               "Tram":              3,
-               "Misc":              3,
-               }
+    # classes = {"Car":               0,
+    #            "Pedestrian":        1,
+    #            "Person_sitting":    1,
+    #            "Cyclist":           2,
+    #            "Truck":             3,
+    #            "Van":               3,
+    #            "Tram":              3,
+    #            "Misc":              3,
+    #            }
+
+    classes = {
+        "bigtruck": 0,
+        "black-cargo-mpv": 1,
+        "black-cargo-one-box": 2,
+        "black-mpv": 3,
+        "black-one-box": 4,
+        "black-smalltruck": 5,
+        "black-three-box": 6,
+        "black-two-box": 7,
+        "cargo-mpv": 8,
+        "cargo-one-box": 9,
+        "coachbus": 10,
+        "construction-vehicle": 11,
+        "crane-truck": 12,
+        "cylindrical-truck": 13,
+        "dd": 14,
+        "flatbed-truck": 15,
+        "mediumtruck": 16,
+        "motorbike": 17,
+        "mpv": 18,
+        "one-box": 19,
+        "pedestrian": 20,
+        "privateminibus": 21,
+        "publicminibus": 22,
+        "smalltruck": 23,
+        "taxi": 24,
+        "three-box": 25,
+        "two-box": 26,
+
+    }
 
     nb_classes = len(np.unique(list(classes.values())))
-    assert nb_classes == np.max(np.unique(list(classes.values()))) + 1, 'Starting class indexing at zero.'
+    assert nb_classes == np.max(
+        np.unique(list(classes.values()))) + 1, 'Starting class indexing at zero.'
 
     def __init__(self):
         super(DataParameters, self).__init__()
@@ -62,14 +94,15 @@ class NetworkParameters:
     negative_iou_threshold = 0.3
     batch_size = 4
     total_training_epochs = 160
-    iters_to_decay = 101040.    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
+    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
+    iters_to_decay = 101040.
     learning_rate = 2e-4
     decay_rate = 1e-8
     L1 = 0
     L2 = 0
     alpha = 0.25
     gamma = 2.0
-                            # original pillars paper values
+    # original pillars paper values
     focal_weight = 3.0      # 1.0
     loc_weight = 2.0        # 2.0
     size_weight = 2.0       # 2.0
