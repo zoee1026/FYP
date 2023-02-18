@@ -70,7 +70,7 @@ class DataProcessor(Parameters):
         # Label has 4 properties (Classification (0th index of labels file),
         # centroid coordinates, dimensions, yaw)
         labels = list(filter(lambda x: x.classification in self.classes, labels))
-        print('make true ====================')
+        print('make true ====================',labels)
         if len(labels) == 0:
             pX, pY = int(self.Xn / self.downscaling_factor), int(self.Yn / self.downscaling_factor)
             a = int(self.anchor_dims.shape[0])
@@ -150,6 +150,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
 
     def __getitem__(self, batch_id: int):
         file_ids = np.arange(batch_id * self.batch_size, self.batch_size * (batch_id + 1))
+        print (file_ids,'....................')
         #         print("inside getitem")
         pillars = []
         voxels = []
