@@ -79,7 +79,7 @@ class KittiDataReader(DataReader):
                         float(box['angle'])
                     )
 
-                if element.classification == "DontCare":
+                if element.classification == "dontcare":
                     print('dontcare')
                     continue
                 else:
