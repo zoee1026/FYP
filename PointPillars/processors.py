@@ -72,10 +72,12 @@ class DataProcessor(Parameters):
         print('make true ====================',labels)
 
         labels = list(filter(lambda x: x.classification in self.classes, labels))
-        print('make true ====================',labels)
         if len(labels) == 0:
             pX, pY = int(self.Xn / self.downscaling_factor), int(self.Yn / self.downscaling_factor)
             a = int(self.anchor_dims.shape[0])
+            print(np.zeros((pX, pY, a), dtype='float32').shape, np.zeros((pX, pY, a, self.nb_dims), dtype='float32').shape, \
+                   np.zeros((pX, pY, a, self.nb_dims), dtype='float32').shape, np.zeros((pX, pY, a), dtype='float32').shape, \
+                   np.zeros((pX, pY, a, self.nb_classes), dtype='float64').shape)
             return np.zeros((pX, pY, a), dtype='float32'), np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), \
                    np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), np.zeros((pX, pY, a), dtype='float32'), \
                    np.zeros((pX, pY, a, self.nb_classes), dtype='float64')
