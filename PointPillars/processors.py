@@ -69,6 +69,8 @@ class DataProcessor(Parameters):
         # filter labels by classes (cars, pedestrians and Trams)
         # Label has 4 properties (Classification (0th index of labels file),
         # centroid coordinates, dimensions, yaw)
+        print('make true ====================',labels)
+
         labels = list(filter(lambda x: x.classification in self.classes, labels))
         print('make true ====================',labels)
         if len(labels) == 0:
