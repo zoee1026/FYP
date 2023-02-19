@@ -70,25 +70,33 @@ class DataProcessor(Parameters):
         # Label has 4 properties (Classification (0th index of labels file),
         # centroid coordinates, dimensions, yaw)
 
-        labels = list(filter(lambda x: x.classification in self.classes, labels))
+        labels = list(
+            filter(lambda x: x.classification in self.classes, labels))
 
         if len(labels) == 0:
-            pX, pY = int(self.Xn / self.downscaling_factor), int(self.Yn / self.downscaling_factor)
+            pX, pY = int(
+                self.Xn / self.downscaling_factor), int(self.Yn / self.downscaling_factor)
             a = int(self.anchor_dims.shape[0])
 
            # occupancy_, position_, size_, angle_, heading_, classification_
             return np.zeros((pX, pY, a), dtype='float32'), np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), \
-                   np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), np.zeros((pX, pY, a), dtype='float32'), \
-                   np.zeros((pX, pY, a), dtype='float32'), np.zeros((pX, pY, a, self.nb_classes), dtype='float64')
+                np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), np.zeros((pX, pY, a), dtype='float32'), \
+                np.zeros((pX, pY, a), dtype='float32'), np.zeros(
+                (pX, pY, a, self.nb_classes), dtype='float64')
 
         # For each label file, generate these properties except for the Don't care class
-        target_positions = np.array([label.centroid for label in labels], dtype=np.float32)
-        target_dimension = np.array([label.dimension for label in labels], dtype=np.float32)
-        target_yaw = np.array([label.yaw for label in labels], dtype=np.float32)
-        target_class = np.array([self.classes[label.classification] for label in labels], dtype=np.int32)
+        target_positions = np.array(
+            [label.centroid for label in labels], dtype=np.float32)
+        target_dimension = np.array(
+            [label.dimension for label in labels], dtype=np.float32)
+        target_yaw = np.array(
+            [label.yaw for label in labels], dtype=np.float32)
+        target_class = np.array([self.classes[label.classification]
+                                for label in labels], dtype=np.int32)
 
         assert np.all(target_yaw >= -np.pi) & np.all(target_yaw <= np.pi)
-        assert len(target_positions) == len(target_dimension) == len(target_yaw) == len(target_class)
+        assert len(target_positions) == len(
+            target_dimension) == len(target_yaw) == len(target_class)
 
         target, pos, neg = createPillarsTarget(target_positions,
                                                target_dimension,
@@ -115,8 +123,9 @@ class DataProcessor(Parameters):
 
         # return a merged target view for all objects in the ground truth and get categorical labels
         sel = select_best_anchors(target)
-        
-        ohe = tf.keras.utils.to_categorical(sel[..., 9], num_classes=self.nb_classes, dtype='float64')
+
+        ohe = tf.keras.utils.to_categorical(
+            sel[..., 9], num_classes=self.nb_classes, dtype='float64')
 
         return sel[..., 0], sel[..., 1:4], sel[..., 4:7], sel[..., 7], sel[..., 8], ohe
 
@@ -125,7 +134,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
     """ Multiprocessing-safe data generator for training, validation or testing, without fancy augmentation """
 
     def __init__(self, data_reader: DataReader, batch_size: int, lidar_files: List[str], label_files: List[str] = None,):
-                  #calibration_files: List[str] = None
+        # calibration_files: List[str] = None
         super(SimpleDataGenerator, self).__init__()
         self.data_reader = data_reader
         self.batch_size = batch_size
@@ -144,8 +153,9 @@ class SimpleDataGenerator(DataProcessor, Sequence):
         return len(self.lidar_files) // self.batch_size
 
     def __getitem__(self, batch_id: int):
-        file_ids = np.arange(batch_id * self.batch_size, self.batch_size * (batch_id + 1))
-        print (file_ids,'....................')
+        file_ids = np.arange(batch_id * self.batch_size,
+                             self.batch_size * (batch_id + 1))
+
         #         print("inside getitem")
         pillars = []
         voxels = []
@@ -175,10 +185,10 @@ class SimpleDataGenerator(DataProcessor, Sequence):
                 # We are splitting a 10 dim vector that contains this information.
                 # occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(
                 #     label_transformed)
-                result = self.make_ground_truth(label)
 
-                occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(label)
-                   
+                occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(
+                    label)
+
                 occupancy.append(occupancy_)
                 position.append(position_)
                 size.append(size_)
@@ -201,7 +211,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
             return [pillars, voxels]
 
     def on_epoch_end(self):
-        #         print("inside epoch")
+        print("inside epoch")
         if self.label_files is not None:
             # self.lidar_files, self.label_files, self.calibration_files = \
             #     shuffle(self.lidar_files, self.label_files, self.calibration_files)

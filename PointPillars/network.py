@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 from config import Parameters
+from tensorflow import keras
 
 
 def build_point_pillar_graph(params: Parameters):
@@ -15,13 +16,13 @@ def build_point_pillar_graph(params: Parameters):
     nb_classes  = int(params.nb_classes)
     nb_anchors  = len(params.anchor_dims)
 
-    if tf.keras.backend.image_data_format() == "channels_first":
+    if keras.backend.image_data_format() == "channels_first":
         raise NotImplementedError
     else:
         input_shape = (max_pillars, max_points, nb_features)
 
-    input_pillars = tf.keras.layers.Input(input_shape, batch_size=batch_size, name="pillars/input")
-    input_indices = tf.keras.layers.Input((max_pillars, 3), batch_size=batch_size, name="pillars/indices",
+    input_pillars = keras.layers.Input(input_shape, batch_size=batch_size, name="pillars/input")
+    input_indices = keras.layers.Input((max_pillars, 3), batch_size=batch_size, name="pillars/indices",
                                           dtype=tf.int32)
 
     def correct_batch_indices(tensor, batch_size):
@@ -113,6 +114,6 @@ def build_point_pillar_graph(params: Parameters):
     clf = tf.keras.layers.Reshape(tuple(i // 2 for i in image_size) + (nb_anchors, nb_classes), name="clf/reshape")(clf)
 
     pillar_net = tf.keras.models.Model([input_pillars, input_indices], [occ, loc, size, angle, heading, clf])
-#     print(pillar_net.summary())
+    print(pillar_net.summary())
 
     return pillar_net

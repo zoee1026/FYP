@@ -9,7 +9,7 @@ from loss import PointPillarNetworkLoss
 from network import build_point_pillar_graph
 from processors import SimpleDataGenerator
 from readers import KittiDataReader
-from read_file_location import GetMatchedDatafile
+from read_file_location import GetMatchedDatafile, TestModel
 
 tf.get_logger().setLevel("ERROR")
 
@@ -41,7 +41,10 @@ if __name__ == "__main__":
     # lidar_files = sorted(glob(os.path.join(DATA_ROOT, "velodyne", "*.bin")))
     # label_files = sorted(glob(os.path.join(DATA_ROOT, "label_2", "*.txt")))
     # calibration_files = sorted(glob(os.path.join(DATA_ROOT, "calib", "*.txt")))
-    lidar_files, label_files = GetMatchedDatafile(DATA_ROOT)
+
+    # lidar_files, label_files = GetMatchedDatafile(DATA_ROOT)
+    lidar_files, label_files = TestModel(DATA_ROOT)
+
 
     # "Input dirs require equal number of files."
     # assert len(lidar_files) == len(label_files) == len(calibration_files), 
@@ -78,3 +81,4 @@ if __name__ == "__main__":
         model_str = "interrupted_%s.h5" % time.strftime("%Y%m%d-%H%M%S")
         pillar_net.save(os.path.join(log_dir, model_str))
         print("Interrupt. Saving output to %s" % os.path.join(os.getcwd(), log_dir[1:], model_str))
+        print('<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')

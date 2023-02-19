@@ -1,5 +1,39 @@
 import numpy as np
 
+VehicaleClasses = {
+        "bigtruck": 0,
+        "black-smalltruck": 0,
+        "crane-truck": 0,
+        "cylindrical-truck": 0,
+        "flatbed-truck": 0,
+        "mediumtruck": 0,
+        "smalltruck": 0,
+
+        "black-cargo-mpv":1,
+        "black-mpv":1,
+        "cargo-mpv":1,
+        "mpv":1,
+
+        "privateminibus": 2,
+        "publicminibus": 2,
+
+        "pedestrian": 3,
+        "taxi": 4,
+        "motorbike": 5,
+        "coachbus": 6,
+        "construction-vehicle": 7,
+
+        # "black-cargo-one-box": 2,
+        # "black-one-box": 4,
+        # "black-three-box": 6,
+        # "black-two-box": 7,
+        # "cargo-one-box": 9,
+        # "dd": 14,
+        # "one-box": 19,
+        # "three-box": 25,
+        # "two-box": 26,
+
+    }
 
 class GridParameters:
     x_min = 0.0
@@ -35,34 +69,68 @@ class DataParameters:
     #            "Misc":              3,
     #            }
 
+    # classes = {
+    #     "bigtruck": 0,
+    #     "black-cargo-mpv": 1,
+    #     "black-cargo-one-box": 2,
+    #     "black-mpv": 3,
+    #     "black-one-box": 4,
+    #     "black-smalltruck": 5,
+    #     "black-three-box": 6,
+    #     "black-two-box": 7,
+    #     "cargo-mpv": 8,
+    #     "cargo-one-box": 9,
+    #     "coachbus": 10,
+    #     "construction-vehicle": 11,
+    #     "crane-truck": 12,
+    #     "cylindrical-truck": 13,
+    #     "dd": 14,
+    #     "flatbed-truck": 15,
+    #     "mediumtruck": 16,
+    #     "motorbike": 17,
+    #     "mpv": 18,
+    #     "one-box": 19,
+    #     "pedestrian": 20,
+    #     "privateminibus": 21,
+    #     "publicminibus": 22,
+    #     "smalltruck": 23,
+    #     "taxi": 24,
+    #     "three-box": 25,
+    #     "two-box": 26,
+
+    # }
     classes = {
         "bigtruck": 0,
-        "black-cargo-mpv": 1,
-        "black-cargo-one-box": 2,
-        "black-mpv": 3,
-        "black-one-box": 4,
-        "black-smalltruck": 5,
-        "black-three-box": 6,
-        "black-two-box": 7,
-        "cargo-mpv": 8,
-        "cargo-one-box": 9,
-        "coachbus": 10,
-        "construction-vehicle": 11,
-        "crane-truck": 12,
-        "cylindrical-truck": 13,
-        "dd": 14,
-        "flatbed-truck": 15,
-        "mediumtruck": 16,
-        "motorbike": 17,
-        "mpv": 18,
-        "one-box": 19,
-        "pedestrian": 20,
-        "privateminibus": 21,
-        "publicminibus": 22,
-        "smalltruck": 23,
-        "taxi": 24,
-        "three-box": 25,
-        "two-box": 26,
+        "black-smalltruck": 0,
+        "crane-truck": 0,
+        "cylindrical-truck": 0,
+        "flatbed-truck": 0,
+        "mediumtruck": 0,
+        "smalltruck": 0,
+
+        "black-cargo-mpv":1,
+        "black-mpv":1,
+        "cargo-mpv":1,
+        "mpv":1,
+
+        "privateminibus": 2,
+        "publicminibus": 2,
+
+        "pedestrian": 3,
+        # "taxi": 4,
+        # "motorbike": 5,
+        # "coachbus": 6,
+        # "construction-vehicle": 7,
+
+        # "black-cargo-one-box": 2,
+        # "black-one-box": 4,
+        # "black-three-box": 6,
+        # "black-two-box": 7,
+        # "cargo-one-box": 9,
+        # "dd": 14,
+        # "one-box": 19,
+        # "three-box": 25,
+        # "two-box": 26,
 
     }
 
@@ -93,7 +161,9 @@ class NetworkParameters:
     positive_iou_threshold = 0.6
     negative_iou_threshold = 0.3
     batch_size = 4
-    total_training_epochs = 160
+    # total_training_epochs = 160
+    total_training_epochs = 20
+
     # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
     iters_to_decay = 101040.
     learning_rate = 2e-4

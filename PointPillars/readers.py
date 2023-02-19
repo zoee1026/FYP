@@ -3,6 +3,7 @@ from typing import List
 import json
 import numpy as np
 import pandas as pd
+from config import VehicaleClasses
 
 
 class Label3D:
@@ -78,12 +79,12 @@ class KittiDataReader(DataReader):
                         np.array([box['height'],box['width'],box['length']], dtype=np.float32),
                         float(box['angle'])
                     )
-
-                if element.classification == "dontcare":
-                    print('dontcare')
+                # if element.classification =="dontcare":
+                if element.classification not in list(VehicaleClasses.values()):
+                    # print('dontcare')
                     continue
                 else:
-                    print (element)
+                    # print (element)
                     elements.append(element)
 
             return elements
