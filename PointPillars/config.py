@@ -158,11 +158,14 @@ class NetworkParameters:
     nb_channels = 64
     downscaling_factor = 2
 
+
     # length, width, height, z-center, orientation
     anchor_dims = np.array([[5, 2, 1.8, 2.5, 0],
                             [5.5, 2.2, 2.2, 2.3,0],
                             [0.8, 0.6, 1.73, 2.8, 0],
                             [8, 2.5, 2.8, 2.8,0],
+                            [3.9, 1.6, 1.56, -1, 0], # car anchor
+                            [3.9, 1.6, 1.56, -1, 1.5708], # car-anchor rotated by 90 degrees
                             ], dtype=np.float32).tolist()
     nb_dims = 3
 
