@@ -142,12 +142,10 @@ class SimpleDataGenerator(DataProcessor, Sequence):
         self.label_files = label_files
         self.calibration_files = calibration_files
 
-        assert calibration_files is None
-        print(label_files)
-        print(lidar_files)
-
-        assert label_files is None
+        
         assert lidar_files is None
+        assert label_files is None
+        assert calibration_files is None
 
         assert (calibration_files is None and label_files is None) or \
                (calibration_files is not None and label_files is not None)
