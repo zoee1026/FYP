@@ -76,7 +76,7 @@ class KittiDataReader(DataReader):
                 element = Label3D(
                         str(box["object_id"]),
                         np.array(list(box['center'].values()), dtype=np.float32),
-                        np.array([box['width'],box['length'],box['height']], dtype=np.float32),
+                        np.array([box['length'],box['width'],box['height']], dtype=np.float32),
                         float(box['angle'])
                     )
                 # if element.classification =="dontcare":
