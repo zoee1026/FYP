@@ -47,45 +47,45 @@ class KittiDataReader(DataReader):
 
     @staticmethod
     def read_label(file_path: str):
-        # with open(file_path, "r") as f:
+        with open(file_path, "r") as f:
 
-        #     lines = f.readlines()
+            lines = f.readlines()
 
-        #     elements = []
-        #     for line in lines:
-
-        #         values = line.split()
-
-        #         element = Label3D(
-        #             str(values[0]),
-        #             np.array(values[11:14], dtype=np.float32),
-        #             np.array(values[8:11], dtype=np.float32),
-        #             float(values[14])
-        #         )
-
-        #         if element.classification == "DontCare":
-        #             continue
-        #         else:
-        #             elements.append(element)
-        with open(file_path) as json_file:
-            data = json.load(json_file)
             elements = []
-            boundingBoxes = data['bounding_boxes']
+            for line in lines:
 
-            for box in boundingBoxes:
+                values = line.split()
+
                 element = Label3D(
-                        str(box["object_id"]),
-                        np.array(list(box['center'].values()), dtype=np.float32),
-                        np.array([box['height'],box['width'],box['length']], dtype=np.float32),
-                        float(box['angle'])
-                    )
-                # if element.classification =="dontcare":
-                if element.classification not in list(VehicaleClasses.values()):
-                    # print('dontcare')
+                    str(values[0]),
+                    np.array(values[11:14], dtype=np.float32),
+                    np.array(values[8:11], dtype=np.float32),
+                    float(values[14])
+                )
+
+                if element.classification == "DontCare":
                     continue
                 else:
-                    # print (element)
                     elements.append(element)
+        # with open(file_path) as json_file:
+        #     data = json.load(json_file)
+        #     elements = []
+        #     boundingBoxes = data['bounding_boxes']
+
+        #     for box in boundingBoxes:
+        #         element = Label3D(
+        #                 str(box["object_id"]),
+        #                 np.array(list(box['center'].values()), dtype=np.float32),
+        #                 np.array([box['height'],box['width'],box['length']], dtype=np.float32),
+        #                 float(box['angle'])
+        #             )
+        #         # if element.classification =="dontcare":
+        #         if element.classification not in list(VehicaleClasses.values()):
+        #             # print('dontcare')
+        #             continue
+        #         else:
+        #             # print (element)
+        #             elements.append(element)
 
             return elements
 

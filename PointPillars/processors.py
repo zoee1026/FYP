@@ -134,20 +134,20 @@ class SimpleDataGenerator(DataProcessor, Sequence):
     """ Multiprocessing-safe data generator for training, validation or testing, without fancy augmentation """
 
     def __init__(self, data_reader: DataReader, batch_size: int, lidar_files: List[str], label_files: List[str] = None,):
-        # calibration_files: List[str] = None
+        calibration_files: List[str] = None
         super(SimpleDataGenerator, self).__init__()
         self.data_reader = data_reader
         self.batch_size = batch_size
         self.lidar_files = lidar_files
         self.label_files = label_files
-        # self.calibration_files = calibration_files
+        self.calibration_files = calibration_files
 
-        # assert (calibration_files is None and label_files is None) or \
-        #        (calibration_files is not None and label_files is not None)
+        assert (calibration_files is None and label_files is None) or \
+               (calibration_files is not None and label_files is not None)
 
-        # if self.calibration_files is not None:
-        #     assert len(self.calibration_files) == len(self.lidar_files)
-        #     assert len(self.label_files) == len(self.lidar_files)
+        if self.calibration_files is not None:
+            assert len(self.calibration_files) == len(self.lidar_files)
+            assert len(self.label_files) == len(self.lidar_files)
 
     def __len__(self):
         return len(self.lidar_files) // self.batch_size
@@ -177,17 +177,17 @@ class SimpleDataGenerator(DataProcessor, Sequence):
 
             if self.label_files is not None:
                 label = self.data_reader.read_label(self.label_files[i])
-                # R, t = self.data_reader.read_calibration(self.calibration_files[i])
+                R, t = self.data_reader.read_calibration(self.calibration_files[i])
                 # Labels are transformed into the lidar coordinate bounding boxes
                 # Label has 7 values, centroid, dimensions and yaw value.
-                # label_transformed = self.transform_labels_into_lidar_coordinates(label, R, t)
+                label_transformed = self.transform_labels_into_lidar_coordinates(label, R, t)
                 # These definitions can be found in point_pillars.cpp file
                 # We are splitting a 10 dim vector that contains this information.
-                # occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(
-                #     label_transformed)
-
                 occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(
-                    label)
+                    label_transformed)
+
+                # occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(
+                #     label)
 
                 occupancy.append(occupancy_)
                 position.append(position_)
@@ -213,8 +213,8 @@ class SimpleDataGenerator(DataProcessor, Sequence):
     def on_epoch_end(self):
         print("inside epoch")
         if self.label_files is not None:
-            # self.lidar_files, self.label_files, self.calibration_files = \
-            #     shuffle(self.lidar_files, self.label_files, self.calibration_files)
+            self.lidar_files, self.label_files, self.calibration_files = \
+                shuffle(self.lidar_files, self.label_files, self.calibration_files)
 
-            self.lidar_files, self.label_files = \
-                shuffle(self.lidar_files, self.label_files)
+            # self.lidar_files, self.label_files = \
+            #     shuffle(self.lidar_files, self.label_files)
