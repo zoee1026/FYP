@@ -32,10 +32,10 @@ VehicaleClasses = {
         "publicminibus": 2,
 
         "pedestrian": 3,
-        "taxi": 4,
-        "motorbike": 5,
-        "coachbus": 6,
-        "construction-vehicle": 7,
+        # "taxi": 4,
+        # "motorbike": 5,
+        # "coachbus": 6,
+        # "construction-vehicle": 7,
 
         # "black-cargo-one-box": 2,
         # "black-one-box": 4,
@@ -176,8 +176,9 @@ def GetTestClasses():
     lidar_files_match=[]
     label_files_match=[]
     lidar_files, label_files = GetMatchedDatafile(Path)
+    print(len(lidar_files),len(label_files))
+
     for i in range(len(label_files)):
-        print(label_files[i])
         with open(label_files[i]) as json_file:
             data = json.load(json_file)
             boundingBoxes = data['bounding_boxes']
@@ -189,8 +190,9 @@ def GetTestClasses():
                 label_files_match=label_files[i]
 
     print(len(lidar_files_match),len(label_files_match))
-    match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match})
-    match_data.to_csv('TestFile.csv')
+    if len(lidar_files_match)==len(label_files_match):
+        match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match})
+        match_data.to_csv('TestFile.csv')
 
 
     
