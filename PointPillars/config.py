@@ -172,7 +172,7 @@ class NetworkParameters:
     # total_training_epochs = 160
     total_training_epochs = 20
 
-    iters_to_decay = 66780 # 101040.    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
+    iters_to_decay = 28680 # 101040.    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
     learning_rate = 2e-4
     decay_rate = 1e-8
     L1 = 0

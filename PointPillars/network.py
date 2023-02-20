@@ -123,3 +123,5 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     # print(pillar_net.summary())
 
     return pillar_net
+
+   
