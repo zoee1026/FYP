@@ -3,7 +3,6 @@ from typing import List
 import json
 import numpy as np
 import pandas as pd
-from config import VehicaleClasses
 
 
 class Label3D:
