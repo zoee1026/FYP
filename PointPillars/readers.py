@@ -61,6 +61,7 @@ class KittiDataReader(DataReader):
                     np.array(values[8:11], dtype=np.float32),
                     float(values[14])
                 )
+                print(element.classification)
 
                 if element.classification == "DontCare":
                     print('NONONONO')
