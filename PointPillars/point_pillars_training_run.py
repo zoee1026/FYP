@@ -44,6 +44,7 @@ if __name__ == "__main__":
 
     # lidar_files, label_files = GetMatchedDatafile(DATA_ROOT)
     lidar_files, label_files = TestModel(DATA_ROOT)
+    print(len(lidar_files),len(label_files))
 
 
     # "Input dirs require equal number of files."
