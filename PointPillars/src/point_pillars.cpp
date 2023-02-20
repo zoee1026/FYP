@@ -9,19 +9,16 @@
 #include <tuple>
 namespace py = pybind11;
 
-struct IntPairHash
-{
-    std::size_t operator()(const std::pair<uint32_t, uint32_t> &p) const
-    {
-        assert(sizeof(std::size_t) >= 8);
-        // Shift first integer over to make room for the second integer. The two are
-        // then packed side by side.
-        return (((uint64_t)p.first) << 32) | ((uint64_t)p.second);
-    }
+struct IntPairHash {
+  std::size_t operator()(const std::pair<uint32_t, uint32_t> &p) const {
+    assert(sizeof(std::size_t)>=8);
+    //Shift first integer over to make room for the second integer. The two are
+    //then packed side by side.
+    return (((uint64_t)p.first)<<32) | ((uint64_t)p.second);
+  }
 };
 
-struct PillarPoint
-{
+struct PillarPoint {
     float x;
     float y;
     float z;
@@ -56,8 +53,8 @@ pybind11::tuple createPillars(pybind11::array_t<float> points,
 
     for (int i = 0; i < points.shape()[0]; ++i)
     {
-        if ((points.at(i, 0) < xMin) || (points.at(i, 0) >= xMax) ||
-            (points.at(i, 1) < yMin) || (points.at(i, 1) >= yMax) ||
+        if ((points.at(i, 0) < xMin) || (points.at(i, 0) >= xMax) || \
+            (points.at(i, 1) < yMin) || (points.at(i, 1) >= yMax) || \
             (points.at(i, 2) < zMin) || (points.at(i, 2) >= zMax))
         {
             continue;
@@ -88,7 +85,7 @@ pybind11::tuple createPillars(pybind11::array_t<float> points,
     indices.resize({1, maxPillars, 3}); // Will hold the discretized indices of the pillar
 
     int pillarId = 0;
-    for (auto &pair : map) // Iterating through the hash-map
+    for (auto& pair: map) // Iterating through the hash-map
     {
         if (pillarId >= maxPillars)
         {
@@ -100,7 +97,7 @@ pybind11::tuple createPillars(pybind11::array_t<float> points,
         float yMean = 0;
         float zMean = 0;
         // Iterating through all the points for current hash (or pillar) for mean coordinate calculation
-        for (const auto &p : pair.second) // pair.first -> hash, pair.second -> value
+        for (const auto& p: pair.second) // pair.first -> hash, pair.second -> value
         {
             xMean += p.x;
             yMean += p.y;
@@ -111,7 +108,7 @@ pybind11::tuple createPillars(pybind11::array_t<float> points,
         zMean /= pair.second.size();
 
         // Updating distance from calculated mean for each point of current hash (pillar)
-        for (auto &p : pair.second)
+        for (auto& p: pair.second)
         {
             p.xc = p.x - xMean;
             p.yc = p.y - yMean;
@@ -121,14 +118,14 @@ pybind11::tuple createPillars(pybind11::array_t<float> points,
         // Discretizing the mean coordinates of the current hash (pillar)
         auto xIndex = static_cast<int>(std::floor((xMean - xMin) / xStep));
         auto yIndex = static_cast<int>(std::floor((yMean - yMin) / yStep));
-        auto zMid = (zMax - zMin) * 0.5f;
+        auto zMid   = (zMax - zMin) * 0.5f;
 
         // Updating the indices of the pillar for current pillar id
         indices.mutable_at(0, pillarId, 1) = xIndex;
         indices.mutable_at(0, pillarId, 2) = yIndex;
 
         int pointId = 0;
-        for (const auto &p : pair.second) // Iterating through all the points of current hash (pillar)
+        for (const auto& p: pair.second) // Iterating through all the points of current hash (pillar)
         {
             // Point data population inside the pillar
             if (pointId >= maxPointsPerPillar)
@@ -159,7 +156,7 @@ pybind11::tuple createPillars(pybind11::array_t<float> points,
     pybind11::tuple result = pybind11::make_tuple(tensor, indices);
 
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
     if (printTime)
         std::cout << "createPillars took: " << static_cast<float>(duration) / 1e6 << " seconds" << std::endl;
 
@@ -178,8 +175,7 @@ struct BoundingBox3D
     float classId;
 };
 
-struct Point2D
-{
+struct Point2D {
     float x;
     float y;
 };
@@ -188,20 +184,20 @@ typedef std::vector<Point2D> Polyline2D;
 
 // Returns x-value of point of intersection of two lines
 float xIntersect(float x1, float y1, float x2, float y2,
-                 float x3, float y3, float x4, float y4)
+                     float x3, float y3, float x4, float y4)
 {
-    float num = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4);
-    float den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-    return num / den;
+    float num = (x1*y2 - y1*x2) * (x3-x4) - (x1-x2) * (x3*y4 - y3*x4);
+    float den = (x1-x2) * (y3-y4) - (y1-y2) * (x3-x4);
+    return num/den;
 }
 
 // Returns y-value of point of intersection of two lines
 float yIntersect(float x1, float y1, float x2, float y2,
-                 float x3, float y3, float x4, float y4)
+                     float x3, float y3, float x4, float y4)
 {
-    float num = (x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4);
-    float den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-    return num / den;
+    float num = (x1*y2 - y1*x2) * (y3-y4) - (y1-y2) * (x3*y4 - y3*x4);
+    float den = (x1-x2) * (y3-y4) - (y1-y2) * (x3-x4);
+    return num/den;
 }
 
 // Returns area of polygon using the shoelace method
@@ -209,11 +205,11 @@ float polygonArea(const Polyline2D &polygon)
 {
     float area = 0.0;
 
-    size_t j = polygon.size() - 1;
+    size_t j = polygon.size()-1;
     for (size_t i = 0; i < polygon.size(); i++)
     {
         area += (polygon[j].x + polygon[i].x) * (polygon[j].y - polygon[i].y);
-        j = i; // j is previous vertex to i
+        j = i;  // j is previous vertex to i
     }
 
     return std::abs(area / 2.0); // Return absolute value
@@ -234,32 +230,24 @@ Polyline2D boundingBox3DToTopDown(const BoundingBox3D &box1)
 {
     Polyline2D box;
     box.push_back({rotatedX(-0.5 * box1.width, 0.5 * box1.length,
-                            box1.yaw) +
-                       box1.x,
+                            box1.yaw) + box1.x,
                    rotatedY(-0.5 * box1.width, 0.5 * box1.length,
-                            box1.yaw) +
-                       box1.y});
+                            box1.yaw) + box1.y});
 
     box.push_back({rotatedX(0.5 * box1.width, 0.5 * box1.length,
-                            box1.yaw) +
-                       box1.x,
+                            box1.yaw) + box1.x,
                    rotatedY(0.5 * box1.width, 0.5 * box1.length,
-                            box1.yaw) +
-                       box1.y});
+                            box1.yaw) + box1.y});
 
     box.push_back({rotatedX(0.5 * box1.width, -0.5 * box1.length,
-                            box1.yaw) +
-                       box1.x,
+                            box1.yaw) + box1.x,
                    rotatedY(0.5 * box1.width, -0.5 * box1.length,
-                            box1.yaw) +
-                       box1.y});
+                            box1.yaw) + box1.y});
 
     box.push_back({rotatedX(-0.5 * box1.width, -0.5 * box1.length,
-                            box1.yaw) +
-                       box1.x,
+                            box1.yaw) + box1.x,
                    rotatedY(-0.5 * box1.width, -0.5 * box1.length,
-                            box1.yaw) +
-                       box1.y});
+                            box1.yaw) + box1.y});
 
     return box;
 }
@@ -278,44 +266,46 @@ Polyline2D clip(const Polyline2D &poly_points,
     {
         // (ix,iy),(kx,ky) are the co-ordinate values of the points
         // i and k form a line in polygon
-        size_t k = (i + 1) % poly_points.size();
+        size_t k = (i+1) % poly_points.size();
         float ix = poly_points[i].x, iy = poly_points[i].y;
         float kx = poly_points[k].x, ky = poly_points[k].y;
 
         // Calculating position of first point w.r.t. clipper line
-        float i_pos = (x2 - x1) * (iy - y1) - (y2 - y1) * (ix - x1);
+        float i_pos = (x2-x1) * (iy-y1) - (y2-y1) * (ix-x1);
 
         // Calculating position of second point w.r.t. clipper line
-        float k_pos = (x2 - x1) * (ky - y1) - (y2 - y1) * (kx - x1);
+        float k_pos = (x2-x1) * (ky-y1) - (y2-y1) * (kx-x1);
 
         // Case 1 : When both points are inside
-        if (i_pos < 0 && k_pos < 0)
+        if (i_pos < 0  && k_pos < 0)
         {
-            // Only second point is added
-            new_points.push_back({kx, ky});
+            //Only second point is added
+            new_points.push_back({kx,ky});
         }
 
-        // Case 2: When only first point is outside
-        else if (i_pos >= 0 && k_pos < 0)
+            // Case 2: When only first point is outside
+        else if (i_pos >= 0  && k_pos < 0)
         {
             // Point of intersection with edge
             // and the second point is added
             new_points.push_back({xIntersect(x1, y1, x2, y2, ix, iy, kx, ky),
                                   yIntersect(x1, y1, x2, y2, ix, iy, kx, ky)});
-            new_points.push_back({kx, ky});
+            new_points.push_back({kx,ky});
+
         }
 
-        // Case 3: When only second point is outside
-        else if (i_pos < 0 && k_pos >= 0)
+            // Case 3: When only second point is outside
+        else if (i_pos < 0  && k_pos >= 0)
         {
-            // Only point of intersection with edge is added
+            //Only point of intersection with edge is added
             new_points.push_back({xIntersect(x1, y1, x2, y2, ix, iy, kx, ky),
                                   yIntersect(x1, y1, x2, y2, ix, iy, kx, ky)});
+
         }
-        // Case 4: When both points are outside
+            // Case 4: When both points are outside
         else
         {
-            // No points are added
+            //No points are added
         }
     }
 
@@ -328,9 +318,9 @@ Polyline2D sutherlandHodgmanClip(const Polyline2D &poly_points_vector,
                                  const Polyline2D &clipper_points)
 {
     Polyline2D clipped_poly_points_vector = poly_points_vector;
-    for (size_t i = 0; i < clipper_points.size(); i++)
+    for (size_t i=0; i<clipper_points.size(); i++)
     {
-        size_t k = (i + 1) % clipper_points.size(); // i and k are two consecutive indexes
+        size_t k = (i+1) % clipper_points.size(); //i and k are two consecutive indexes
 
         // We pass the current array of vertices, and the end points of the selected clipper line
         clipped_poly_points_vector = clip(clipped_poly_points_vector, clipper_points[i].x, clipper_points[i].y,
@@ -340,12 +330,12 @@ Polyline2D sutherlandHodgmanClip(const Polyline2D &poly_points_vector,
 }
 
 // Calculates the IOU between two bounding boxes.
-float iou(const BoundingBox3D &box1,
-          const BoundingBox3D &box2)
+float iou(const BoundingBox3D& box1,
+          const BoundingBox3D& box2)
 {
-    const auto &box_as_vector = boundingBox3DToTopDown(box1);
-    const auto &box_as_vector_2 = boundingBox3DToTopDown(box2);
-    const auto &clipped_vector = sutherlandHodgmanClip(box_as_vector, box_as_vector_2);
+    const auto& box_as_vector = boundingBox3DToTopDown(box1);
+    const auto& box_as_vector_2 = boundingBox3DToTopDown(box2);
+    const auto& clipped_vector = sutherlandHodgmanClip(box_as_vector, box_as_vector_2);
 
     float area_poly1 = polygonArea(box_as_vector);
     float area_poly2 = polygonArea(box_as_vector_2);
@@ -354,60 +344,59 @@ float iou(const BoundingBox3D &box1,
     return area_overlap / (area_poly1 + area_poly2 - area_overlap);
 }
 
-int clip(int n, int lower, int upper)
-{
-    return std::max(lower, std::min(n, upper));
+int clip(int n, int lower, int upper) {
+  return std::max(lower, std::min(n, upper));
 }
 
-std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind11::array_t<float> &objectPositions,
-                                                                   const pybind11::array_t<float> &objectDimensions,
-                                                                   const pybind11::array_t<float> &objectYaws,
-                                                                   const pybind11::array_t<int> &objectClassIds,
-                                                                   const pybind11::array_t<float> &anchorDimensions,
-                                                                   const pybind11::array_t<float> &anchorZHeights,
-                                                                   const pybind11::array_t<float> &anchorYaws,
-                                                                   float positiveThreshold,
-                                                                   float negativeThreshold,
-                                                                   int nbClasses,
-                                                                   int downscalingFactor,
-                                                                   float xStep,
-                                                                   float yStep,
-                                                                   float xMin,
-                                                                   float xMax,
-                                                                   float yMin,
-                                                                   float yMax,
-                                                                   float zMin,
-                                                                   float zMax,
-                                                                   bool printTime = false)
+std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind11::array_t<float>& objectPositions,
+                                             const pybind11::array_t<float>& objectDimensions,
+                                             const pybind11::array_t<float>& objectYaws,
+                                             const pybind11::array_t<int>& objectClassIds,
+                                             const pybind11::array_t<float>& anchorDimensions,
+                                             const pybind11::array_t<float>& anchorZHeights,
+                                             const pybind11::array_t<float>& anchorYaws,
+                                             float positiveThreshold,
+                                             float negativeThreshold,
+                                             int nbClasses,
+                                             int downscalingFactor,
+                                             float xStep,
+                                             float yStep,
+                                             float xMin,
+                                             float xMax,
+                                             float yMin,
+                                             float yMax,
+                                             float zMin,
+                                             float zMax,
+                                             bool printTime = false)
 {
-
+    
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
     // getting downsampled grid size
     const auto xSize = static_cast<int>(std::floor((xMax - xMin) / (xStep * downscalingFactor)));
-    //     py::print("xSize", xSize);
+//     py::print("xSize", xSize);
     const auto ySize = static_cast<int>(std::floor((yMax - yMin) / (yStep * downscalingFactor)));
-    //     py::print("ySize", ySize);
+//     py::print("ySize", ySize);
 
-    const int nbAnchors = anchorDimensions.shape()[0]; // 4 Number of anchors
-    //     py::print("nbAnchors", nbAnchors);
-    //     Anchor length
+    const int nbAnchors = anchorDimensions.shape()[0]; //4 Number of anchors
+//     py::print("nbAnchors", nbAnchors);
+//     Anchor length
 
     if (nbAnchors <= 0)
     {
         throw std::runtime_error("Anchor length is zero");
     }
 
-    const int nbObjects = objectDimensions.shape()[0]; // 6 Number of labels inside a label.txt file
-    //     BB dimensions from the label file
+    const int nbObjects = objectDimensions.shape()[0]; //6 Number of labels inside a label.txt file
+//     BB dimensions from the label file
     if (nbObjects <= 0)
     {
         throw std::runtime_error("Object length is zero");
     }
-    //     py::print("nbObjects", nbObjects);
+//     py::print("nbObjects", nbObjects);
 
     // parse numpy arrays
-    //     Preparing the anchor bounding box
+//     Preparing the anchor bounding box
     std::vector<BoundingBox3D> anchorBoxes = {};
     std::vector<float> anchorDiagonals;
     for (int i = 0; i < nbAnchors; ++i)
@@ -426,13 +415,13 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
         anchorDiagonals.emplace_back(std::sqrt(std::pow(anchorBox.width, 2) + std::pow(anchorBox.length, 2)));
     }
 
-    //     Preparing the label bounding box
+//     Preparing the label bounding box
     std::vector<BoundingBox3D> labelBoxes = {};
     for (int i = 0; i < nbObjects; ++i)
     {
         float x = objectPositions.at(i, 0);
         float y = objectPositions.at(i, 1);
-        if (x<xMin | x> xMax | y<yMin | y> yMax)
+        if (x < xMin | x > xMax | y < yMin | y > yMax)
         {
             continue;
         }
@@ -449,12 +438,12 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
     }
 
     pybind11::array_t<float> tensor;
-    tensor.resize({nbObjects, xSize, ySize, nbAnchors, 10}); // Tensor of size (6,252,252,4,10) for first file
-
-    // getting tensor information as defined in Python buffer protocol specification
+    tensor.resize({nbObjects, xSize, ySize, nbAnchors, 10}); //Tensor of size (6,252,252,4,10) for first file
+    
+    // getting tensor information as defined in Python buffer protocol specification 
     // https://pybind11.readthedocs.io/en/stable/advanced/pycpp/numpy.html
     pybind11::buffer_info tensor_buffer = tensor.request();
-    float *ptr1 = (float *)tensor_buffer.ptr;
+    float *ptr1 = (float *) tensor_buffer.ptr;
     // Zero filling the tensor. Every element is presently zero
     for (size_t idx = 0; idx < nbObjects * xSize * ySize * nbAnchors * 10; idx++)
     {
@@ -466,10 +455,10 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
     int objectCount = 0;
     if (printTime)
     {
-        //         std::cout << "Received " << labelBoxes.size() << " objects" << std::endl;
-        //         py::print("Received "+str(labelBoxes.size())+" objects");
+//         std::cout << "Received " << labelBoxes.size() << " objects" << std::endl;
+//         py::print("Received "+str(labelBoxes.size())+" objects");
     }
-    for (const auto &labelBox : labelBoxes) // For every label box which is a 3d bounding box
+    for (const auto& labelBox: labelBoxes) //For every label box which is a 3d bounding box
     {
         // zone-in on potential spatial area of interest
         // Length of (width,length) axis diagonal.
@@ -495,7 +484,7 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
         int bestAnchor_xId = 0;
         int bestAnchor_yId = 0;
         for (int xId = xStart; xId < xEnd; xId++) // Iterate through every box within search diameter
-                                                  // In our example case, from 3 till 8
+            // In our example case, from 3 till 8
         {
             // Getting the real world x coordinate
             const float x = xId * xStep * downscalingFactor + xMin;
@@ -504,13 +493,13 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
                 // Get the real world y coordinates
                 const float y = yId * yStep * downscalingFactor + yMin;
                 int anchorCount = 0;
-                for (auto &anchorBox : anchorBoxes) // For every anchor box (4 in our case)
-                                                    // Note that we are checking every anchor box for every label in the file
+                for (auto& anchorBox: anchorBoxes) // For every anchor box (4 in our case)
+                    // Note that we are checking every anchor box for every label in the file
                 {
                     anchorBox.x = x; // Assign the real world x and y coordinate to the anchor box
                     anchorBox.y = y; // Note that anchor boxes originally didn't have Xs and Ys.
                     // This is because we need to check them along the X-Y grid.
-                    // However, they did have a z value attached to them.
+                    // However, they did have a z value attached to them. 
 
                     const float iouOverlap = iou(anchorBox, labelBox); // Get IOU between two 3D boxes.
 
@@ -526,7 +515,7 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
                     if (iouOverlap > positiveThreshold) // Accept the Anchor. Add the anchor details to the tensor.
                     {
                         // Tensor at CurrentObject Id, xth grid cell, yth grid cell, currentAnchor, 0
-                        tensor.mutable_at(objectCount, xId, yId, anchorCount, 0) = 1;
+                        tensor.mutable_at(objectCount, xId, yId, anchorCount, 0) = 1; 
 
                         auto diag = anchorDiagonals[anchorCount];
                         tensor.mutable_at(objectCount, xId, yId, anchorCount, 1) = (labelBox.x - anchorBox.x) / diag; // delta x,y,z
@@ -537,10 +526,10 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
                         tensor.mutable_at(objectCount, xId, yId, anchorCount, 5) = std::log(labelBox.width / anchorBox.width);
                         tensor.mutable_at(objectCount, xId, yId, anchorCount, 6) = std::log(labelBox.height / anchorBox.height);
 
-                        tensor.mutable_at(objectCount, xId, yId, anchorCount, 7) = (labelBox.yaw - anchorBox.yaw); // delta yaw
+                        tensor.mutable_at(objectCount, xId, yId, anchorCount, 7) = (labelBox.yaw - anchorBox.yaw); //delta yaw
                         if (((-0.5 * M_PI) < labelBox.yaw) && (labelBox.yaw <= (0.5 * M_PI)))
                         {
-                            tensor.mutable_at(objectCount, xId, yId, anchorCount, 8) = 1;
+                            tensor.mutable_at(objectCount, xId, yId, anchorCount, 8) = 1; 
                         }
                         else
                         {
@@ -548,6 +537,7 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
                         }
 
                         tensor.mutable_at(objectCount, xId, yId, anchorCount, 9) = labelBox.classId;
+
                     }
                     else if (iouOverlap < negativeThreshold)
                     {
@@ -564,15 +554,15 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
         }
 
         if (maxIou < positiveThreshold) // Comparing maxIOU for that object obtained after checking with every anchor box
-                                        // If none of the anchors passed the threshold, then we place the best anchor details for that object.
+            // If none of the anchors passed the threshold, then we place the best anchor details for that object. 
         {
             negCnt++;
             if (printTime)
             {
-                //                 std::cout << "\nThere was no sufficiently overlapping anchor anywhere for object " << objectCount << std::endl;
-                //                 py::print("There was no sufficiently overlapping anchor anywhere for object " +str(objectCount));
-                //                 std::cout << "Best IOU was " << maxIou << ". Adding the best location regardless of threshold." << std::endl;
-                //                 py::print("Best IOU was "+str(maxIou)+" Adding the best location regardless of threshold");
+//                 std::cout << "\nThere was no sufficiently overlapping anchor anywhere for object " << objectCount << std::endl;
+//                 py::print("There was no sufficiently overlapping anchor anywhere for object " +str(objectCount));
+//                 std::cout << "Best IOU was " << maxIou << ". Adding the best location regardless of threshold." << std::endl;
+//                 py::print("Best IOU was "+str(maxIou)+" Adding the best location regardless of threshold");
             }
 
             // const auto xId = static_cast<int>(std::floor((labelBox.x - xMin) / (xStep * downscalingFactor)));
@@ -601,7 +591,7 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
             {
                 tensor.mutable_at(objectCount, xId, yId, bestAnchorId, 8) = 0;
             }
-            //             Class id is the classification label (0,1,2,3)
+//             Class id is the classification label (0,1,2,3)
             tensor.mutable_at(objectCount, xId, yId, bestAnchorId, 9) = labelBox.classId;
         }
         else
@@ -618,12 +608,13 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
     }
 
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
     if (printTime)
         std::cout << "createPillarsTarget took: " << static_cast<float>(duration) / 1e6 << " seconds" << std::endl;
 
     return std::make_tuple(tensor, posCnt, negCnt);
 }
+
 
 PYBIND11_MODULE(point_pillars, m)
 {
