@@ -81,7 +81,7 @@ class KittiDataReader(DataReader):
                     )
                 # if element.classification =="dontcare":
                 if element.classification not in list(VehicaleClasses.values()):
-                    # print('dontcare')
+                    print('dontcare')
                     continue
                 else:
                     # print (element)
