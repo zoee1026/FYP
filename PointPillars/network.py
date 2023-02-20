@@ -104,22 +104,22 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     concat = tf.keras.layers.Concatenate(name="cnn/concatenate")([up1, up2, up3])
 
     # Detection head
-    occ = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="occupancy/conv2d", activation="sigmoid")(concat)
+    occ = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="occupance", activation="sigmoid")(concat)
 
-    loc = tf.keras.layers.Conv2D(nb_anchors * 3, (1, 1), name="loc/conv2d", kernel_initializer=tf.keras.initializers.TruncatedNormal(0, 0.001))(concat)
+    loc = tf.keras.layers.Conv2D(nb_anchors * 3, (1, 1), name="loc", kernel_initializer=tf.keras.initializers.TruncatedNormal(0, 0.001))(concat)
     loc = tf.keras.layers.Reshape(tuple(i//2 for i in image_size) + (nb_anchors, 3), name="loc/reshape")(loc)
 
-    size = tf.keras.layers.Conv2D(nb_anchors * 3, (1, 1), name="size/conv2d", kernel_initializer=tf.keras.initializers.TruncatedNormal(0, 0.001))(concat)
+    size = tf.keras.layers.Conv2D(nb_anchors * 3, (1, 1), name="size", kernel_initializer=tf.keras.initializers.TruncatedNormal(0, 0.001))(concat)
     size = tf.keras.layers.Reshape(tuple(i//2 for i in image_size) + (nb_anchors, 3), name="size/reshape")(size)
 
-    angle = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="angle/conv2d")(concat)
+    angle = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="angle")(concat)
 
-    heading = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="heading/conv2d", activation="sigmoid")(concat)
+    heading = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="heading", activation="sigmoid")(concat)
 
-    clf = tf.keras.layers.Conv2D(nb_anchors * nb_classes, (1, 1), name="clf/conv2d", activation="linear")(concat)
+    clf = tf.keras.layers.Conv2D(nb_anchors * nb_classes, (1, 1), name="clf", activation="linear")(concat)
     clf = tf.keras.layers.Reshape(tuple(i // 2 for i in image_size) + (nb_anchors, nb_classes), name="clf/reshape")(clf)
 
     pillar_net = tf.keras.models.Model([input_pillars, input_indices], [occ, loc, size, angle, heading, clf])
-    print(pillar_net.summary())
+    # print(pillar_net.summary())
 
     return pillar_net
