@@ -80,7 +80,7 @@ class KittiDataReader(DataReader):
                         float(box['angle'])
                     )
                 # if element.classification =="dontcare":
-                if element.classification not in list(VehicaleClasses.values()):
+                if element.classification not in list(VehicaleClasses.keys()):
                     print('dontcare')
                     continue
                 else:
