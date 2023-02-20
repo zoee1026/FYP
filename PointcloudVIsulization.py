@@ -173,21 +173,20 @@ def GetMatchedDatafile(Path):
 def GetTestClasses():
     classes=list(VehicaleClasses.keys())
     Path='MatchFile.csv'
-    df = pd.read_csv(Path)
     lidar_files_match=[]
     label_files_match=[]
-    
-    for i in range(len(df)):
-        print(df.iloc[i, 1])
-        with open(df.iloc[i, 1]) as json_file:
+    lidar_files, label_files = GetMatchedDatafile(Path)
+    for i in range(len(label_files)):
+        print(label_files[i])
+        with open(label_files[i]) as json_file:
             data = json.load(json_file)
             boundingBoxes = data['bounding_boxes']
             if len(boundingBoxes)==1 and boundingBoxes[0]["object_id"]=='dontcare':
                 continue
             classlist=[box['object_id'] for box in boundingBoxes if box['object_id'] in classes]
             if classlist :
-                lidar_files_match=df.iloc[i, 0]
-                label_files_match=df.iloc[i, 1]
+                lidar_files_match=lidar_files[i]
+                label_files_match=label_files[i]
 
     print(len(lidar_files_match),len(label_files_match))
     match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match})
