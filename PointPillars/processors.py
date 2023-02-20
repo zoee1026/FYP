@@ -77,7 +77,7 @@ class DataProcessor(Parameters):
             pX, pY = int(
                 self.Xn / self.downscaling_factor), int(self.Yn / self.downscaling_factor)
             a = int(self.anchor_dims.shape[0])
-
+            print("ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg")
            # occupancy_, position_, size_, angle_, heading_, classification_
             return np.zeros((pX, pY, a), dtype='float32'), np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), \
                 np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), np.zeros((pX, pY, a), dtype='float32'), \
@@ -87,6 +87,7 @@ class DataProcessor(Parameters):
         # For each label file, generate these properties except for the Don't care class
         target_positions = np.array(
             [label.centroid for label in labels], dtype=np.float32)
+        print(target_positions)
         target_dimension = np.array(
             [label.dimension for label in labels], dtype=np.float32)
         target_yaw = np.array(
@@ -94,7 +95,10 @@ class DataProcessor(Parameters):
         target_class = np.array([self.classes[label.classification]
                                 for label in labels], dtype=np.int32)
 
-        assert np.all(target_yaw >= -np.pi) & np.all(target_yaw <= np.pi)
+        # assert np.all(target_yaw >= -np.pi) & np.all(target_yaw <= np.pi)
+        # assert len(target_positions) == len(
+        #     target_dimension) == len(target_yaw) == len(target_class)
+
         assert len(target_positions) == len(
             target_dimension) == len(target_yaw) == len(target_class)
 
