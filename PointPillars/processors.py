@@ -134,6 +134,7 @@ class DataProcessor(Parameters):
 
         # For each label file, generate these properties except for the Don't care class
         target_positions = np.array([label.centroid for label in labels], dtype=np.float32)
+        print(target_positions)
         target_dimension = np.array([label.dimension for label in labels], dtype=np.float32)
         target_yaw = np.array([label.yaw for label in labels], dtype=np.float32)
         target_class = np.array([self.classes[label.classification] for label in labels], dtype=np.int32)
