@@ -52,6 +52,7 @@ if __name__ == "__main__":
 
     # assert len(lidar_files) == len(label_files)
     validation_len = int(0.3*len(label_files))
+    print (len(label_files[:-validation_len]),len(lidar_files[:-validation_len]), len(calibration_files[:-validation_len]))
     
     training_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files[:-validation_len], label_files[:-validation_len], calibration_files[:-validation_len])
     validation_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files[-validation_len:], label_files[-validation_len:], calibration_files[-validation_len:])
