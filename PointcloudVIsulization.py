@@ -1,7 +1,7 @@
 # import cv2
 import datetime
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import numpy as np
 import os
 import pandas as pd
@@ -83,8 +83,9 @@ def PCVisualization(lidarPath):
     # ax.set_zlabel('z')
 
     # ax.view_init(elev=40, azim=180)
-    plt.plot([1,2,3], [1,2,3])
-    plt.show()
+    # plt.plot([1,2,3], [1,2,3])
+    # plt.show()
+    pass
 
 def ReadLabelInOneFile(labelPath):
     # with open(labelPath) as json_file:
