@@ -77,7 +77,7 @@ class DataProcessor(Parameters):
             pX, pY = int(
                 self.Xn / self.downscaling_factor), int(self.Yn / self.downscaling_factor)
             a = int(self.anchor_dims.shape[0])
-
+            print('gg+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
            # occupancy_, position_, size_, angle_, heading_, classification_
             return np.zeros((pX, pY, a), dtype='float32'), np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), \
                 np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), np.zeros((pX, pY, a), dtype='float32'), \

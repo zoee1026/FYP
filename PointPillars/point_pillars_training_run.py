@@ -41,6 +41,7 @@ if __name__ == "__main__":
     lidar_files = sorted(glob(os.path.join(DATA_ROOT, "velodyne", "*.bin")))
     label_files = sorted(glob(os.path.join(DATA_ROOT, "label_2", "*.txt")))
     calibration_files = sorted(glob(os.path.join(DATA_ROOT, "calib", "*.txt")))
+    print (len(label_files),len(lidar_files), len(calibration_files))
 
     # lidar_files, label_files = GetMatchedDatafile(DATA_ROOT)
     # lidar_files, label_files = TestModel(DATA_ROOT)
