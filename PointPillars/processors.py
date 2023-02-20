@@ -137,6 +137,7 @@ class DataProcessor(Parameters):
         target_dimension = np.array([label.dimension for label in labels], dtype=np.float32)
         target_yaw = np.array([label.yaw for label in labels], dtype=np.float32)
         target_class = np.array([self.classes[label.classification] for label in labels], dtype=np.int32)
+        print(target_class)
 
         # assert np.all(target_yaw >= -np.pi) & np.all(target_yaw <= np.pi)
         assert len(target_positions) == len(target_dimension) == len(target_yaw) == len(target_class)
@@ -215,7 +216,6 @@ class SimpleDataGenerator(DataProcessor, Sequence):
 
             if self.label_files is not None:
                 label = self.data_reader.read_label(self.label_files[i])
-                print('Raw Label',label,'_____________________-')
                 # R, t = self.data_reader.read_calibration(self.calibration_files[i])
                 # label_transformed = self.transform_labels_into_lidar_coordinates(label, R, t)
 
@@ -223,7 +223,6 @@ class SimpleDataGenerator(DataProcessor, Sequence):
                 # Labels are transformed into the lidar coordinate bounding boxes
                 # Label has 7 values, centroid, dimensions and yaw value.
                 label_transformed = self.camera_to_lidar(label, P2, R0, Tr_velo_to_cam) # Correct transformation
-                print('Transformed label',label_transformed,'---------------------------------')
                 # These definitions can be found in point_pillars.cpp file
                 # We are splitting a 10 dim vector that contains this information.
                 occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(
