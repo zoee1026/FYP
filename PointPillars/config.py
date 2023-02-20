@@ -146,15 +146,17 @@ class NetworkParameters:
 
     max_points_per_pillar = 100
     max_pillars = 12000
-    nb_features = 7
+    nb_features = 9
     nb_channels = 64
     downscaling_factor = 2
 
     # length, width, height, z-center, orientation
-    anchor_dims = np.array([[3.9, 1.6, 1.56, -1, 0],
-                            [3.9, 1.6, 1.56, -1, 1.5708],
-                            [0.8, 0.6, 1.73, -0.6, 0],
-                            [0.8, 0.6, 1.73, -0.6, 1.5708],
+    anchor_dims = np.array([[3.9, 1.6, 1.56, -1, 0], # car anchor
+                            [3.9, 1.6, 1.56, -1, 1.5708], # car-anchor rotated by 90 degrees
+                            [0.8, 0.6, 1.73, -0.6, 0], # pedestrian-anchor
+                            [0.8, 0.6, 1.73, -0.6, 1.5708], # pedestrian-anchor rotated by 90 degrees
+                            [1.76, 0.6, 1.73, -0.6, 0], # cyclist-anchor rotated by 90 degrees
+                            [1.76, 0.6, 1.73, -0.6, 1.5708], # cyclist-anchor rotated by 90 degrees
                             ], dtype=np.float32).tolist()
     nb_dims = 3
 
@@ -165,7 +167,7 @@ class NetworkParameters:
     total_training_epochs = 20
 
     # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
-    iters_to_decay = 101040.
+    iters_to_decay = 66780 # 101040.    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
     learning_rate = 2e-4
     decay_rate = 1e-8
     L1 = 0
