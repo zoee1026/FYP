@@ -18,10 +18,10 @@ VehicaleClasses = {
         "publicminibus": 2,
 
         "pedestrian": 3,
-        "taxi": 4,
-        "motorbike": 5,
-        "coachbus": 6,
-        "construction-vehicle": 7,
+        # "taxi": 4,
+        # "motorbike": 5,
+        # "coachbus": 6,
+        # "construction-vehicle": 7,
 
         # "black-cargo-one-box": 2,
         # "black-one-box": 4,
@@ -117,10 +117,10 @@ class DataParameters:
         "publicminibus": 2,
 
         "pedestrian": 3,
-        "taxi": 4,
-        "motorbike": 5,
-        "coachbus": 6,
-        "construction-vehicle": 7,
+        # "taxi": 4,
+        # "motorbike": 5,
+        # "coachbus": 6,
+        # "construction-vehicle": 7,
 
         # "black-cargo-one-box": 2,
         # "black-one-box": 4,
