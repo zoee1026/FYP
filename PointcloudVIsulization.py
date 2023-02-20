@@ -178,6 +178,7 @@ def GetTestClasses():
     label_files_match=[]
     
     for i in range(len(df)):
+        print(df.iloc[i, 1])
         with open(df.iloc[i, 1]) as json_file:
             data = json.load(json_file)
             boundingBoxes = data['bounding_boxes']
