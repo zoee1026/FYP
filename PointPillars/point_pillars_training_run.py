@@ -14,10 +14,10 @@ from read_file_location import GetMatchedDatafile, TestModel
 tf.get_logger().setLevel("ERROR")
 
 # DATA_ROOT = "../../dettrain_20220711"  # TODO make main arg
-DATA_ROOT = '../MatchFile.csv'
+DATA_ROOT = "/media/sdb1/kitti/object/training"
 MODEL_ROOT = "./log"
 MODEL_PATH = "model.h5"
-MODEL_SAVE = "train.h5"
+MODEL_SAVE = "trainKitti.h5"
 
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
