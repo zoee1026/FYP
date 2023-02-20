@@ -64,6 +64,7 @@ class KittiDataReader(DataReader):
                 )
 
                 if element.classification == "DontCare":
+                    print('NONONONO')
                     continue
                 else:
                     elements.append(element)
