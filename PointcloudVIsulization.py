@@ -32,10 +32,10 @@ VehicaleClasses = {
         "publicminibus": 2,
 
         "pedestrian": 3,
-        # "taxi": 4,
-        # "motorbike": 5,
-        # "coachbus": 6,
-        # "construction-vehicle": 7,
+        "taxi": 4,
+        "motorbike": 5,
+        "coachbus": 6,
+        "construction-vehicle": 7,
 
         # "black-cargo-one-box": 2,
         # "black-one-box": 4,
@@ -186,8 +186,8 @@ def GetTestClasses():
                 continue
             classlist=[box['object_id'] for box in boundingBoxes if box['object_id'] in classes]
             if classlist :
-                lidar_files_match=lidar_files[i]
-                label_files_match=label_files[i]
+                lidar_files_match.append(lidar_files[i])
+                label_files_match.append(label_files[i])
 
     print(len(lidar_files_match),len(label_files_match))
     if len(lidar_files_match)==len(label_files_match):
