@@ -144,14 +144,6 @@ class SimpleDataGenerator(DataProcessor, Sequence):
         self.batch_size = batch_size
         self.lidar_files = lidar_files
         self.label_files = label_files
-        # self.calibration_files = calibration_files
-
-        # assert (calibration_files is None and label_files is None) or \
-        #        (calibration_files is not None and label_files is not None)
-
-        # if self.calibration_files is not None:
-        #     assert len(self.calibration_files) == len(self.lidar_files)
-        #     assert len(self.label_files) == len(self.lidar_files)
 
     def __len__(self):
         return len(self.lidar_files) // self.batch_size

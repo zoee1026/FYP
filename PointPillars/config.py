@@ -1,37 +1,41 @@
 import numpy as np
 
 VehicaleClasses = {
-        "bigtruck": 0,
-        "black-smalltruck": 0,
-        "crane-truck": 0,
-        "cylindrical-truck": 0,
-        "flatbed-truck": 0,
-        "mediumtruck": 0,
-        "smalltruck": 0,
+        "black-one-box": 0,
+        "black-three-box": 0,
+        "black-two-box": 0,
+        "one-box": 0,
+        "three-box": 0,
+        "two-box": 0,
+        "taxi": 0,
 
-        "black-cargo-mpv":1,
-        "black-mpv":1,
-        "cargo-mpv":1,
-        "mpv":1,
+        "black-cargo-mpv":0,
+        "black-mpv":0,
+        "cargo-mpv":0,
+        "mpv":0,
 
-        "privateminibus": 2,
-        "publicminibus": 2,
+        "pedestrian": 1,
 
-        "pedestrian": 3,
-        # "taxi": 4,
+        "bigtruck": 2,
+        "black-smalltruck": 2,
+        "crane-truck": 2,
+        "cylindrical-truck": 2,
+        "flatbed-truck": 2,
+        "mediumtruck": 2,
+        "smalltruck": 2,
+
+        "privateminibus": 3,
+        "publicminibus": 3,
+
         # "motorbike": 5,
         # "coachbus": 6,
         # "construction-vehicle": 7,
 
         # "black-cargo-one-box": 2,
-        # "black-one-box": 4,
-        # "black-three-box": 6,
-        # "black-two-box": 7,
+
         # "cargo-one-box": 9,
         # "dd": 14,
-        # "one-box": 19,
-        # "three-box": 25,
-        # "two-box": 26,
+
 
     }
 
@@ -150,15 +154,15 @@ class NetworkParameters:
 
     max_points_per_pillar = 100
     max_pillars = 12000
-    nb_features = 7
+    nb_features = 9
     nb_channels = 64
     downscaling_factor = 2
 
     # length, width, height, z-center, orientation
-    anchor_dims = np.array([[5, 2, 1.8, -1, 0],
-                            [3.9, 1.6, 1.56, -1, 1.5708],
-                            [0.8, 0.6, 1.73, -0.6, 0],
-                            [8, 0.6, 1.73, -0.6, 1.5708],
+    anchor_dims = np.array([[5, 2, 1.8, 2.5, 0],
+                            [5.5, 2.2, 2.2, 2.3,0],
+                            [0.8, 0.6, 1.73, 2.8, 0],
+                            [8, 2.5, 2.8, 2.8,0],
                             ], dtype=np.float32).tolist()
     nb_dims = 3
 
@@ -168,8 +172,7 @@ class NetworkParameters:
     # total_training_epochs = 160
     total_training_epochs = 20
 
-    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
-    iters_to_decay = 101040.
+    iters_to_decay = 66780 # 101040.    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
     learning_rate = 2e-4
     decay_rate = 1e-8
     L1 = 0
