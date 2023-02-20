@@ -10,5 +10,5 @@ def GetMatchedDatafile(Path):
 
 def TestModel(Path):
     df=pd.read_csv(Path)
-    df = df.sample(frac=0.2).reset_index(drop=True)
+    df = df.sample(frac=0.5).reset_index(drop=True)
     return [df['lidar_files'].tolist(),df['label_files'].tolist()]
