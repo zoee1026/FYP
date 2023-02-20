@@ -127,7 +127,6 @@ class DataProcessor(Parameters):
         if len(labels) == 0:
             pX, pY = int(self.Xn / self.downscaling_factor), int(self.Yn / self.downscaling_factor)
             a = int(self.anchor_dims.shape[0])
-            print('GGGGGGGGGGGGGGGGGGGG+++++++++++++++++++++++=')
             return np.zeros((pX, pY, a), dtype='float32'), np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), \
                    np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), np.zeros((pX, pY, a), dtype='float32'), \
                    np.zeros((pX, pY, a, self.nb_classes), dtype='float64')
@@ -136,6 +135,7 @@ class DataProcessor(Parameters):
         target_positions = np.array([label.centroid for label in labels], dtype=np.float32)
         print(target_positions)
         target_dimension = np.array([label.dimension for label in labels], dtype=np.float32)
+        print(target_dimension)
         target_yaw = np.array([label.yaw for label in labels], dtype=np.float32)
         target_class = np.array([self.classes[label.classification] for label in labels], dtype=np.int32)
         print(target_class)

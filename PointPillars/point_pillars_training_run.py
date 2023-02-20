@@ -68,7 +68,7 @@ if __name__ == "__main__":
                                            monitor='val_loss', save_best_only=True),
         tf.keras.callbacks.LearningRateScheduler(
             lambda epoch, lr: lr * 0.8 if ((epoch % epoch_to_decay == 0) and (epoch != 0)) else lr, verbose=True),
-        tf.keras.callbacks.EarlyStopping(patience=20, monitor='val_loss'),
+        # tf.keras.callbacks.EarlyStopping(patience=20, monitor='val_loss'),
     ]
 
     try:
