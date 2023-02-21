@@ -249,26 +249,27 @@ class SimpleDataGenerator(DataProcessor, Sequence):
                 # These definitions can be found in point_pillars.cpp file
                 # We are splitting a 10 dim vector that contains this information.
                 occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(label)
-                print('no label')
                 occupancy.append(occupancy_)
                 position.append(position_)
                 size.append(size_)
                 angle.append(angle_)
                 heading.append(heading_)
+                print(tf.math.count_nonzero(position))
                 classification.append(classification_)
+            else:
+                print('no label ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
 
         pillars = np.concatenate(pillars, axis=0)
         voxels = np.concatenate(voxels, axis=0)
 
         if self.label_files is not None:
-            print ('no label or no return')
-            print (occupancy,'--------------------------------------')
             occupancy = np.array(occupancy)
             position = np.array(position)
             size = np.array(size)
             angle = np.array(angle)
             heading = np.array(heading)
             classification = np.array(classification)
+            print(classification,'--------------------------------')
             return [pillars, voxels], [occupancy, position, size, angle, heading, classification]
         else:
             return [pillars, voxels]
