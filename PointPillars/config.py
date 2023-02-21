@@ -40,27 +40,27 @@ VehicaleClasses = {
     }
 
 class GridParameters:
-    x_min = 0.0
-    x_max = 80.64
-    x_step = 0.16
-
-    y_min = -40.32
-    y_max = 40.32
-    y_step = 0.16
-
-    z_min = -1.0
-    z_max = 3.0
-
-    # x_min = -51.8
-    # x_max = 23.24
+    # x_min = 0.0
+    # x_max = 80.64
     # x_step = 0.16
 
-    # y_min = -79.8
-    # y_max = 64.12
+    # y_min = -40.32
+    # y_max = 40.32
     # y_step = 0.16
 
-    # z_min = 0.6
-    # z_max = 12.0
+    # z_min = -1.0
+    # z_max = 3.0
+
+    x_min = -51.8
+    x_max = 23.24
+    x_step = 0.28
+
+    y_min = -79.8
+    y_max = 64.12
+    y_step = 0.28
+
+    z_min = 0.6
+    z_max = 12.0
 
     # derived parameters
     Xn_f = float(x_max - x_min) / x_step
