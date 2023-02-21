@@ -51,12 +51,12 @@ class GridParameters:
     # z_min = -1.0
     # z_max = 3.0
 
-    x_min = -51.8
-    x_max = 23.24
+    x_min = -50.4
+    x_max = 23.52
     x_step = 0.28
 
-    y_min = -79.8
-    y_max = 64.12
+    y_min = -77.28
+    y_max = 70.65
     y_step = 0.28
 
     z_min = 0.6
