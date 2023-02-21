@@ -254,10 +254,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
                 size.append(size_)
                 angle.append(angle_)
                 heading.append(heading_)
-                print(tf.math.count_nonzero(position))
                 classification.append(classification_)
-            else:
-                print('no label ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
 
         pillars = np.concatenate(pillars, axis=0)
         voxels = np.concatenate(voxels, axis=0)
@@ -269,7 +266,6 @@ class SimpleDataGenerator(DataProcessor, Sequence):
             angle = np.array(angle)
             heading = np.array(heading)
             classification = np.array(classification)
-            print(classification,'--------------------------------')
             return [pillars, voxels], [occupancy, position, size, angle, heading, classification]
         else:
             return [pillars, voxels]
