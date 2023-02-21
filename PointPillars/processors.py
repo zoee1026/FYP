@@ -124,6 +124,8 @@ class DataProcessor(Parameters):
                                          self.z_min,
                                          self.z_max,
                                          print_flag)
+        print(pillars.shape)
+
 
         return pillars, indices
 
@@ -247,7 +249,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
                 # These definitions can be found in point_pillars.cpp file
                 # We are splitting a 10 dim vector that contains this information.
                 occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(label)
-
+                print('no label')
                 occupancy.append(occupancy_)
                 position.append(position_)
                 size.append(size_)
@@ -259,6 +261,8 @@ class SimpleDataGenerator(DataProcessor, Sequence):
         voxels = np.concatenate(voxels, axis=0)
 
         if self.label_files is not None:
+            print ('no label or no return')
+            print (occupancy,'--------------------------------------')
             occupancy = np.array(occupancy)
             position = np.array(position)
             size = np.array(size)
