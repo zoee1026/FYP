@@ -82,6 +82,6 @@ if __name__ == "__main__":
                        workers=6)
     except KeyboardInterrupt:
         model_str = "interrupted_%s.h5" % time.strftime("%Y%m%d-%H%M%S")
-        pillar_net.save(os.path.join(log_dir, model_str))
-        print("Interrupt. Saving output to %s" % os.path.join(os.getcwd(), log_dir[1:], model_str))
+        # pillar_net.save(os.path.join(log_dir, model_str))
+        # print("Interrupt. Saving output to %s" % os.path.join(os.getcwd(), log_dir[1:], model_str))
         print('<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')

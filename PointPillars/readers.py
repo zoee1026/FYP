@@ -47,26 +47,7 @@ class KittiDataReader(DataReader):
 
     @staticmethod
     def read_label(file_path: str):
-        # with open(file_path, "r") as f:
 
-        #     lines = f.readlines()
-
-        #     elements = []
-        #     for line in lines:
-
-        #         values = line.split()
-
-        #         element = Label3D(
-        #             str(values[0]),
-        #             np.array(values[11:14], dtype=np.float32),
-        #             np.array(values[8:11], dtype=np.float32),
-        #             float(values[14])
-        #         )
-
-        #         if element.classification == "DontCare":
-        #             continue
-        #         else:
-        #             elements.append(element)
         with open(file_path) as json_file:
             data = json.load(json_file)
             elements = []
@@ -81,7 +62,6 @@ class KittiDataReader(DataReader):
                     )
                 # if element.classification =="dontcare":
                 if element.classification not in list(VehicaleClasses.keys()):
-                    print('dontcare')
                     continue
                 else:
                     # print (element)

@@ -124,8 +124,6 @@ class DataProcessor(Parameters):
                                          self.z_min,
                                          self.z_max,
                                          print_flag)
-        print(pillars.shape)
-
 
         return pillars, indices
 
