@@ -14,8 +14,8 @@ from read_file_location import GetMatchedDatafile, TestModel
 tf.get_logger().setLevel("ERROR")
 
 # DATA_ROOT = "../../dettrain_20220711"  # TODO make main arg
-# DATA_ROOT = '../MatchFile.csv'
-DATA_ROOT = '../TestFile.csv'
+DATA_ROOT = '../MatchFile.csv'
+# DATA_ROOT = '../TestFile.csv'
 
 MODEL_ROOT = "./log"
 MODEL_PATH = "model.h5"
@@ -44,8 +44,8 @@ if __name__ == "__main__":
     # label_files = sorted(glob(os.path.join(DATA_ROOT, "label_2", "*.txt")))
     # calibration_files = sorted(glob(os.path.join(DATA_ROOT, "calib", "*.txt")))
 
-    # lidar_files, label_files = GetMatchedDatafile(DATA_ROOT)
-    lidar_files, label_files = TestModel(DATA_ROOT)
+    lidar_files, label_files = GetMatchedDatafile(DATA_ROOT)
+    # lidar_files, label_files = TestModel(DATA_ROOT)
     print(len(lidar_files),len(label_files),'-------------------------------------')
 
 
@@ -53,12 +53,14 @@ if __name__ == "__main__":
     # assert len(lidar_files) == len(label_files) == len(calibration_files), 
 
     assert len(lidar_files) == len(label_files)
-    validation_len = int(0.3*len(label_files))
+    # validation_len = int(0.3*len(label_files))
     
     # training_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files[:-validation_len], label_files[:-validation_len], calibration_files[:-validation_len])
     # validation_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files[-validation_len:], label_files[-validation_len:], calibration_files[-validation_len:])
-    training_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files[:-validation_len], label_files[:-validation_len])
-    validation_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files[-validation_len:], label_files[-validation_len:])
+    # training_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files[:-validation_len], label_files[:-validation_len])
+    # validation_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files[-validation_len:], label_files[-validation_len:])
+    training_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files, label_files)
+
 
     log_dir = MODEL_ROOT
     epoch_to_decay = int(
@@ -74,7 +76,7 @@ if __name__ == "__main__":
 
     try:
         pillar_net.fit(training_gen,
-                       validation_data = validation_gen,
+                    #    validation_data = validation_gen,
                        steps_per_epoch=len(training_gen),
                        callbacks=callbacks,
                        use_multiprocessing=True,
@@ -85,3 +87,4 @@ if __name__ == "__main__":
         # pillar_net.save(os.path.join(log_dir, model_str))
         # print("Interrupt. Saving output to %s" % os.path.join(os.getcwd(), log_dir[1:], model_str))
         print('<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+        print(model_str)
