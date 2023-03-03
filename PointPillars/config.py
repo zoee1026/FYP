@@ -2,43 +2,44 @@ import numpy as np
 
 VehicaleClasses = {
 
-        "one-box": 0,
-        "three-box": 0,
-        "two-box": 0,
-        "black-one-box": 0,
-        "black-three-box": 0,
-        "black-two-box": 0,
-        
-        "taxi": 1,
-        "privateminibus": 2,
-        "publicminibus": 3,
-        "motorbike": 4,
-        "pedestrian": 5,
+    "one-box": 0,
+    "three-box": 0,
+    "two-box": 0,
+    "black-one-box": 0,
+    "black-three-box": 0,
+    "black-two-box": 0,
 
-        "construction-vehicle": 6,
-        "crane-truck": 6,
-        "cylindrical-truck": 6,
+    "taxi": 1,
+    "privateminibus": 2,
+    "publicminibus": 3,
+    "motorbike": 4,
+    "pedestrian": 5,
 
-
-        "black-cargo-mpv": 7,
-        "cargo-mpv": 7,
-
-        "black-mpv": 8,
-        "mpv": 8,
+    "construction-vehicle": 6,
+    "crane-truck": 6,
+    "cylindrical-truck": 6,
 
 
-        "smalltruck": 9,
-        "black-smalltruck": 9,
+    "black-cargo-mpv": 7,
+    "cargo-mpv": 7,
 
-        "black-cargo-one-box": 10,
-        "cargo-one-box": 10,
+    "black-mpv": 8,
+    "mpv": 8,
 
-        "mediumtruck": 11,
-        "bigtruck": 12,
-        "flatbed-truck": 13,
-        "coachbus": 14,
-        "dd": 15,
-    }
+
+    "smalltruck": 9,
+    "black-smalltruck": 9,
+
+    "black-cargo-one-box": 10,
+    "cargo-one-box": 10,
+
+    "mediumtruck": 11,
+    "bigtruck": 12,
+    "flatbed-truck": 13,
+    "coachbus": 14,
+    "dd": 15,
+}
+
 
 class GridParameters:
     x_min = -50.4
@@ -72,7 +73,7 @@ class DataParameters:
         "black-one-box": 0,
         "black-three-box": 0,
         "black-two-box": 0,
-        
+
         "taxi": 1,
         "privateminibus": 2,
         "publicminibus": 3,
@@ -139,7 +140,6 @@ class DataParameters:
     #     # "cargo-one-box": 9,
     #     # "dd": 14,
 
-
     # }
 
     nb_classes = len(np.unique(list(classes.values())))
@@ -158,24 +158,25 @@ class NetworkParameters:
     nb_channels = 64
     downscaling_factor = 2
 
-
     # length, width, height, z-center, orientation
-    anchor_dims = np.array([[5, 2, 1.8, 2.5, 0],
-                            [5.5, 2.2, 2.2, 2.3,0],
-                            [0.8, 0.6, 1.73, 2.8, 0],
-                            [8, 2.5, 2.8, 2.8,0],
-                            [3.9, 1.6, 1.56, -1, 0],
-                            [3.9, 1.6, 1.56, -1, 1.5708], 
-                            ], dtype=np.float32).tolist()
+    anchor_dims = np.array([
+        [2.24, 1.12, 1.96, 2.52, 0],
+        [5.6, 2.52, 2.24, 2.52, 0],
+        [8.12, 2.8, 3.36, 3.08, 0],
+        [10.08, 2.8, 3.36, 3.08, 0],
+        [11.76, 3.36, 4.76, 3.36, 0],
+        [13.44, 3.08, 3.92, 3.36, 0],
+    ], dtype=np.float32).tolist()
     nb_dims = 3
 
     positive_iou_threshold = 0.6
     negative_iou_threshold = 0.3
     batch_size = 4
-    # total_training_epochs = 160
-    total_training_epochs = 20
+    total_training_epochs = 160
+    # total_training_epochs = 20
 
-    iters_to_decay = 28680 # 101040.    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
+    # 101040.    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
+    iters_to_decay = 95760
     learning_rate = 2e-4
     decay_rate = 1e-8
     L1 = 0
