@@ -73,8 +73,8 @@ class DataProcessor(Parameters):
                 DataProcessor.inverse_rigid_trans(V2C), label_centroid_rectified)
             label_centroid_rectified = label_centroid_rectified[:3]
             label.centroid = label_centroid_rectified
-            label.centroid[2] += label.dimension[2] / \
-                2.  # Getting z-center of the 3D BB
+            label.centroid[2] += label.dimension[2]
+            # Getting z-center of the 3D BB
 
             # # Adding an offset to the length and width values
             # label.dimension[0] = label.dimension[0] + 0.3 # Adding some constant factor as GT values are very small

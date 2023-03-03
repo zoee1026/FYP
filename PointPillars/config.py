@@ -77,32 +77,32 @@ class DataParameters:
         "taxi": 1,
         "privateminibus": 2,
         "publicminibus": 3,
-        # "motorbike": 4,
-        # "pedestrian": 5,
+        "motorbike": 4,
+        "pedestrian": 5,
 
-        # "construction-vehicle": 6,
-        # "crane-truck": 6,
-        # "cylindrical-truck": 6,
-
-
-        # "black-cargo-mpv": 7,
-        # "cargo-mpv": 7,
-
-        # "black-mpv": 8,
-        # "mpv": 8,
+        "construction-vehicle": 6,
+        "crane-truck": 6,
+        "cylindrical-truck": 6,
 
 
-        # "smalltruck": 9,
-        # "black-smalltruck": 9,
+        "black-cargo-mpv": 7,
+        "cargo-mpv": 7,
 
-        # "black-cargo-one-box": 10,
-        # "cargo-one-box": 10,
+        "black-mpv": 8,
+        "mpv": 8,
 
-        # "mediumtruck": 11,
-        # "bigtruck": 12,
-        # "flatbed-truck": 13,
-        # "coachbus": 14,
-        # "dd": 15,
+
+        "smalltruck": 9,
+        "black-smalltruck": 9,
+
+        "black-cargo-one-box": 10,
+        "cargo-one-box": 10,
+
+        "mediumtruck": 11,
+        "bigtruck": 12,
+        "flatbed-truck": 13,
+        "coachbus": 14,
+        "dd": 15,
     }
     # classes = {
     #     "black-one-box": 0,
