@@ -1,56 +1,46 @@
 import numpy as np
 
 VehicaleClasses = {
-        "black-one-box": 0,
-        "black-three-box": 0,
-        "black-two-box": 0,
+
         "one-box": 0,
         "three-box": 0,
         "two-box": 0,
-        "taxi": 0,
-
-        "black-cargo-mpv":0,
-        "black-mpv":0,
-        "cargo-mpv":0,
-        "mpv":0,
-
-        "pedestrian": 1,
-
-        "bigtruck": 2,
-        "black-smalltruck": 2,
-        "crane-truck": 2,
-        "cylindrical-truck": 2,
-        "flatbed-truck": 2,
-        "mediumtruck": 2,
-        "smalltruck": 2,
-
-        "privateminibus": 3,
+        "black-one-box": 0,
+        "black-three-box": 0,
+        "black-two-box": 0,
+        
+        "taxi": 1,
+        "privateminibus": 2,
         "publicminibus": 3,
+        "motorbike": 4,
+        "pedestrian": 5,
 
-        # "motorbike": 5,
-        # "coachbus": 6,
-        # "construction-vehicle": 7,
-
-        # "black-cargo-one-box": 2,
-
-        # "cargo-one-box": 9,
-        # "dd": 14,
+        "construction-vehicle": 6,
+        "crane-truck": 6,
+        "cylindrical-truck": 6,
 
 
+        "black-cargo-mpv": 7,
+        "cargo-mpv": 7,
+
+        "black-mpv": 8,
+        "mpv": 8,
+
+
+        "smalltruck": 9,
+        "black-smalltruck": 9,
+
+        "black-cargo-one-box": 10,
+        "cargo-one-box": 10,
+
+        "mediumtruck": 11,
+        "bigtruck": 12,
+        "flatbed-truck": 13,
+        "coachbus": 14,
+        "dd": 15,
     }
 
 class GridParameters:
-    # x_min = 0.0
-    # x_max = 80.64
-    # x_step = 0.16
-
-    # y_min = -40.32
-    # y_max = 40.32
-    # y_step = 0.16
-
-    # z_min = -1.0
-    # z_max = 3.0
-
     x_min = -50.4
     x_max = 23.52
     x_step = 0.28
@@ -74,84 +64,83 @@ class GridParameters:
 
 class DataParameters:
 
-    # classes = {"Car":               0,
-    #            "Pedestrian":        1,
-    #            "Person_sitting":    1,
-    #            "Cyclist":           2,
-    #            "Truck":             3,
-    #            "Van":               3,
-    #            "Tram":              3,
-    #            "Misc":              3,
-    #            }
-
-    # classes = {
-    #     "bigtruck": 0,
-    #     "black-cargo-mpv": 1,
-    #     "black-cargo-one-box": 2,
-    #     "black-mpv": 3,
-    #     "black-one-box": 4,
-    #     "black-smalltruck": 5,
-    #     "black-three-box": 6,
-    #     "black-two-box": 7,
-    #     "cargo-mpv": 8,
-    #     "cargo-one-box": 9,
-    #     "coachbus": 10,
-    #     "construction-vehicle": 11,
-    #     "crane-truck": 12,
-    #     "cylindrical-truck": 13,
-    #     "dd": 14,
-    #     "flatbed-truck": 15,
-    #     "mediumtruck": 16,
-    #     "motorbike": 17,
-    #     "mpv": 18,
-    #     "one-box": 19,
-    #     "pedestrian": 20,
-    #     "privateminibus": 21,
-    #     "publicminibus": 22,
-    #     "smalltruck": 23,
-    #     "taxi": 24,
-    #     "three-box": 25,
-    #     "two-box": 26,
-
-    # }
     classes = {
-        "black-one-box": 0,
-        "black-three-box": 0,
-        "black-two-box": 0,
+
         "one-box": 0,
         "three-box": 0,
         "two-box": 0,
-        "taxi": 0,
-
-        "black-cargo-mpv":0,
-        "black-mpv":0,
-        "cargo-mpv":0,
-        "mpv":0,
-
-        "pedestrian": 1,
-
-        "bigtruck": 2,
-        "black-smalltruck": 2,
-        "crane-truck": 2,
-        "cylindrical-truck": 2,
-        "flatbed-truck": 2,
-        "mediumtruck": 2,
-        "smalltruck": 2,
-
-        "privateminibus": 3,
+        "black-one-box": 0,
+        "black-three-box": 0,
+        "black-two-box": 0,
+        
+        "taxi": 1,
+        "privateminibus": 2,
         "publicminibus": 3,
+        "motorbike": 4,
+        "pedestrian": 5,
 
-        # "motorbike": 5,
-        # "coachbus": 6,
-        # "construction-vehicle": 7,
-
-        # "black-cargo-one-box": 2,
-
-        # "cargo-one-box": 9,
-        # "dd": 14,
+        "construction-vehicle": 6,
+        "crane-truck": 6,
+        "cylindrical-truck": 6,
 
 
+        "black-cargo-mpv": 7,
+        "cargo-mpv": 7,
+
+        "black-mpv": 8,
+        "mpv": 8,
+
+
+        "smalltruck": 9,
+        "black-smalltruck": 9,
+
+        "black-cargo-one-box": 10,
+        "cargo-one-box": 10,
+
+        "mediumtruck": 11,
+        "bigtruck": 12,
+        "flatbed-truck": 13,
+        "coachbus": 14,
+        "dd": 15,
     }
+    # classes = {
+    #     "black-one-box": 0,
+    #     "black-three-box": 0,
+    #     "black-two-box": 0,
+    #     "one-box": 0,
+    #     "three-box": 0,
+    #     "two-box": 0,
+    #     "taxi": 0,
+
+    #     "black-cargo-mpv":0,
+    #     "black-mpv":0,
+    #     "cargo-mpv":0,
+    #     "mpv":0,
+
+    #     "pedestrian": 1,
+
+    #     "bigtruck": 2,
+    #     "black-smalltruck": 2,
+    #     "crane-truck": 2,
+    #     "cylindrical-truck": 2,
+    #     "flatbed-truck": 2,
+    #     "mediumtruck": 2,
+    #     "smalltruck": 2,
+
+    #     "privateminibus": 3,
+    #     "publicminibus": 3,
+
+    #     # "motorbike": 5,
+    #     # "coachbus": 6,
+    #     # "construction-vehicle": 7,
+
+    #     # "black-cargo-one-box": 2,
+
+    #     # "cargo-one-box": 9,
+    #     # "dd": 14,
+
+
+    # }
 
     nb_classes = len(np.unique(list(classes.values())))
     assert nb_classes == np.max(
@@ -175,8 +164,8 @@ class NetworkParameters:
                             [5.5, 2.2, 2.2, 2.3,0],
                             [0.8, 0.6, 1.73, 2.8, 0],
                             [8, 2.5, 2.8, 2.8,0],
-                            [3.9, 1.6, 1.56, -1, 0], # car anchor
-                            [3.9, 1.6, 1.56, -1, 1.5708], # car-anchor rotated by 90 degrees
+                            [3.9, 1.6, 1.56, -1, 0],
+                            [3.9, 1.6, 1.56, -1, 1.5708], 
                             ], dtype=np.float32).tolist()
     nb_dims = 3
 
