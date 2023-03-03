@@ -200,12 +200,14 @@ def GetTestClasses():
 
 def ReadAllLable(path):
     df= pd.DataFrame()
-    filepaths=pd.read_csv(path)['label_files'].tolist()
-    for i in filepaths:
-        raw=ReadAllLable(i)
-        df=pd.concat([df,raw])
-    print(df.info())
-    df.to_csv('LabelSummary.csv')
+    filepaths=pd.read_csv(path)
+    print(filepaths.columns)
+    # ['label_files'].tolist()
+    # for i in filepaths:
+    #     raw=ReadAllLable(i)
+    #     df=pd.concat([df,raw])
+    # print(df.info())
+    # df.to_csv('LabelSummary.csv')
     
 
 if __name__ == "__main__":
