@@ -200,7 +200,8 @@ def GetTestClasses():
 
 def ReadAllLable(path):
     df= pd.DataFrame()
-    filepaths=pd.read_csv(path)['label_files'].tolist()
+    filepaths=pd.read_csv(path)
+    filepaths=filepaths['label_files'].tolist()
     for i in filepaths:
         raw=ReadAllLable(i)
         df=pd.concat([df,raw])
