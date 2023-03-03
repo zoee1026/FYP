@@ -167,13 +167,14 @@ class NetworkParameters:
         [11.76, 3.36, 4.76, 3.36, 0],
         [13.44, 3.08, 3.92, 3.36, 0],
     ], dtype=np.float32).tolist()
+
     nb_dims = 3
 
     positive_iou_threshold = 0.6
     negative_iou_threshold = 0.3
     batch_size = 4
-    total_training_epochs = 160
-    # total_training_epochs = 20
+    # total_training_epochs = 160
+    total_training_epochs = 20
 
     # 101040.    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
     iters_to_decay = 95760
