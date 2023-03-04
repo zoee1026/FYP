@@ -140,12 +140,13 @@ class DataProcessor(Parameters):
                 self.Xn / self.downscaling_factor), int(self.Yn / self.downscaling_factor)
             a = int(self.anchor_dims.shape[0])
             print("gggggggggggggggggggggggggggggggggggggggggggggggggg")
+            # occupancy_, position_, size_, angle_, heading_, classification_
             print(np.zeros((pX, pY, a), dtype='float32').shape, np.zeros((pX, pY, a, self.nb_dims), dtype='float32').shape, \
                 np.zeros((pX, pY, a, self.nb_dims), dtype='float32').shape, np.zeros((pX, pY, a), dtype='float32').shape, \
-                np.zeros((pX, pY, a, self.nb_classes), dtype='float64').shape, np.zeros( (pX, pY, a, self.nb_classes), dtype='float64').shape)
+                np.zeros((pX, pY,a), dtype='float64').shape, np.zeros( (pX, pY, a, self.nb_classes), dtype='float64').shape)
             return np.zeros((pX, pY, a), dtype='float32'), np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), \
                 np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), np.zeros((pX, pY, a), dtype='float32'), \
-                np.zeros((pX, pY, a, self.nb_classes), dtype='float64'), np.zeros( (pX, pY, a, self.nb_classes), dtype='float64')
+                np.zeros((pX, pY, a), dtype='float64'), np.zeros( (pX, pY, a, self.nb_classes), dtype='float64')
                    
 
         # For each label file, generate these properties except for the Don't care class
