@@ -214,13 +214,13 @@ if __name__ == "__main__":
     DataPath='MatchFile.csv'
     # lidar_files, label_files = GetMatchedDatafile(DataPath)
     # GetAllTrainFile()
-    ReadAllLable(DataPath)
+    # ReadAllLable(DataPath)
     print ('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
     # print(lidar_files[0],label_files[0])
     # PCVisualization(lidar_files[0])
     # ReadLabelInOneFile(label_files[0])
 
-    # GetTestClasses()
+    GetTestClasses()
 
 # 
 

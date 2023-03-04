@@ -104,43 +104,6 @@ class DataParameters:
         "coachbus": 14,
         "dd": 15,
     }
-    # classes = {
-    #     "black-one-box": 0,
-    #     "black-three-box": 0,
-    #     "black-two-box": 0,
-    #     "one-box": 0,
-    #     "three-box": 0,
-    #     "two-box": 0,
-    #     "taxi": 0,
-
-    #     "black-cargo-mpv":0,
-    #     "black-mpv":0,
-    #     "cargo-mpv":0,
-    #     "mpv":0,
-
-    #     "pedestrian": 1,
-
-    #     "bigtruck": 2,
-    #     "black-smalltruck": 2,
-    #     "crane-truck": 2,
-    #     "cylindrical-truck": 2,
-    #     "flatbed-truck": 2,
-    #     "mediumtruck": 2,
-    #     "smalltruck": 2,
-
-    #     "privateminibus": 3,
-    #     "publicminibus": 3,
-
-    #     # "motorbike": 5,
-    #     # "coachbus": 6,
-    #     # "construction-vehicle": 7,
-
-    #     # "black-cargo-one-box": 2,
-
-    #     # "cargo-one-box": 9,
-    #     # "dd": 14,
-
-    # }
 
     nb_classes = len(np.unique(list(classes.values())))
     assert nb_classes == np.max(
@@ -166,12 +129,12 @@ class NetworkParameters:
         [10.08, 2.8, 3.36, 3.08, 0],
         [11.76, 3.36, 4.76, 3.36, 0],
         [13.44, 3.08, 3.92, 3.36, 0],
-        [2.24, 1.12, 1.96, 2.52, 1.5708],
-        [5.6, 2.52, 2.24, 2.52, 1.5708],
-        [8.12, 2.8, 3.36, 3.08, 1.5708],
-        [10.08, 2.8, 3.36, 3.08, 1.5708],
-        [11.76, 3.36, 4.76, 3.36, 1.5708],
-        [13.44, 3.08, 3.92, 3.36, 1.5708],
+        # [2.24, 1.12, 1.96, 2.52, 1.5708],
+        # [5.6, 2.52, 2.24, 2.52, 1.5708],
+        # [8.12, 2.8, 3.36, 3.08, 1.5708],
+        # [10.08, 2.8, 3.36, 3.08, 1.5708],
+        # [11.76, 3.36, 4.76, 3.36, 1.5708],
+        # [13.44, 3.08, 3.92, 3.36, 1.5708],
     ], dtype=np.float32).tolist()
 
     nb_dims = 3

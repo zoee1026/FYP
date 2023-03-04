@@ -14,8 +14,8 @@ from read_file_location import GetMatchedDatafile, TestModel
 tf.get_logger().setLevel("ERROR")
 
 # DATA_ROOT = "../../dettrain_20220711"  # TODO make main arg
-DATA_ROOT = '../MatchFile.csv'
-# DATA_ROOT = '../TestFile.csv'
+# DATA_ROOT = '../MatchFile.csv'
+DATA_ROOT = '../TestFile.csv'
 
 MODEL_ROOT = "./log"
 MODEL_PATH = "model.h5"
@@ -40,23 +40,15 @@ if __name__ == "__main__":
 
     data_reader = KittiDataReader()
 
-    # lidar_files = sorted(glob(os.path.join(DATA_ROOT, "velodyne", "*.bin")))
-    # label_files = sorted(glob(os.path.join(DATA_ROOT, "label_2", "*.txt")))
-    # calibration_files = sorted(glob(os.path.join(DATA_ROOT, "calib", "*.txt")))
-
-    lidar_files, label_files = GetMatchedDatafile(DATA_ROOT)
-    # lidar_files, label_files = TestModel(DATA_ROOT)
-    print(len(lidar_files),len(label_files),'-------------------------------------')
+    # lidar_files, label_files = GetMatchedDatafile(DATA_ROOT)
+    lidar_files, label_files = TestModel(DATA_ROOT)
+    print(len(lidar_files),len(label_files),'---------------------------------------------------------------------')
 
 
     # "Input dirs require equal number of files."
-    # assert len(lidar_files) == len(label_files) == len(calibration_files), 
-
     assert len(lidar_files) == len(label_files)
     # validation_len = int(0.3*len(label_files))
-    
-    # training_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files[:-validation_len], label_files[:-validation_len], calibration_files[:-validation_len])
-    # validation_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files[-validation_len:], label_files[-validation_len:], calibration_files[-validation_len:])
+  
     # training_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files[:-validation_len], label_files[:-validation_len])
     # validation_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files[-validation_len:], label_files[-validation_len:])
     training_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files, label_files)

@@ -139,6 +139,7 @@ class DataProcessor(Parameters):
             pX, pY = int(
                 self.Xn / self.downscaling_factor), int(self.Yn / self.downscaling_factor)
             a = int(self.anchor_dims.shape[0])
+            print("gggggggggggggggggggggggggggggggggggggggggggggggggg")
             return np.zeros((pX, pY, a), dtype='float32'), np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), \
                 np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), np.zeros((pX, pY, a), dtype='float32'), \
                 np.zeros((pX, pY, a, self.nb_classes), dtype='float64'), np.zeros(
@@ -201,7 +202,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
         self.label_files = label_files
         # self.calibration_files = calibration_files
 
-        # assert (len(self.calibration_files) == len(self.lidar_files))
+        assert (len(self.calibration_files) == len(self.lidar_files))
 
         # if self.label_files is not None:
         #     assert len(self.calibration_files) == len(self.lidar_files)
@@ -234,18 +235,6 @@ class SimpleDataGenerator(DataProcessor, Sequence):
 
             if self.label_files is not None:
                 label = self.data_reader.read_label(self.label_files[i])
-                # R, t = self.data_reader.read_calibration(self.calibration_files[i])
-                # label_transformed = self.transform_labels_into_lidar_coordinates(label, R, t)
-
-                # P2, R0, Tr_velo_to_cam = self.data_reader.read_calibration(
-                #     self.calibration_files[i])  # Correct calibration reading
-                # # Labels are transformed into the lidar coordinate bounding boxes
-                # # Label has 7 values, centroid, dimensions and yaw value.
-                # label_transformed = self.camera_to_lidar(
-                #     label, P2, R0, Tr_velo_to_cam)  # Correct transformation
-
-                # These definitions can be found in point_pillars.cpp file
-                # We are splitting a 10 dim vector that contains this information.
                 occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(label)
                 occupancy.append(occupancy_)
                 position.append(position_)
