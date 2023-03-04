@@ -13,7 +13,6 @@ from read_file_location import GetMatchedDatafile, TestModel
 
 tf.get_logger().setLevel("ERROR")
 
-# DATA_ROOT = "../../dettrain_20220711"  # TODO make main arg
 DATA_ROOT = '../MatchFile.csv'
 # DATA_ROOT = '../TestFile.csv'
 
