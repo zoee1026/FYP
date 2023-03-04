@@ -140,10 +140,13 @@ class DataProcessor(Parameters):
                 self.Xn / self.downscaling_factor), int(self.Yn / self.downscaling_factor)
             a = int(self.anchor_dims.shape[0])
             print("gggggggggggggggggggggggggggggggggggggggggggggggggg")
+            print(np.zeros((pX, pY, a), dtype='float32').shape, np.zeros((pX, pY, a, self.nb_dims), dtype='float32').shape, \
+                np.zeros((pX, pY, a, self.nb_dims), dtype='float32').shape, np.zeros((pX, pY, a), dtype='float32').shape, \
+                np.zeros((pX, pY, a, self.nb_classes), dtype='float64').shape, np.zeros( (pX, pY, a, self.nb_classes), dtype='float64').shape)
             return np.zeros((pX, pY, a), dtype='float32'), np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), \
                 np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), np.zeros((pX, pY, a), dtype='float32'), \
-                np.zeros((pX, pY, a, self.nb_classes), dtype='float64'), np.zeros(
-                    (pX, pY, a, self.nb_classes), dtype='float64')
+                np.zeros((pX, pY, a, self.nb_classes), dtype='float64'), np.zeros( (pX, pY, a, self.nb_classes), dtype='float64')
+                   
 
         # For each label file, generate these properties except for the Don't care class
         target_positions = np.array(
@@ -194,7 +197,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
     """ Multiprocessing-safe data generator for training, validation or testing, without fancy augmentation """
 
     def __init__(self, data_reader: DataReader, batch_size: int, lidar_files: List[str], label_files: List[str] = None,):
-                #  calibration_files: List[str] = None):
+        #  calibration_files: List[str] = None):
         super(SimpleDataGenerator, self).__init__()
         self.data_reader = data_reader
         self.batch_size = batch_size
@@ -228,7 +231,9 @@ class SimpleDataGenerator(DataProcessor, Sequence):
 
             if self.label_files is not None:
                 label = self.data_reader.read_label(self.label_files[i])
-                occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(label)
+                occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(
+                    label)
+                print( occupancy_.shape, position_.shape, size_.shape, angle_.shape, heading_.shape, classification_.shape)
                 occupancy.append(occupancy_)
                 position.append(position_)
                 size.append(size_)

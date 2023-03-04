@@ -14,8 +14,8 @@ from read_file_location import GetMatchedDatafile, TestModel
 tf.get_logger().setLevel("ERROR")
 
 # DATA_ROOT = "../../dettrain_20220711"  # TODO make main arg
-# DATA_ROOT = '../MatchFile.csv'
-DATA_ROOT = '../TestFile.csv'
+DATA_ROOT = '../MatchFile.csv'
+# DATA_ROOT = '../TestFile.csv'
 
 MODEL_ROOT = "./log"
 MODEL_PATH = "model.h5"
@@ -40,8 +40,8 @@ if __name__ == "__main__":
 
     data_reader = KittiDataReader()
 
-    # lidar_files, label_files = GetMatchedDatafile(DATA_ROOT)
-    lidar_files, label_files = TestModel(DATA_ROOT)
+    lidar_files, label_files = GetMatchedDatafile(DATA_ROOT)
+    # lidar_files, label_files = TestModel(DATA_ROOT)
     print(len(lidar_files),len(label_files),'---------------------------------------------------------------------')
 
 
