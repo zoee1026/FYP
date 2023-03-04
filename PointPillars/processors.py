@@ -139,11 +139,6 @@ class DataProcessor(Parameters):
             pX, pY = int(
                 self.Xn / self.downscaling_factor), int(self.Yn / self.downscaling_factor)
             a = int(self.anchor_dims.shape[0])
-            print("gggggggggggggggggggggggggggggggggggggggggggggggggg")
-            # occupancy_, position_, size_, angle_, heading_, classification_
-            print(np.zeros((pX, pY, a), dtype='float32').shape, np.zeros((pX, pY, a, self.nb_dims), dtype='float32').shape, \
-                np.zeros((pX, pY, a, self.nb_dims), dtype='float32').shape, np.zeros((pX, pY, a), dtype='float32').shape, \
-                np.zeros((pX, pY,a), dtype='float64').shape, np.zeros( (pX, pY, a, self.nb_classes), dtype='float64').shape)
             return np.zeros((pX, pY, a), dtype='float32'), np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), \
                 np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), np.zeros((pX, pY, a), dtype='float32'), \
                 np.zeros((pX, pY, a), dtype='float64'), np.zeros( (pX, pY, a, self.nb_classes), dtype='float64')
@@ -234,7 +229,6 @@ class SimpleDataGenerator(DataProcessor, Sequence):
                 label = self.data_reader.read_label(self.label_files[i])
                 occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(
                     label)
-                print( occupancy_.shape, position_.shape, size_.shape, angle_.shape, heading_.shape, classification_.shape)
                 occupancy.append(occupancy_)
                 position.append(position_)
                 size.append(size_)
@@ -259,8 +253,5 @@ class SimpleDataGenerator(DataProcessor, Sequence):
     def on_epoch_end(self):
         #         print("inside epoch")
         if self.label_files is not None:
-            # self.lidar_files, self.label_files, self.calibration_files = \
-            #     shuffle(self.lidar_files, self.label_files,
-            #             self.calibration_files)
             self.lidar_files, self.label_files = \
                 shuffle(self.lidar_files, self.label_files,)
