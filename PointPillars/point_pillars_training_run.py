@@ -39,8 +39,8 @@ if __name__ == "__main__":
 
     data_reader = KittiDataReader()
 
-    # lidar_files, label_files = GetMatchedDatafile(DATA_ROOT)
-    lidar_files, label_files = TestModel(DATA_ROOT)
+    lidar_files, label_files = GetMatchedDatafile(DATA_ROOT)
+    # lidar_files, label_files = TestModel(DATA_ROOT)
     print(len(lidar_files),len(label_files),'---------------------------------------------------------------------')
 
 
