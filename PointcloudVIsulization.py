@@ -13,46 +13,45 @@ PATH = '/media/sdb1/dettrain_20220711'
 Lidar_Path = ''
 Label_Path = ''
 
-
 VehicaleClasses = {
-        "black-one-box": 0,
-        "black-three-box": 0,
-        "black-two-box": 0,
-        "one-box": 0,
-        "three-box": 0,
-        "two-box": 0,
-        "taxi": 0,
 
-        "black-cargo-mpv":0,
-        "black-mpv":0,
-        "cargo-mpv":0,
-        "mpv":0,
+    "one-box": 0,
+    "three-box": 0,
+    "two-box": 0,
+    "black-one-box": 0,
+    "black-three-box": 0,
+    "black-two-box": 0,
 
-        "pedestrian": 1,
+    "taxi": 1,
+    "privateminibus": 2,
+    "publicminibus": 3,
+    "motorbike": 4,
+    "pedestrian": 5,
 
-        "bigtruck": 2,
-        "black-smalltruck": 2,
-        "crane-truck": 2,
-        "cylindrical-truck": 2,
-        "flatbed-truck": 2,
-        "mediumtruck": 2,
-        "smalltruck": 2,
-
-        "privateminibus": 3,
-        "publicminibus": 3,
-
-        # "motorbike": 5,
-        # "coachbus": 6,
-        # "construction-vehicle": 7,
-
-        # "black-cargo-one-box": 2,
-
-        # "cargo-one-box": 9,
-        # "dd": 14,
+    "construction-vehicle": 6,
+    "crane-truck": 6,
+    "cylindrical-truck": 6,
 
 
-    }
+    "black-cargo-mpv": 7,
+    "cargo-mpv": 7,
 
+    "black-mpv": 8,
+    "mpv": 8,
+
+
+    "smalltruck": 9,
+    "black-smalltruck": 9,
+
+    "black-cargo-one-box": 10,
+    "cargo-one-box": 10,
+
+    "mediumtruck": 11,
+    "bigtruck": 12,
+    "flatbed-truck": 13,
+    "coachbus": 14,
+    "dd": 15,
+}
 class Label3D:
     def __init__(self, classification: str, centroid: np.ndarray, dimension: np.ndarray, yaw: float):
         self.classification = classification
