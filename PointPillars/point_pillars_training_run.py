@@ -23,29 +23,17 @@ DATA_ROOT = '../TestFile.csv'
 MODEL_ROOT = "./log"
 MODEL_PATH = "model.h5"
 MODEL_SAVE = "train.h5"
+zoe_pointpillars='zoe_pointpillars.h'
 
-
-def generate_config_from_cmd_args():
-    parser = argparse.ArgumentParser(description='PointPillars training')
-    parser.add_argument('--gpu_idx', default=3, type=int, required=False, 
-        help='GPU index to use for inference')
-    parser.add_argument('--model_root', default='./log/', required=True,
-        help='Path for dumping training logs and model weights')
-    
-    configs = edict(vars(parser.parse_args()))
-    return configs
-
-
-def train_PillarNet(configs):
+def train_PillarNet():
 
     params = Parameters()
 
     pillar_net = build_point_pillar_graph(params)
-    pillar_net.load_weights(os.path.join(MODEL_ROOT, MODEL_PATH))
 
-    if os.path.exists(os.path.join(configs.model_root, "model.h5")):
-        logging.info("Using pre-trained weights found at path: {}".format(configs.model_root))
-        pillar_net.load_weights('zoe_pointpillars.h')
+    if os.path.exists(os.path.join(zoe_pointpillars)):
+        logging.info("Using pre-trained weights found at path: {}".format(zoe_pointpillars))
+        pillar_net.load_weights(zoe_pointpillars)
     else:
         logging.info("No pre-trained weights found. Initializing weights and training model.")
 
@@ -93,7 +81,8 @@ def train_PillarNet(configs):
                        epochs=1,
                        workers=6)
         pillar_net.save('my_model')
-        pillar_net.save('zoe_pointpillars.h')
+        pillar_net.save(zoe_pointpillars)
+        print('save========================================================================================')
 
     except KeyboardInterrupt:
         model_str = "interrupted_%s.h5" % time.strftime("%Y%m%d-%H%M%S")
@@ -105,10 +94,7 @@ def train_PillarNet(configs):
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - [%(levelname)s]: %(message)s")
-    train_configs = generate_config_from_cmd_args()
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"] = str(train_configs.gpu_idx)
+    os.environ["CUDA_VISIBLE_DEVICES"] = '0'
     # tf.get_logger().setLevel("ERROR")
-
-    logging.info("Model training logs and trained weights will be saved at path: {}".format(train_configs.model_root))
-    train_PillarNet(train_configs)
+    train_PillarNet()
