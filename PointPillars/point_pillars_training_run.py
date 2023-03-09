@@ -23,7 +23,7 @@ DATA_ROOT = '../TestFile.csv'
 MODEL_ROOT = "./log"
 MODEL_PATH = "model.h5"
 MODEL_SAVE = "train.h5"
-zoe_pointpillars='zoe_pointpillars.h'
+zoe_pointpillars='zoe_pointpillars.h5'
 
 def train_PillarNet():
 
@@ -77,8 +77,8 @@ def train_PillarNet():
                        steps_per_epoch=len(training_gen),
                        callbacks=callbacks,
                        use_multiprocessing=True,
-                    #    epochs=int(params.total_training_epochs),
-                       epochs=1,
+                       epochs=int(params.total_training_epochs),
+                    #    epochs=1,
                        workers=6)
         pillar_net.save('my_model')
         pillar_net.save(zoe_pointpillars)

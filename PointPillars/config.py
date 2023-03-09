@@ -116,7 +116,7 @@ class DataParameters:
 class NetworkParameters:
 
     max_points_per_pillar = 100
-    max_pillars = 12000
+    max_pillars = 8000
     nb_features = 9
     nb_channels = 64
     downscaling_factor = 2
@@ -142,7 +142,7 @@ class NetworkParameters:
     positive_iou_threshold = 0.6
     negative_iou_threshold = 0.3
     batch_size = 4
-    total_training_epochs = 160
+    total_training_epochs = 80
     # total_training_epochs = 20
 
     # 101040.    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
