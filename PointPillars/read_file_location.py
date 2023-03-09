@@ -6,7 +6,7 @@ def GetMatchedDatafile(Path):
     test = df.drop(train.index)
     train.to_csv('train.csv')
     test.to_csv('test.csv')
-    return [train['lidar_files'].tolist(),train['label_files'].tolist()/
+    return [train['lidar_files'].tolist(),train['label_files'].tolist(),
             test['lidar_files'].tolist(),test['label_files'].tolist()
             ]
 
