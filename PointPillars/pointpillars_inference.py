@@ -14,7 +14,7 @@ import logging
 from easydict import EasyDict as edict
 import time
 from tqdm import tqdm
-from read_file_location import ReadFileRoot
+from read_file_location import ReadFileFromPath
 
 def generate_config_from_cmd_args():
     parser = argparse.ArgumentParser(description='PointPillars inference on test data.')
@@ -44,7 +44,7 @@ def load_model_and_run_inference(configs):
     pillar_net.load_weights(configs.model_path)
     logging.info("Model loaded.")
 
-    lidar_files, label_files = ReadFileRoot(configs.data_root)
+    lidar_files, label_files = ReadFileFromPath(configs.data_root)
 
     data_reader = KittiDataReader()
     point_cloud_processor = DataProcessor()
