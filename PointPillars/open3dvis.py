@@ -40,7 +40,7 @@ def draw_scenes(path, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scores
     points = open3d.io.read_point_cloud(path, format='xyzrgb')
 
     vis = open3d.visualization.Visualizer()
-    # vis.create_window(visible=False)
+    vis.create_window(visible=False)
 
     vis.get_render_option().point_size = 1.0
     vis.get_render_option().background_color = np.zeros(3)

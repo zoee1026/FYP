@@ -1,5 +1,5 @@
 import os
-import cv2
+# import cv2
 from glob import glob
 import numpy as np
 import tensorflow as tf
