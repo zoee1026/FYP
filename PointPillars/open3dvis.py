@@ -36,11 +36,11 @@ def draw_scenes(path, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scores
     # if isinstance(ref_boxes, torch.Tensor):
     #     ref_boxes = ref_boxes.cpu().numpy()
 
-    
+
     points = open3d.io.read_point_cloud(path, format='xyzrgb')
 
     vis = open3d.visualization.Visualizer()
-    vis.create_window()
+    vis.create_window(visible=False)
 
     vis.get_render_option().point_size = 1.0
     vis.get_render_option().background_color = np.zeros(3)
@@ -66,6 +66,10 @@ def draw_scenes(path, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scores
         vis = draw_box(vis, ref_boxes, (0, 1, 0), ref_labels, ref_scores)
 
     vis.run()
+
+    image = vis.capture_screen_float_buffer(False)
+    open3d.io.write_image("image.png", image)
+
     vis.destroy_window()
 
 
