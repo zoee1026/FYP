@@ -225,5 +225,14 @@ if __name__ == "__main__":
 
     # GetTestClasses()
 
+
+
+    # create a numpy array
+    arr = np.array([[1], [2],[ 3], [4], [5]])
+
+    # save the array to a binary file
+    arr.tofile("data.bin")
+
+
 # 
 

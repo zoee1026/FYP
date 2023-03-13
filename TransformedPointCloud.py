@@ -10,6 +10,10 @@ CutPath='/media/sdb1/zoe/FYP/Tune/non-valid'
 PolygonPath=[os.path.join(CutPath, x) for x in os.listdir(CutPath)]
 Valid='/media/sdb1/zoe/FYP/Tune/valid_polygon1.csv'
 
+# CutPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\Tune\non-valid'
+# PolygonPath=[os.path.join(CutPath, x) for x in os.listdir(CutPath)]
+# Valid=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\Tune\valid_polygon1.csv"
+
 ToDir='/media/sdb1/zoe/FYP/train_files/'
 
 def GetPolygon(path):
@@ -47,7 +51,9 @@ def Trandformation(Path):
 
 def WriteToBin(points, fileName):
     path=os.path.join(ToDir,fileName.split('/')[-1])
+    # path=fileName.split('\\')[-1]
     print(path)
+    points=np.reshape(points,(-1,1)).astype(np.float32)
     points.tofile(path)
     return path
     # with open(path, 'wb') as f:
@@ -60,13 +66,13 @@ if __name__ == "__main__":
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = '2'
 
+    validPolygon=GetPolygon(Valid)
+    NonValidPolygonlist=[GetPolygon(x) for x in PolygonPath ]
+
     DataPath='TestFile.csv'
     df=pd.read_csv(DataPath)
     df['Transformed']=0
     print(df.shape)
-
-    validPolygon=GetPolygon(Valid)
-    NonValidPolygonlist=[GetPolygon(x) for x in PolygonPath ]
 
     for i in range(len(df)):
         lidar_path=df.iloc[i,0]
@@ -75,10 +81,21 @@ if __name__ == "__main__":
 
         points=Trandformation(lidar_path)
         points=GetInsidePolygon(points, validPolygon=validPolygon,NonValidPolygonlist=NonValidPolygonlist)
+        print(points.shape,'----------------------------------')
 
         tranformed_path=WriteToBin(points, lidar_path)
         df.iloc[i,2]=tranformed_path
+        print(df.shape,'===============================================')
+
         break
+
+    # lidar_path=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_lidar\2020_12_03=08_37_03_798.bin"
+    # LabelPath=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_label\2020_12_03=08_37_03_798.bin.json"
+    # points=Trandformation(lidar_path)
+    # points=GetInsidePolygon(points, validPolygon=validPolygon,NonValidPolygonlist=NonValidPolygonlist)
+    # print(points.shape,'============================================')
+    # tranformed_path=WriteToBin(points, lidar_path)
+   
     df.to_csv('CleanedFiles.csv')
 
 
