@@ -48,7 +48,7 @@ def Trandformation(Path):
 def WriteToBin(points, fileName):
     path=os.path.join(ToDir,fileName.split('/')[-1])
     print(path)
-    points.tofile(path)
+    np.save(path, points)
     return path
     # with open(path, 'wb') as f:
     #     # Write number of points as 4-byte integer
