@@ -59,18 +59,20 @@ def draw_scenes(path, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scores
 
     pts = open3d.geometry.PointCloud()
     pts.points = open3d.utility.Vector3dVector(points[:, :3])
-    # open3d.visualization.draw_geometries([pts,axis_pcd], window_name='Open3D')
-    # open3d.io.write_image("screenshot.png", window_name="Open3D")
+
     vis.add_geometry(pts)
     vis.update_renderer()
-    # if gt_boxes is not None:
-    #     vis = draw_box(vis, gt_boxes, (0, 0, 1))
 
-    # if ref_boxes is not None:
-    #     vis = draw_box(vis, ref_boxes, (0, 1, 0), ref_labels, ref_scores)
+    if gt_boxes is not None:
+        vis = draw_box(vis, gt_boxes, (0, 0, 1))
 
-        # Set the camera parameters for the views
-    # vis.get_view_control().set_constant_z_far(50)
+    if ref_boxes is not None:
+        vis = draw_box(vis, ref_boxes, (0, 1, 0), ref_labels, ref_scores)
+
+
+    # open3d.visualization.draw_geometries([pts,axis_pcd], window_name='Open3D2')
+    # open3d.io.write_image("screenshot.png", window_name="Open3D2")
+
     vis.update_renderer()
     vis.run()
 
