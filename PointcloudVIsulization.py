@@ -225,12 +225,5 @@ if __name__ == "__main__":
 
     # GetTestClasses()
 
-
-    # Create a NumPy array
-    arr = np.arange(10)
-
-    # Save the array to a binary file
-    np.save('array.bin', arr)
-
 # 
 
