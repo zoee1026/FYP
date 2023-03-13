@@ -142,7 +142,7 @@ class NetworkParameters:
     positive_iou_threshold = 0.6
     negative_iou_threshold = 0.3
     batch_size = 4
-    total_training_epochs = 10
+    total_training_epochs = 80
     # total_training_epochs = 20
 
     # 101040.    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
