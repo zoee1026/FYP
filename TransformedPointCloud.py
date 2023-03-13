@@ -61,6 +61,7 @@ if __name__ == "__main__":
     DataPath='TestFile.csv'
     df=pd.read_csv(DataPath)
     df['Transformed']=0
+    print(df.shape)
 
     validPolygon=GetPolygon(Valid)
     NonValidPolygonlist=[GetPolygon(x) for x in PolygonPath ]
