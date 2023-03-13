@@ -213,8 +213,8 @@ def ReadRootFile(path):
 if __name__ == "__main__":
     # lidar_files, label_files = GetAllTrainFile()
 
-    DataPath='MatchFile.csv'
-    ReadRootFile(DataPath)
+    # DataPath='MatchFile.csv'
+    # ReadRootFile(DataPath)
     # lidar_files, label_files = GetMatchedDatafile(DataPath)
     # GetAllTrainFile()
     # ReadAllLable(DataPath)
@@ -224,6 +224,13 @@ if __name__ == "__main__":
     # ReadLabelInOneFile(label_files[0])
 
     # GetTestClasses()
+
+
+    # Create a NumPy array
+    arr = np.arange(10)
+
+    # Save the array to a binary file
+    np.save('array.bin', arr)
 
 # 
 
