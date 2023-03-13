@@ -71,13 +71,17 @@ if __name__ == "__main__":
     for i in range(len(df)):
         lidar_path=df.iloc[i,0]
         print(lidar_path)
+        print('label',df.iloc[i,1])
 
         points=Trandformation(lidar_path)
         points=GetInsidePolygon(points, validPolygon=validPolygon,NonValidPolygonlist=NonValidPolygonlist)
 
         tranformed_path=WriteToBin(points, lidar_path)
-        df['Transformed']=tranformed_path
-
+        df.iloc[i,2]=tranformed_path
         break
+    df.to_csv('CleanedFiles.csv')
+
+
+       
 
     print ('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
