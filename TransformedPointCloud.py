@@ -10,7 +10,7 @@ CutPath='/media/sdb1/zoe/FYP/Tune/non-valid'
 PolygonPath=[os.path.join(CutPath, x) for x in os.listdir(CutPath)]
 Valid='/media/sdb1/zoe/FYP/Tune/valid_polygon1.csv'
 
-ToDir='/media/sdb1/zoe/FYP/trainfiles/'
+ToDir='/media/sdb1/zoe/FYP/train_files/'
 
 def GetPolygon(path):
     df=pd.read_csv(path)
