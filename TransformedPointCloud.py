@@ -71,7 +71,7 @@ if __name__ == "__main__":
         print(lidar_path)
 
         points=Trandformation(lidar_path)
-        points=GetInsidePolygon(points)
+        points=GetInsidePolygon(points, validPolygon=validPolygon,NonValidPolygonlist=NonValidPolygonlist)
 
         tranformed_path=WriteToBin(points, lidar_path)
         df['Transformed']=tranformed_path
