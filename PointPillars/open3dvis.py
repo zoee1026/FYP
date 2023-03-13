@@ -1,6 +1,14 @@
 import open3d
 import matplotlib
 import numpy as np
+from shapely.geometry import Point, Polygon
+import pandas as pd
+import os
+
+# DIR=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\Tune\non-valid'
+
+# PolygonPath=os.listdir(DIR)
+# Valid=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\Tune\valid_polygon1.csv"
 
 box_colormap = [
     [1, 1, 1],
@@ -9,16 +17,42 @@ box_colormap = [
     [1, 1, 0],
 ]
 
-# def point_tranformation(points):
-#     new_points=np.array()
-#     translation=np.array([])
-#     theta = np.array([0.0705718, -0.2612746,-0.017035])
-#     for i in range(points.shape[0]):
-#         new_point=points[0]
-#         new_points.append(new_point)0, 0,-5.7
+# def GetPolygon(path):
+#     df=pd.read_csv(path)
+#     polygon=Polygon(list(df.iloc[:,:2].to_records(index=False)))
+#     return polygon
 
+# # Get Polygon
+# def GetInsidePolygon(points):
+#     new_points=[]
+    
+#     validPolygon=GetPolygon(Valid)
+#     polygon_list=[GetPolygon(os.path.join(DIR, x)) for x in PolygonPath ]
 
+#     for point in points:
+#         if validPolygon.contains(Point(tuple(point[:2]))):
+#             include=True
+#             for i in polygon_list:
+#                 if i.contains(Point(tuple(point[:2]))):
+#                     include=False
+#                     break
+#             if include:new_points.append(point)
+    
+#     return np.array(new_points)
 
+# def Trandformation(Path):
+#     points = np.fromfile(Path, dtype=np.float32).reshape((-1, 7))
+#     intensity=np.reshape(points[:, 3], (-1, 1))
+
+#     pts = open3d.geometry.PointCloud()
+#     pts.points = open3d.utility.Vector3dVector(points[:, :3])
+    
+#     R = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746,-0.017035))
+#     pts=pts.rotate(R, center=(0,0,0))
+#     pts.translate((0, 0,5.7))
+
+#     points=np.hstack((np.array(pts.points), intensity))
+#     return points
 
 def get_coor_colors(obj_labels):
     """
@@ -38,14 +72,8 @@ def get_coor_colors(obj_labels):
     return label_rgba
 
 
-def draw_scenes(PointPath, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scores=None, point_colors=None, draw_origin=True):
-    # if isinstance(points, torch.Tensor):
-    #     points = points.cpu().numpy()
-    # if isinstance(gt_boxes, torch.Tensor):
-    #     gt_boxes = gt_boxes.cpu().numpy()
-    # if isinstance(ref_boxes, torch.Tensor):
-    #     ref_boxes = ref_boxes.cpu().numpy()
 
+def draw_scenes(PointPath, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scores=None, point_colors=None, draw_origin=True):
     object_list=[]
 
     vis = open3d.visualization.Visualizer()
@@ -62,26 +90,37 @@ def draw_scenes(PointPath, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_s
     object_list.append(axis_pcd)
 
     # get points
-    infile = open(PointPath, "rb")
-    buf = infile.read()
-    infile.close()
+    # points=Trandformation(PointPath)
+    # points=GetInsidePolygon(points)
+    points = np.fromfile(PointPath, dtype=np.float32).reshape((-1, 4))
 
-    points = np.frombuffer(buf, dtype=np.float32).reshape(-1, 7)
-    intensity=np.reshape(points[:, 3], (-1, 1))
+    print(points.shape)
 
-    pts = open3d.geometry.PointCloud()
-    pts.points = open3d.utility.Vector3dVector(points[:, :3])
+
+    # infile = open(PointPath, "rb")
+    # buf = infile.read()
+    # infile.close()
+
+    # points = np.frombuffer(buf, dtype=np.float32).reshape(-1, 7)
+    # intensity=np.reshape(points[:, 3], (-1, 1))
+
+    # pts = open3d.geometry.PointCloud()
+    # pts.points = open3d.utility.Vector3dVector(points[:, :3])
+    # # pts.color=open3d.utility.Vector3dVector(np.reshape(points[:, 3], (-1, 1)))
+
     
-    pts.translate((0, 0,5.7))
-    R = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746,-0.017035))
-    pts=pts.rotate(R, center=(0,0,0))
+    # pts.translate((0, 0,5.7))
+    # R = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746,-0.017035))
+    # pts=pts.rotate(R, center=(0,0,0))
 
-    points=np.hstack((np.array(pts.points), intensity))
+    # points=np.hstack((np.array(pts.points), intensity))
 
     # axis = open3d.visualization.create_axes()
     # vis.add_geometry(axis)
     # vis.update_renderer()
-
+    
+    pts = open3d.geometry.PointCloud()
+    pts.points = open3d.utility.Vector3dVector(points[:, :3])
 
     vis.add_geometry(pts)
     vis.update_renderer()
