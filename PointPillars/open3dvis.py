@@ -37,40 +37,47 @@ def draw_scenes(path, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scores
     #     ref_boxes = ref_boxes.cpu().numpy()
 
 
-    points = open3d.io.read_point_cloud(path, format='xyzrgb')
-
     vis = open3d.visualization.Visualizer()
-    vis.create_window(visible=False)
+    vis.create_window()
 
     vis.get_render_option().point_size = 1.0
     vis.get_render_option().background_color = np.zeros(3)
 
     # draw origin
-    if draw_origin:
-        axis_pcd = open3d.geometry.TriangleMesh.create_coordinate_frame(size=1.0, origin=[0, 0, 0])
-        vis.add_geometry(axis_pcd)
+
+    axis_pcd = open3d.geometry.TriangleMesh.create_coordinate_frame(size=1.0, origin=[0, 0, 0])
+    vis.add_geometry(axis_pcd)
+    vis.update_renderer()
+
+
+    # get points
+
+    infile = open(path, "rb")
+    buf = infile.read()
+    infile.close()
+    points = np.frombuffer(buf, dtype=np.float32).reshape(-1, 4)
 
     pts = open3d.geometry.PointCloud()
     pts.points = open3d.utility.Vector3dVector(points[:, :3])
-
+    # open3d.visualization.draw_geometries([pts,axis_pcd], window_name='Open3D')
+    # open3d.io.write_image("screenshot.png", window_name="Open3D")
     vis.add_geometry(pts)
-    if point_colors is None:
-        pts.colors = open3d.utility.Vector3dVector(np.ones((points.shape[0], 3)))
-    else:
-        pts.colors = open3d.utility.Vector3dVector(point_colors)
+    vis.update_renderer()
+    # if gt_boxes is not None:
+    #     vis = draw_box(vis, gt_boxes, (0, 0, 1))
 
-    if gt_boxes is not None:
-        vis = draw_box(vis, gt_boxes, (0, 0, 1))
+    # if ref_boxes is not None:
+    #     vis = draw_box(vis, ref_boxes, (0, 1, 0), ref_labels, ref_scores)
 
-    if ref_boxes is not None:
-        vis = draw_box(vis, ref_boxes, (0, 1, 0), ref_labels, ref_scores)
-
+        # Set the camera parameters for the views
+    # vis.get_view_control().set_constant_z_far(50)
+    vis.update_renderer()
     vis.run()
 
     image = vis.capture_screen_float_buffer(False)
     open3d.io.write_image("image.png", image)
 
-    # vis.destroy_window()
+    vis.destroy_window()
 
 
 def translate_boxes_to_open3d_instance(gt_boxes):

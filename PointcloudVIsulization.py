@@ -205,12 +205,16 @@ def ReadAllLable(path):
         df=pd.concat([df,raw])
     print(df.info())
     df.to_csv('LabelSummary.csv')
-    
+
+def ReadRootFile(path):
+    df=pd.read_csv(path)
+    print(df.loc[0,:])
 
 if __name__ == "__main__":
     # lidar_files, label_files = GetAllTrainFile()
 
     DataPath='MatchFile.csv'
+    ReadRootFile(DataPath)
     # lidar_files, label_files = GetMatchedDatafile(DataPath)
     # GetAllTrainFile()
     # ReadAllLable(DataPath)
@@ -219,7 +223,7 @@ if __name__ == "__main__":
     # PCVisualization(lidar_files[0])
     # ReadLabelInOneFile(label_files[0])
 
-    GetTestClasses()
+    # GetTestClasses()
 
 # 
 
