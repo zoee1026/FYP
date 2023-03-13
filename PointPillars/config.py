@@ -118,7 +118,7 @@ class NetworkParameters:
     max_points_per_pillar = 100
     max_pillars = 8000
     nb_features = 9
-    nb_channels = 64
+    nb_channels = 128
     downscaling_factor = 2
 
     # length, width, height, z-center, orientation
