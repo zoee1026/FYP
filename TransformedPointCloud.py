@@ -43,7 +43,7 @@ def Trandformation(Path):
     pts.points = open3d.utility.Vector3dVector(points[:, :3])
     
     R = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746,-0.017035))
-    pts=pts.rotate(R)
+    pts=pts.rotate(R,center=False)
     pts.translate((0, 0,5.7))
 
     points=np.hstack((np.array(pts.points), intensity))
