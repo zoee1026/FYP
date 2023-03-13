@@ -28,7 +28,7 @@ def get_coor_colors(obj_labels):
     return label_rgba
 
 
-def draw_scenes(path, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scores=None, point_colors=None, draw_origin=True):
+def draw_scenes(PointPath, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scores=None, point_colors=None, draw_origin=True):
     # if isinstance(points, torch.Tensor):
     #     points = points.cpu().numpy()
     # if isinstance(gt_boxes, torch.Tensor):
@@ -49,10 +49,9 @@ def draw_scenes(path, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scores
     vis.add_geometry(axis_pcd)
     vis.update_renderer()
 
-
     # get points
 
-    infile = open(path, "rb")
+    infile = open(PointPath, "rb")
     buf = infile.read()
     infile.close()
     points = np.frombuffer(buf, dtype=np.float32).reshape(-1, 4)
@@ -94,7 +93,7 @@ def translate_boxes_to_open3d_instance(gt_boxes):
     """
     center = gt_boxes[0:3]
     lwh = gt_boxes[3:6]
-    axis_angles = np.array([0, 0, gt_boxes[6] + 1e-10])
+    axis_angles = np.array([0, 0, float(gt_boxes[6]) + 1e-10])
     rot = open3d.geometry.get_rotation_matrix_from_axis_angle(axis_angles)
     box3d = open3d.geometry.OrientedBoundingBox(center, rot, lwh)
 
@@ -119,7 +118,7 @@ def draw_box(vis, gt_boxes, color=(0, 1, 0), ref_labels=None, score=None):
 
         vis.add_geometry(line_set)
 
-        # if score is not None:
-        #     corners = box3d.get_box_points()
-        #     vis.add_3d_label(corners[5], '%.2f' % score[i])
+        if score is not None:
+            corners = box3d.get_box_points()
+            vis.add_3d_label(corners[5], '%.2f' % score[i])
     return vis
