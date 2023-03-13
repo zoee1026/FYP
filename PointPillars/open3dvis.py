@@ -9,6 +9,16 @@ box_colormap = [
     [1, 1, 0],
 ]
 
+# def point_tranformation(points):
+#     new_points=np.array()
+#     translation=np.array([])
+#     theta = np.array([0.0705718, -0.2612746,-0.017035])
+#     for i in range(points.shape[0]):
+#         new_point=points[0]
+#         new_points.append(new_point)0, 0,-5.7
+
+
+
 
 def get_coor_colors(obj_labels):
     """
@@ -36,6 +46,7 @@ def draw_scenes(PointPath, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_s
     # if isinstance(ref_boxes, torch.Tensor):
     #     ref_boxes = ref_boxes.cpu().numpy()
 
+    object_list=[]
 
     vis = open3d.visualization.Visualizer()
     vis.create_window()
@@ -45,28 +56,42 @@ def draw_scenes(PointPath, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_s
 
     # draw origin
 
-    axis_pcd = open3d.geometry.TriangleMesh.create_coordinate_frame(size=1.0, origin=[0, 0, 0])
+    axis_pcd = open3d.geometry.TriangleMesh.create_coordinate_frame(size=0.5, origin=[0, 0, 0])
     vis.add_geometry(axis_pcd)
     vis.update_renderer()
+    object_list.append(axis_pcd)
 
     # get points
-
     infile = open(PointPath, "rb")
     buf = infile.read()
     infile.close()
-    points = np.frombuffer(buf, dtype=np.float32).reshape(-1, 4)
+
+    points = np.frombuffer(buf, dtype=np.float32).reshape(-1, 7)
+    intensity=np.reshape(points[:, 3], (-1, 1))
 
     pts = open3d.geometry.PointCloud()
     pts.points = open3d.utility.Vector3dVector(points[:, :3])
+    
+    pts.translate((0, 0,5.7))
+    R = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746,-0.017035))
+    pts=pts.rotate(R, center=(0,0,0))
+
+    points=np.hstack((np.array(pts.points), intensity))
+
+    # axis = open3d.visualization.create_axes()
+    # vis.add_geometry(axis)
+    # vis.update_renderer()
+
 
     vis.add_geometry(pts)
     vis.update_renderer()
+    object_list.append(pts)
 
     if gt_boxes is not None:
-        vis = draw_box(vis, gt_boxes, (0, 0, 1))
+        vis = draw_box(vis, object_list, gt_boxes, (1, 0, 0))
 
     if ref_boxes is not None:
-        vis = draw_box(vis, ref_boxes, (0, 1, 0), ref_labels, ref_scores)
+        vis = draw_box(vis, object_list, ref_boxes, (0, 1, 0), ref_labels, ref_scores)
 
 
     # open3d.visualization.draw_geometries([pts,axis_pcd], window_name='Open3D2')
@@ -104,19 +129,21 @@ def translate_boxes_to_open3d_instance(gt_boxes):
     lines = np.concatenate([lines, np.array([[1, 4], [7, 6]])], axis=0)
 
     line_set.lines = open3d.utility.Vector2iVector(lines)
-
     return line_set, box3d
 
 
-def draw_box(vis, gt_boxes, color=(0, 1, 0), ref_labels=None, score=None):
-    for i in range(gt_boxes.shape[0]):
-        line_set, box3d = translate_boxes_to_open3d_instance(gt_boxes[i])
+def draw_box(vis, object_list, boxes, color=(1, 0, 0), ref_labels=None, score=None):
+    for i in range(boxes.shape[0]):
+        line_set, box3d = translate_boxes_to_open3d_instance(boxes[i])
         if ref_labels is None:
             line_set.paint_uniform_color(color)
         else:
             line_set.paint_uniform_color(box_colormap[ref_labels[i]])
 
         vis.add_geometry(line_set)
+        object_list.append(line_set)
+        object_list.append(box3d)
+
 
         if score is not None:
             corners = box3d.get_box_points()

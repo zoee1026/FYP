@@ -4,6 +4,7 @@ import json
 import numpy as np
 import pandas as pd
 from config import VehicaleClasses
+import open3d
 
 
 class Label3D:
@@ -43,7 +44,18 @@ class KittiDataReader(DataReader):
 
     @staticmethod
     def read_lidar(file_path: str):
-        return np.fromfile(file_path, dtype=np.float32).reshape((-1, 4))
+        points=np.fromfile(file_path, dtype=np.float32).reshape((-1, 7))
+        intensity=np.reshape(points[:, 3], (-1, 1))
+
+        pts = open3d.geometry.PointCloud()
+        pts.points = open3d.utility.Vector3dVector(points[:, :3])
+        
+        pts.translate((0, 0,5.7))
+        R = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746,-0.017035))
+        pts=pts.rotate(R, center=(0,0,0))
+        
+        points=np.hstack((np.array(pts.points), intensity))
+        return points
 
     @staticmethod
     def read_label(file_path: str):

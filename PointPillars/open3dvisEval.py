@@ -25,8 +25,9 @@ def ReadLabelInOneFile(labelPath):
         return np.array(elements)
 
 if __name__ == '__main__':
-    PointPath=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_lidar\2020_12_03=08_37_03_798.bin"
+    # PointPath=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_lidar\2020_12_03=08_37_03_798.bin"
+    PointPath=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_lidar\2020_12_03=08_37_02_798.bin"
     # PointPath=r"C:\Users\Chan Kin Yan\Desktop\FYP\KittiData\training\velodyne\000003.bin"
     LabelPath=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_label\2020_12_03=08_37_02_798.bin.json"
-    draw_scenes(PointPath=PointPath)
+    draw_scenes(PointPath=PointPath,gt_boxes=ReadLabelInOneFile(LabelPath))
 
