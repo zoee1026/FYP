@@ -4,15 +4,21 @@ import os
 import pandas as pd
 from shapely.geometry import Point, Polygon
 
-CutPath='/media/sdb1/zoe/FYP/Tune/non-valid'
+CutPath='/media/sdb1/zoe/FYP/tune_lidar/non-valid'
 PolygonPath=[os.path.join(CutPath, x) for x in os.listdir(CutPath)]
-Valid='/media/sdb1/zoe/FYP/Tune/valid_polygon1.csv'
-
-# CutPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\Tune\non-valid'
-# PolygonPath=[os.path.join(CutPath, x) for x in os.listdir(CutPath)]
-# Valid=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\Tune\valid_polygon1.csv"
-
+Valid='/media/sdb1/zoe/FYP/tune_lidar/valid_polygon1.csv'
 ToDir='/media/sdb1/zoe/FYP/train_files/'
+
+# CutPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\tune_lidar\non-valid'
+# PolygonPath=[os.path.join(CutPath, x) for x in os.listdir(CutPath)]
+# Valid=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\tune_lidar\valid_polygon1.csv"
+
+def GetTransformMatrix():
+    pts = open3d.geometry.PointCloud()
+    T = np.eye(4)
+    T[:3, :3] = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746,-0.017035))
+    T[2, 3]=5.7
+    return T
 
 def GetPolygon(path):
     df=pd.read_csv(path)
@@ -33,16 +39,18 @@ def GetInsidePolygon(points,validPolygon,NonValidPolygonlist):
     
     return np.array(new_points)
 
-def Trandformation(Path):
+def Trandformation(Path,T):
     points = np.fromfile(Path, dtype=np.float32).reshape((-1, 7))
     intensity=np.reshape(points[:, 3], (-1, 1))
 
     pts = open3d.geometry.PointCloud()
     pts.points = open3d.utility.Vector3dVector(points[:, :3])
     
-    R = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746,-0.017035))
-    pts=pts.rotate(R,center=False) # roate around coordinate center
-    pts.translate((0, 0,5.7))
+    # R = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746,-0.017035))
+    # pts=pts.rotate(R,center=False) # roate around coordinate center
+    # pts.translate((0, 0,5.7))
+
+    pts.transform(T)
 
     points=np.hstack((np.array(pts.points), intensity))
     return points
@@ -66,12 +74,14 @@ if __name__ == "__main__":
     df['Transformed']=0
     print(df.shape)
 
+    T=GetTransformMatrix()
+
     for i in range(len(df)):
         lidar_path=df.iloc[i,0]
         print(lidar_path)
         print('label',df.iloc[i,1])
 
-        points=Trandformation(lidar_path)
+        points=Trandformation(lidar_path,T)
         points=GetInsidePolygon(points, validPolygon=validPolygon,NonValidPolygonlist=NonValidPolygonlist)
         print(points.shape,'--------------------------------------------')
 

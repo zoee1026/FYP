@@ -27,14 +27,22 @@ if __name__ == '__main__':
     R_manual=Manal_R()
 
     pts = open3d.geometry.PointCloud()
-    R = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746,-0.017035))
-    print(R_manual)
-    v1 = np.array([[1],[1],[1]])
-    print(R_manual*v1)
-    print('-----------------------')
-    print(R)
+    T = np.eye(4)
+    T[:3, :3] = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746,-0.017035))
+    T[1, 3]=5.7
+    print(T)
     pts.points=open3d.utility.Vector3dVector(np.array([[1,1,1]]))
-    pts.rotate(R, center=False)
-
+    pts.transform(T)
     print(np.array(pts.points) )
+
+
+    # print(R_manual)
+    # v1 = np.array([[1],[1],[1]])
+    # print(R_manual*v1)
+    # print('-----------------------')
+    # print(R)
+    # pts.points=open3d.utility.Vector3dVector(np.array([[1,1,1]]))
+    # pts.rotate(R, center=False)
+
+    # print(np.array(pts.points) )
 

@@ -9,9 +9,9 @@ import pandas as pd
 import os
 from config import OutPutVehecleClasees
 
-CutPath = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\Tune\non-valid'
+CutPath = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\tune_lidar\non-valid'
 PolygonPath = [os.path.join(CutPath, x) for x in os.listdir(CutPath)]
-Valid = r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\Tune\valid_polygon1.csv"
+Valid = r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\tune_lidar\valid_polygon1.csv"
 
 box_colormap = [
     [0.5, 0.5, 0.5],
@@ -59,17 +59,26 @@ def GetInsidePolygon(points):
 
     return np.array(new_points)
 
+def GetTransformMatrix():
+    pts = open3d.geometry.PointCloud()
+    T = np.eye(4)
+    T[:3, :3] = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746,-0.017035))
+    T[2, 3]=5.7
+    print(T)
+    return T
 
-def Trandformation(Path):
+def Trandformation(Path,T):
     points = np.fromfile(Path, dtype=np.float32).reshape((-1, 7))
     intensity = np.reshape(points[:, 3], (-1, 1))
 
     pts = open3d.geometry.PointCloud()
     pts.points = open3d.utility.Vector3dVector(points[:, :3])
 
-    R = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746, -0.017035))
-    pts = pts.rotate(R, center=(0, 0, 0))
-    pts.translate((0, 0, 5.7))  # relative should be equal to true
+    pts.transform(T)
+
+    # R = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746, -0.017035))
+    # pts = pts.rotate(R, center=(0, 0, 0))
+    # pts.translate((0, 0, 5.7))  # relative should be equal to true
 
     points = np.hstack((np.array(pts.points), intensity))
     return points
@@ -97,6 +106,8 @@ def get_coor_colors(obj_labels):
 def draw_scenes(PointPath, transform=False, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scores=None, point_colors=None):
     object_list = []
 
+    T=GetTransformMatrix()
+
     app = gui.Application.instance
     app.initialize()
     # vis = open3d.visualization.Visualizer()
@@ -117,7 +128,7 @@ def draw_scenes(PointPath, transform=False, gt_boxes=None, ref_boxes=None, ref_l
 
     # get points
     if transform:
-        points = Trandformation(PointPath)
+        points = Trandformation(PointPath,T)
         points = GetInsidePolygon(points)
     else:
         points = np.fromfile(PointPath, dtype=np.float32).reshape((-1, 4))
@@ -165,7 +176,7 @@ def translate_boxes_to_open3d_instance(gt_boxes):
     """
     center = gt_boxes[0:3]
     lwh = gt_boxes[3:6]
-    axis_angles = np.array([0, 0, float(gt_boxes[6]) + 1e-10])
+    axis_angles = np.array([0, 0, float(gt_boxes[6]) - 1e-10])
     rot = open3d.geometry.get_rotation_matrix_from_axis_angle(axis_angles)
     box3d = open3d.geometry.OrientedBoundingBox(center, rot, lwh)
 
@@ -194,7 +205,7 @@ def draw_box(vis, object_list, boxes, color=(1, 0, 0), ref_labels=None, score=No
             # vis.add_geometry(label)
             vis.add_3d_label(np.reshape(corners[3],(-1,1)),OutPutVehecleClasees[ref_labels[i]])
 
-        vis.add_geometry('BoundingBox',line_set)
+        vis.add_geometry('BoundingBox'+str(i),line_set)
         object_list.append(line_set)
         object_list.append(box3d)
 
