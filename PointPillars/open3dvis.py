@@ -112,7 +112,7 @@ def draw_scenes(PointPath, transform=False, gt_boxes=None, ref_boxes=None, ref_l
     # axis_pcd = open3d.geometry.TriangleMesh.create_coordinate_frame(
     #     size=0.5, origin=[0, 0, 0])
     # vis.add_geometry('axis',axis_pcd)
-    # # vis.update_renderer()
+    # vis.update_renderer()
     # object_list.append(axis_pcd)
 
     # get points
