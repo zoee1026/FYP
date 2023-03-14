@@ -1,4 +1,7 @@
 import open3d
+import open3d.visualization.gui as gui
+import open3d.visualization.rendering as rendering
+
 import matplotlib
 import numpy as np
 from shapely.geometry import Point, Polygon
@@ -94,19 +97,23 @@ def get_coor_colors(obj_labels):
 def draw_scenes(PointPath, transform=False, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scores=None, point_colors=None):
     object_list = []
 
-    vis = open3d.visualization.Visualizer()
-    vis.create_window()
+    app = gui.Application.instance
+    app.initialize()
+    # vis = open3d.visualization.Visualizer()
+    vis=open3d.visualization.O3DVisualizer("Open3D", 1024, 768)
+    vis.show_settings = True
+    # vis.create_window()
 
-    vis.get_render_option().point_size = 1.0
-    vis.get_render_option().background_color = np.zeros(3)
+    # vis.get_render_option().point_size = 1.0
+    # vis.get_render_option().background_color = np.zeros(3)
 
     # draw origin
 
-    axis_pcd = open3d.geometry.TriangleMesh.create_coordinate_frame(
-        size=0.5, origin=[0, 0, 0])
-    vis.add_geometry(axis_pcd)
-    vis.update_renderer()
-    object_list.append(axis_pcd)
+    # axis_pcd = open3d.geometry.TriangleMesh.create_coordinate_frame(
+    #     size=0.5, origin=[0, 0, 0])
+    # vis.add_geometry('axis',axis_pcd)
+    # # vis.update_renderer()
+    # object_list.append(axis_pcd)
 
     # get points
     if transform:
@@ -120,30 +127,31 @@ def draw_scenes(PointPath, transform=False, gt_boxes=None, ref_boxes=None, ref_l
     pts = open3d.geometry.PointCloud()
     pts.points = open3d.utility.Vector3dVector(points[:, :3])
 
-    vis.add_geometry(pts)
-    vis.update_renderer()
+    vis.add_geometry('Points',pts)
+    # vis.update_renderer()
     object_list.append(pts)
 
     if gt_boxes is not None:
         vis = draw_box(vis, object_list, gt_boxes, (1, 0, 0),ref_labels)
-        vis.update_renderer()
+        # vis.update_renderer()
 
     if ref_boxes is not None:
         vis = draw_box(vis, object_list, ref_boxes,
                        (0, 1, 0), ref_labels, ref_scores)
-        vis.update_renderer()
+        # vis.update_renderer()
 
     # open3d.visualization.draw_geometries([pts,axis_pcd], window_name='Open3D2')
     # open3d.io.write_image("screenshot.png", window_name="Open3D2")
 
-    vis.update_renderer()
-    vis.run()
+    # image = vis.capture_screen_float_buffer(False)
+    # open3d.io.write_image("image.png", image)
 
-    image = vis.capture_screen_float_buffer(False)
-    open3d.io.write_image("image.png", image)
+    # vis.update_renderer()
+    # vis.run()
+    # vis.destroy_window()
 
-    vis.destroy_window()
-
+    app.add_window(vis)
+    app.run()
 
 def translate_boxes_to_open3d_instance(gt_boxes):
     """
@@ -180,17 +188,17 @@ def draw_box(vis, object_list, boxes, color=(1, 0, 0), ref_labels=None, score=No
         else:
             print(ref_labels[i],OutPutVehecleClasees[ref_labels[i]],box_colormap[int(ref_labels[i])],'======================')
             line_set.paint_uniform_color(box_colormap[int(ref_labels[i])])
-            # vis.add_3d_label(corners[3], ref_labels[i])
-            vis.update_renderer()
+            # label = open3d.visualization.Text_3D()
+            # label.text = OutPutVehecleClasees[ref_labels[i]]
+            # label.position = corners[3]
+            # vis.add_geometry(label)
+            vis.add_3d_label(np.reshape(corners[3],(-1,1)),OutPutVehecleClasees[ref_labels[i]])
 
-
-        vis.add_geometry(line_set)
+        vis.add_geometry('BoundingBox',line_set)
         object_list.append(line_set)
         object_list.append(box3d)
 
         if score is not None:
-            vis.add_3d_label(corners[5], '%.2f' % score[i])
-            vis.update_renderer()
-
+            vis.add_3d_label(np.reshape(corners[5],(-1,1)), '%.2f' % score[i])
 
     return vis
