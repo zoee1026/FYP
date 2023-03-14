@@ -1,10 +1,8 @@
 import open3d
 import open3d.visualization.gui as gui
-import open3d.visualization.rendering as rendering
 
 import matplotlib
 import numpy as np
-from shapely.geometry import Point, Polygon
 import pandas as pd
 import os
 from config import OutPutVehecleClasees
@@ -35,48 +33,13 @@ box_colormap = [
 ]
 
 
-# def GetPolygon(path):
-#     df = pd.read_csv(path)
-#     polygon = Polygon(list(df.iloc[:, :2].to_records(index=False)))
-#     return polygon
-
-# # Get Polygon
-
-# def GetInsidePolygon(points):
-#     new_points = []
-
-#     validPolygon = GetPolygon(Valid)
-#     polygon_list = [GetPolygon(x) for x in PolygonPath]
-
-#     for point in points:
-#         if validPolygon.contains(Point(tuple(point[:2]))):
-#             include = True
-#             for i in polygon_list:
-#                 if i.contains(Point(tuple(point[:2]))):
-#                     include = False
-#                     break
-#             if include:
-#                 new_points.append(point)
-
-#     return np.array(new_points)
-
 def GetPolygon(path):
     df=pd.read_csv(path)
-    
-    # polygon=Polygon(list(df.iloc[:,:2].to_records(index=False)))
     polygon = mpltPath.Path(df.iloc[:,:2].values.tolist())
     return polygon
 
 # Get Polygon
 def GetInsidePolygon(points,validPolygon,NonValidPolygonlist):
-#     for point in points:
-        # if validPolygon.contains(Point(tuple(point[:2]))):
-        #     include=True
-        #     for i in NonValidPolygonlist:
-        #         if i.contains(Point(tuple(point[:2]))):
-        #             include=False
-        #             break
-        #     if include:new_points.append(point)
     inside=validPolygon.contains_points(points[:, :2])
     points=np.hstack((points, np.reshape(inside,(-1,1))))
     points=points[[points[:,-1]==True]][:,:4]

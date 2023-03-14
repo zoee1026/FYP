@@ -12,11 +12,6 @@ ToDir='/media/sdb1/zoe/FYP/train_files/'
 DataPath='/media/sdb1/zoe/FYP/folder_root/TestFile.csv'
 SaveCleanFile='/media/sdb1/zoe/FYP/folder_root/folder_root/CleanedFiles.csv'
 
-
-# CutPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\tune_lidar\non-valid'
-# PolygonPath=[os.path.join(CutPath, x) for x in os.listdir(CutPath)]
-# Valid=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\tune_lidar\valid_polygon1.csv"
-
 def GetTransformMatrix():
     pts = open3d.geometry.PointCloud()
     T = np.eye(4)
