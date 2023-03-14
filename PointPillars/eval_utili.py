@@ -34,6 +34,7 @@ def generate_config_from_cmd_args():
     configs = edict(vars(parser.parse_args()))
     return configs
 
+
     # return image_file_names, lidar_file_names, calib_file_names
 
 def load_model_and_run_inference(configs):
