@@ -4,7 +4,6 @@ import numpy as np
 import os
 import pandas as pd
 from shapely.geometry import Point, Polygon
-import struct
 
 CutPath='/media/sdb1/zoe/FYP/Tune/non-valid'
 PolygonPath=[os.path.join(CutPath, x) for x in os.listdir(CutPath)]
@@ -43,7 +42,7 @@ def Trandformation(Path):
     pts.points = open3d.utility.Vector3dVector(points[:, :3])
     
     R = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746,-0.017035))
-    pts=pts.rotate(R,center=False)
+    pts=pts.rotate(R,center=False) # roate around coordinate center
     pts.translate((0, 0,5.7))
 
     points=np.hstack((np.array(pts.points), intensity))
@@ -51,16 +50,10 @@ def Trandformation(Path):
 
 def WriteToBin(points, fileName):
     path=os.path.join(ToDir,fileName.split('/')[-1])
-    # path=fileName.split('\\')[-1]
     print(path)
     points=np.reshape(points,(-1,1)).astype(np.float32)
     points.tofile(path)
     return path
-    # with open(path, 'wb') as f:
-    #     # Write number of points as 4-byte integer
-    #     f.write(struct.pack('<I', points.shape[0]))
-    #     # Write points to file as 32-bit floats
-    #     f.write(points.astype(np.float32).tobytes())
 
 if __name__ == "__main__":
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
@@ -81,24 +74,9 @@ if __name__ == "__main__":
 
         points=Trandformation(lidar_path)
         points=GetInsidePolygon(points, validPolygon=validPolygon,NonValidPolygonlist=NonValidPolygonlist)
-        print(points.shape,'----------------------------------')
+        print(points.shape,'--------------------------------------------')
 
         tranformed_path=WriteToBin(points, lidar_path)
         df.iloc[i,2]=tranformed_path
-        print(df.shape,'===============================================')
 
-        break
-
-    # lidar_path=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_lidar\2020_12_03=08_37_03_798.bin"
-    # LabelPath=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_label\2020_12_03=08_37_03_798.bin.json"
-    # points=Trandformation(lidar_path)
-    # points=GetInsidePolygon(points, validPolygon=validPolygon,NonValidPolygonlist=NonValidPolygonlist)
-    # print(points.shape,'============================================')
-    # tranformed_path=WriteToBin(points, lidar_path)
-   
     df.to_csv('CleanedFiles.csv')
-
-
-       
-
-    print ('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')

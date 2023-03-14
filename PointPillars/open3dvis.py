@@ -4,55 +4,73 @@ import numpy as np
 from shapely.geometry import Point, Polygon
 import pandas as pd
 import os
+from config import OutPutVehecleClasees
 
-DIR=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\Tune\non-valid'
-
-PolygonPath=os.listdir(DIR)
-Valid=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\Tune\valid_polygon1.csv"
+CutPath = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\Tune\non-valid'
+PolygonPath = [os.path.join(CutPath, x) for x in os.listdir(CutPath)]
+Valid = r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\Tune\valid_polygon1.csv"
 
 box_colormap = [
-    [1, 1, 1],
+    [0.5, 0.5, 0.5],
+    [1, 0, 0],
     [0, 1, 0],
-    [0, 1, 1],
+    [0, 0, 1],
     [1, 1, 0],
+    [0.9, 0.1, 0.3],
+    [0, 1, 1],
+    [1, 0, 1],
+    [0.1, 0.5, 0.4],
+    [0.2, 0.7, 0.1],
+    [0.6, 0.2, 0.8],
+    [0.4, 0.6, 0.2],
+    [0.7, 0.2, 0.5],
+    [0.3, 0.8, 0.1],
+    [0.8, 0.6, 0.2],
+    [0.2, 0.5, 0.9],
 ]
 
+
 def GetPolygon(path):
-    df=pd.read_csv(path)
-    polygon=Polygon(list(df.iloc[:,:2].to_records(index=False)))
+    df = pd.read_csv(path)
+    polygon = Polygon(list(df.iloc[:, :2].to_records(index=False)))
     return polygon
 
 # Get Polygon
+
+
 def GetInsidePolygon(points):
-    new_points=[]
-    
-    validPolygon=GetPolygon(Valid)
-    polygon_list=[GetPolygon(os.path.join(DIR, x)) for x in PolygonPath ]
+    new_points = []
+
+    validPolygon = GetPolygon(Valid)
+    polygon_list = [GetPolygon(x) for x in PolygonPath]
 
     for point in points:
         if validPolygon.contains(Point(tuple(point[:2]))):
-            include=True
+            include = True
             for i in polygon_list:
                 if i.contains(Point(tuple(point[:2]))):
-                    include=False
+                    include = False
                     break
-            if include:new_points.append(point)
-    
+            if include:
+                new_points.append(point)
+
     return np.array(new_points)
+
 
 def Trandformation(Path):
     points = np.fromfile(Path, dtype=np.float32).reshape((-1, 7))
-    intensity=np.reshape(points[:, 3], (-1, 1))
+    intensity = np.reshape(points[:, 3], (-1, 1))
 
     pts = open3d.geometry.PointCloud()
     pts.points = open3d.utility.Vector3dVector(points[:, :3])
-    
-    R = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746,-0.017035))
-    pts=pts.rotate(R, center=(0,0,0))
-    pts.translate((0, 0,5.7))
 
-    points=np.hstack((np.array(pts.points), intensity))
+    R = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746, -0.017035))
+    pts = pts.rotate(R, center=(0, 0, 0))
+    pts.translate((0, 0, 5.7))  # relative should be equal to true
+
+    points = np.hstack((np.array(pts.points), intensity))
     return points
+
 
 def get_coor_colors(obj_labels):
     """
@@ -65,16 +83,16 @@ def get_coor_colors(obj_labels):
     max_color_num = obj_labels.max()
 
     color_list = list(colors)[:max_color_num+1]
-    colors_rgba = [matplotlib.colors.to_rgba_array(color) for color in color_list]
+    colors_rgba = [matplotlib.colors.to_rgba_array(
+        color) for color in color_list]
     label_rgba = np.array(colors_rgba)[obj_labels]
     label_rgba = label_rgba.squeeze()[:, :3]
 
     return label_rgba
 
 
-
-def draw_scenes( PointPath,transform=True, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scores=None, point_colors=None, draw_origin=True):
-    object_list=[]
+def draw_scenes(PointPath, transform=False, gt_boxes=None, ref_boxes=None, ref_labels=None, ref_scores=None, point_colors=None):
+    object_list = []
 
     vis = open3d.visualization.Visualizer()
     vis.create_window()
@@ -84,45 +102,21 @@ def draw_scenes( PointPath,transform=True, gt_boxes=None, ref_boxes=None, ref_la
 
     # draw origin
 
-    axis_pcd = open3d.geometry.TriangleMesh.create_coordinate_frame(size=0.5, origin=[0, 0, 0])
+    axis_pcd = open3d.geometry.TriangleMesh.create_coordinate_frame(
+        size=0.5, origin=[0, 0, 0])
     vis.add_geometry(axis_pcd)
     vis.update_renderer()
     object_list.append(axis_pcd)
 
     # get points
-    # points=Trandformation(PointPath)
-    # points=GetInsidePolygon(points)
     if transform:
-        points=Trandformation(PointPath)
-        points=GetInsidePolygon(points)
+        points = Trandformation(PointPath)
+        points = GetInsidePolygon(points)
     else:
         points = np.fromfile(PointPath, dtype=np.float32).reshape((-1, 4))
 
     print(points.shape)
 
-
-    # infile = open(PointPath, "rb")
-    # buf = infile.read()
-    # infile.close()
-
-    # points = np.frombuffer(buf, dtype=np.float32).reshape(-1, 7)
-    # intensity=np.reshape(points[:, 3], (-1, 1))
-
-    # pts = open3d.geometry.PointCloud()
-    # pts.points = open3d.utility.Vector3dVector(points[:, :3])
-    # # pts.color=open3d.utility.Vector3dVector(np.reshape(points[:, 3], (-1, 1)))
-
-    
-    # pts.translate((0, 0,5.7))
-    # R = pts.get_rotation_matrix_from_xyz((0.0705718, -0.2612746,-0.017035))
-    # pts=pts.rotate(R, center=(0,0,0))
-
-    # points=np.hstack((np.array(pts.points), intensity))
-
-    # axis = open3d.visualization.create_axes()
-    # vis.add_geometry(axis)
-    # vis.update_renderer()
-    
     pts = open3d.geometry.PointCloud()
     pts.points = open3d.utility.Vector3dVector(points[:, :3])
 
@@ -131,11 +125,13 @@ def draw_scenes( PointPath,transform=True, gt_boxes=None, ref_boxes=None, ref_la
     object_list.append(pts)
 
     if gt_boxes is not None:
-        vis = draw_box(vis, object_list, gt_boxes, (1, 0, 0))
+        vis = draw_box(vis, object_list, gt_boxes, (1, 0, 0),ref_labels)
+        vis.update_renderer()
 
     if ref_boxes is not None:
-        vis = draw_box(vis, object_list, ref_boxes, (0, 1, 0), ref_labels, ref_scores)
-
+        vis = draw_box(vis, object_list, ref_boxes,
+                       (0, 1, 0), ref_labels, ref_scores)
+        vis.update_renderer()
 
     # open3d.visualization.draw_geometries([pts,axis_pcd], window_name='Open3D2')
     # open3d.io.write_image("screenshot.png", window_name="Open3D2")
@@ -178,17 +174,23 @@ def translate_boxes_to_open3d_instance(gt_boxes):
 def draw_box(vis, object_list, boxes, color=(1, 0, 0), ref_labels=None, score=None):
     for i in range(boxes.shape[0]):
         line_set, box3d = translate_boxes_to_open3d_instance(boxes[i])
+        corners = box3d.get_box_points()
         if ref_labels is None:
             line_set.paint_uniform_color(color)
         else:
-            line_set.paint_uniform_color(box_colormap[ref_labels[i]])
+            print(ref_labels[i],OutPutVehecleClasees[ref_labels[i]],box_colormap[int(ref_labels[i])],'======================')
+            line_set.paint_uniform_color(box_colormap[int(ref_labels[i])])
+            # vis.add_3d_label(corners[3], ref_labels[i])
+            vis.update_renderer()
+
 
         vis.add_geometry(line_set)
         object_list.append(line_set)
         object_list.append(box3d)
 
-
         if score is not None:
-            corners = box3d.get_box_points()
             vis.add_3d_label(corners[5], '%.2f' % score[i])
+            vis.update_renderer()
+
+
     return vis

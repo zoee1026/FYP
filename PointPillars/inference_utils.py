@@ -40,7 +40,6 @@ class BBox(Parameters, tuple):
         self.cls = bb_cls
         self.conf = bb_conf
         self.class_dict = {
-
             0: "Car",
             1: "taxi",
             2: "privateminibus",

@@ -4,7 +4,6 @@ import json
 import numpy as np
 import pandas as pd
 from config import VehicaleClasses
-import open3d
 
 
 class Label3D:

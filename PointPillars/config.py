@@ -40,6 +40,25 @@ VehicaleClasses = {
     "dd": 15,
 }
 
+OutPutVehecleClasees = {
+    0: "Car",
+    1: "taxi",
+    2: "privateminibus",
+    3: "publicminibus",
+    4: "motorbike",
+    5: "pedestrian",
+    6: "construction-vehicle",
+    7: "cargo-mpv",
+    8: "mpv",
+    9: "smalltruck",
+    10: "cargo-one-box",
+    11: "mediumtruck",
+    12: "bigtruck",
+    13: "flatbed-truck",
+    14:  "coachbus",
+    15: "dd",
+}
+
 
 class GridParameters:
     x_min = -50.4
