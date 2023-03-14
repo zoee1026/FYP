@@ -65,7 +65,6 @@ def Trandformation(Path,T):
 
 def WriteToBin(points, fileName):
     path=os.path.join(ToDir,fileName.split('/')[-1])
-    print(path)
     points=np.reshape(points,(-1,1)).astype(np.float32)
     points.tofile(path)
     return path
@@ -79,14 +78,11 @@ if __name__ == "__main__":
 
     df=pd.read_csv(DataPath)
     df['Transformed']=0
-    print(df.shape)
 
     T=GetTransformMatrix()
 
     for i in range(len(df)):
         lidar_path=df.iloc[i,0]
-        print(lidar_path)
-        print('label',df.iloc[i,1])
 
         points=Trandformation(lidar_path,T)
         points=GetInsidePolygon(points, validPolygon=validPolygon,NonValidPolygonlist=NonValidPolygonlist)
