@@ -8,6 +8,8 @@ from shapely.geometry import Point, Polygon
 import pandas as pd
 import os
 from config import OutPutVehecleClasees
+import matplotlib.path as mpltPath
+
 
 CutPath = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\tune_lidar\non-valid'
 PolygonPath = [os.path.join(CutPath, x) for x in os.listdir(CutPath)]
@@ -33,31 +35,58 @@ box_colormap = [
 ]
 
 
+# def GetPolygon(path):
+#     df = pd.read_csv(path)
+#     polygon = Polygon(list(df.iloc[:, :2].to_records(index=False)))
+#     return polygon
+
+# # Get Polygon
+
+# def GetInsidePolygon(points):
+#     new_points = []
+
+#     validPolygon = GetPolygon(Valid)
+#     polygon_list = [GetPolygon(x) for x in PolygonPath]
+
+#     for point in points:
+#         if validPolygon.contains(Point(tuple(point[:2]))):
+#             include = True
+#             for i in polygon_list:
+#                 if i.contains(Point(tuple(point[:2]))):
+#                     include = False
+#                     break
+#             if include:
+#                 new_points.append(point)
+
+#     return np.array(new_points)
+
 def GetPolygon(path):
-    df = pd.read_csv(path)
-    polygon = Polygon(list(df.iloc[:, :2].to_records(index=False)))
+    df=pd.read_csv(path)
+    
+    # polygon=Polygon(list(df.iloc[:,:2].to_records(index=False)))
+    polygon = mpltPath.Path(df.iloc[:,:2].values.tolist())
     return polygon
 
 # Get Polygon
+def GetInsidePolygon(points,validPolygon,NonValidPolygonlist):
+#     for point in points:
+        # if validPolygon.contains(Point(tuple(point[:2]))):
+        #     include=True
+        #     for i in NonValidPolygonlist:
+        #         if i.contains(Point(tuple(point[:2]))):
+        #             include=False
+        #             break
+        #     if include:new_points.append(point)
+    inside=validPolygon.contains_points(points[:, :2])
+    points=np.hstack((points, np.reshape(inside,(-1,1))))
+    points=points[[points[:,-1]==True]][:,:4]
+    for i in NonValidPolygonlist:
+        outside=i.contains_points(points[:, :2])
+        points=np.hstack((points, np.reshape(outside,(-1,1))))
+        points=points[[points[:,-1]==False]][:,:4]
+    
+    return np.array(points)
 
-
-def GetInsidePolygon(points):
-    new_points = []
-
-    validPolygon = GetPolygon(Valid)
-    polygon_list = [GetPolygon(x) for x in PolygonPath]
-
-    for point in points:
-        if validPolygon.contains(Point(tuple(point[:2]))):
-            include = True
-            for i in polygon_list:
-                if i.contains(Point(tuple(point[:2]))):
-                    include = False
-                    break
-            if include:
-                new_points.append(point)
-
-    return np.array(new_points)
 
 def GetTransformMatrix():
     pts = open3d.geometry.PointCloud()
@@ -129,7 +158,11 @@ def draw_scenes(PointPath, transform=False, gt_boxes=None, ref_boxes=None, ref_l
     # get points
     if transform:
         points = Trandformation(PointPath,T)
-        points = GetInsidePolygon(points)
+        validPolygon=GetPolygon(Valid)
+        NonValidPolygonlist=[GetPolygon(x) for x in PolygonPath ]
+        points=GetInsidePolygon(points, validPolygon=validPolygon,NonValidPolygonlist=NonValidPolygonlist)
+        print(points.shape)
+        # points = GetInsidePolygon(points)
     else:
         points = np.fromfile(PointPath, dtype=np.float32).reshape((-1, 4))
 

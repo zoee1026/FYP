@@ -2,7 +2,8 @@ import open3d
 import numpy as np
 import os
 import pandas as pd
-from shapely.geometry import Point, Polygon
+import matplotlib.path as mpltPath
+# from shapely.geometry import Point, Polygon
 
 CutPath='/media/sdb1/zoe/FYP/tune_lidar/non-valid'
 PolygonPath=[os.path.join(CutPath, x) for x in os.listdir(CutPath)]
@@ -25,25 +26,34 @@ def GetTransformMatrix():
 
 def GetPolygon(path):
     df=pd.read_csv(path)
-    polygon=Polygon(list(df.iloc[:,:2].to_records(index=False)))
+    # polygon=Polygon(list(df.iloc[:,:2].to_records(index=False)))
+    polygon = mpltPath.Path(df.iloc[:,:2].values.tolist())
+
     return polygon
 
 # Get Polygon
 def GetInsidePolygon(points,validPolygon,NonValidPolygonlist):
-    new_points=[]
-    for point in points:
-        if validPolygon.contains(Point(tuple(point[:2]))):
-            include=True
-            for i in NonValidPolygonlist:
-                if i.contains(Point(tuple(point[:2]))):
-                    include=False
-                    break
-            if include:new_points.append(point)
+#     for point in points:
+        # if validPolygon.contains(Point(tuple(point[:2]))):
+        #     include=True
+        #     for i in NonValidPolygonlist:
+        #         if i.contains(Point(tuple(point[:2]))):
+        #             include=False
+        #             break
+        #     if include:new_points.append(point)
+    inside=validPolygon.contains_points(points[:, :2])
+    points=np.hstack((points, np.reshape(inside,(-1,1))))
+    points=points[[points[:,-1]==True]][:,:4]
+    for i in NonValidPolygonlist:
+        outside=i.contains_points(points[:, :2])
+        points=np.hstack((points, np.reshape(outside,(-1,1))))
+        points=points[[points[:,-1]==False]][:,:4]
     
-    return np.array(new_points)
+    return np.array(points)
 
 def Trandformation(Path,T):
     points = np.fromfile(Path, dtype=np.float32).reshape((-1, 7))
+    points=points[:,:4]
     intensity=np.reshape(points[:, 3], (-1, 1))
 
     pts = open3d.geometry.PointCloud()
