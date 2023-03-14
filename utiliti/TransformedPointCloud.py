@@ -64,7 +64,7 @@ def WriteToBin(points, fileName):
 
 if __name__ == "__main__":
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"] = '2'
+ 
 
     validPolygon=GetPolygon(Valid)
     NonValidPolygonlist=[GetPolygon(x) for x in PolygonPath ]
