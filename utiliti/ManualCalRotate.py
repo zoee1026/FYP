@@ -22,8 +22,6 @@ def Manal_R(  phi = 0.0705718,  theta = -0.2612746,psi = -0.017035 ):
     R_manual = Rx(phi) * Ry(theta) * Rz(psi)
     return R_manual
    
-   
-
 if __name__ == '__main__':
 
     R_manual=Manal_R()

@@ -17,8 +17,8 @@ from read_file_location import GetMatchedDatafile, TestModel
 
 tf.get_logger().setLevel("ERROR")
 
-# DATA_ROOT = '../MatchFile.csv'
-DATA_ROOT = '../TestFile.csv'
+# DATA_ROOT = '..folder_root//MatchFile.csv'
+DATA_ROOT = '..folder_root//TestFile.csv'
 
 MODEL_ROOT = "./log"
 MODEL_PATH = "model.h5"

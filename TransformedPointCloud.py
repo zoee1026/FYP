@@ -61,7 +61,7 @@ if __name__ == "__main__":
     validPolygon=GetPolygon(Valid)
     NonValidPolygonlist=[GetPolygon(x) for x in PolygonPath ]
 
-    DataPath='TestFile.csv'
+    DataPath='folder_root/TestFile.csv'
     df=pd.read_csv(DataPath)
     df['Transformed']=0
     print(df.shape)
@@ -78,4 +78,4 @@ if __name__ == "__main__":
         tranformed_path=WriteToBin(points, lidar_path)
         df.iloc[i,2]=tranformed_path
 
-    df.to_csv('CleanedFiles.csv')
+    df.to_csv('folder_root/CleanedFiles.csv')
