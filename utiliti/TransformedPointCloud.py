@@ -8,6 +8,8 @@ CutPath='/media/sdb1/zoe/FYP/tune_lidar/non-valid'
 PolygonPath=[os.path.join(CutPath, x) for x in os.listdir(CutPath)]
 Valid='/media/sdb1/zoe/FYP/tune_lidar/valid_polygon1.csv'
 ToDir='/media/sdb1/zoe/FYP/train_files/'
+DataPath='/media/sdb1/zoe/FYP/folder_root/TestFile.csv'
+
 
 # CutPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\tune_lidar\non-valid'
 # PolygonPath=[os.path.join(CutPath, x) for x in os.listdir(CutPath)]
@@ -69,7 +71,6 @@ if __name__ == "__main__":
     validPolygon=GetPolygon(Valid)
     NonValidPolygonlist=[GetPolygon(x) for x in PolygonPath ]
 
-    DataPath='folder_root/TestFile.csv'
     df=pd.read_csv(DataPath)
     df['Transformed']=0
     print(df.shape)
