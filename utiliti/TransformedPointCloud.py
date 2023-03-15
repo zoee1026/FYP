@@ -95,6 +95,7 @@ if __name__ == "__main__":
         print(i, points.shape,tranformed_path,' --------------------------------------------')
 
         df.loc[i,'Transformed']=tranformed_path
+        print(df.loc[i,'Transformed'])
 
 
     df.to_csv(SaveCleanFile)
