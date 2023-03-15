@@ -12,6 +12,7 @@ ToDir='/media/sdb1/zoe/FYP/train_files/'
 DataPath='/media/sdb1/zoe/FYP/folder_root/TestFile.csv'
 SaveCleanFile='/media/sdb1/zoe/FYP/folder_root/CleanedFiles.csv'
 TransformedFiles= os.listdir(ToDir)
+# LocalTestFilePath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\TestFile.csv'
 
 def GetTransformMatrix():
     pts = open3d.geometry.PointCloud()
@@ -77,8 +78,8 @@ if __name__ == "__main__":
     NonValidPolygonlist=[GetPolygon(x) for x in PolygonPath ]
 
     df=pd.read_csv(DataPath)
-    df['Transformed']=0
-
+    df['Transformed']=df['lidar_files'].map(lambda x: x.split('/')[-1])
+    print(df['Transformed'].nunique(),df["lidar_files"].nunique())
     T=GetTransformMatrix()
     print(len(TransformedFiles))
 
