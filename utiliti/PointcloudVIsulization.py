@@ -133,17 +133,15 @@ def GetAllTrainFile():
     lidar_files = []
     label_files = []
     for date in os.listdir(PATH):
-    # for date in ['south_gate_1680_8Feb2022', 'south_gate_2Dec2020']:
-        # Get lidar file
         label_dir = [i for i in os.listdir(
             os.path.join(PATH, date)) if 'Label' in i][0]
         subdir=os.listdir(os.path.join(PATH, date))
             
-        # print(len(sum([files for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data')) if not subdir],[])))
         if "Data" in subdir:
             lidar_files.extend(sorted([file
                                     for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data'))
                                     for file in glob.glob(os.path.join(path, "*.bin"))]))
+        else: continue
 
         label_files.extend(sorted([file
                                    for path, subdir, files in os.walk(os.path.join(PATH, date, label_dir))

@@ -173,7 +173,7 @@ def translate_boxes_to_open3d_instance(gt_boxes):
     center = gt_boxes[0:3]
     lwh = gt_boxes[3:6]
     axis_angles = np.array([0, 0, float(gt_boxes[6]) - 1e-10])
-    rot = open3d.geometry.get_rotation_matrix_from_xyz(axis_angles)
+    rot = open3d.geometry.get_rotation_matrix_from_axis_angle(axis_angles)
     box3d = open3d.geometry.OrientedBoundingBox(center, rot, lwh)
 
     line_set = open3d.geometry.LineSet.create_from_oriented_bounding_box(box3d)
