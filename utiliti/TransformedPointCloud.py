@@ -10,7 +10,7 @@ PolygonPath=[os.path.join(CutPath, x) for x in os.listdir(CutPath)]
 Valid='/media/sdb1/zoe/FYP/tune_lidar/valid_polygon1.csv'
 ToDir='/media/sdb1/zoe/FYP/train_files/'
 DataPath='/media/sdb1/zoe/FYP/folder_root/CleanClasses.csv'
-SaveCleanFile='/media/sdb1/zoe/FYP/folder_root/CleanedFiles.csv'
+SaveCleanFile='/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
 TransformedFiles= os.listdir(ToDir)
 # LocalTestFilePath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\CleanClasses.csv'
 

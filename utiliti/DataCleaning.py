@@ -234,6 +234,6 @@ if __name__ == "__main__":
     # GetCleanedClasses()
     
     ReadAllLable(DataPath)
-    lidar_files, label_files = GetMatchedDataFileInside(DataPath)      
-    print(lidar_files[0],label_files[0])
-    ReadLabelInOneFile(label_files[0])
+    # lidar_files, label_files = GetMatchedDataFileInside(DataPath)      
+    # print(lidar_files[0],label_files[0])
+    # ReadLabelInOneFile(label_files[0])
