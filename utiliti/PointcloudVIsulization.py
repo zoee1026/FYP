@@ -163,7 +163,7 @@ def GetAllTrainFile():
     #         lidar_files_match.extend(filename)
     for i in range(len(lidar_files)):
         filenametarget=lidar_files[i].split("/")[-1]
-        filename.append(filenametarget)
+        fileNameList.append(filenametarget)
         filename=[file for file in label_files if filenametarget in file]
         if len(filename)>0:
             lidar_files_match.append(lidar_files[i])
