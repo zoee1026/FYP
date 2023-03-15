@@ -166,7 +166,7 @@ def GetAllTrainFile():
     print(len(lidar_files_match),len(label_files_match))
     match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match})
     print(match_data['label_files'].nunique(),match_data["lidar_files"].nunique())
-    match_data.to_csv('/media/sdb1/zoe/FYP/folder_root/MatchFile.csv')
+    match_data.to_csv('/media/sdb1/zoe/FYP/folder_root/NewMatchFile.csv')
 
     return [lidar_files_match, label_files_match]
 
