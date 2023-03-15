@@ -1,5 +1,5 @@
 ,lidar_files,label_files,Transformed
-0,/media/sdb1/dettrain_20220711/filtered_south_gate_3Dec2020/Data/2020_12_03=00_02_55_287_dir/2020_12_03=00_03_32_387.bin,/media/sdb1/dettrain_20220711/filtered_south_gate_3Dec2020/Label/2020_12_03=00_02_55_287_dir/2020_12_03=00_03_32_387.bin.json,/media/sdb1/zoe/FYP/train_files/2020_12_03=00_03_32_387.bin
+0,/media/sdb1/dettrain_20220711/filtered_south_gate_3Dec2020/Data/2020_12_03=00_02_55_287_dir/2020_12_03=00_03_32_387.bin,/media/sdb1/dettrain_20220711/filtered_south_gate_3Dec2020/Label/2020_12_03=00_02_55_287_dir/2020_12_03=00_03_32_387.bin.json,0
 1,/media/sdb1/dettrain_20220711/filtered_south_gate_3Dec2020/Data/2020_12_03=00_02_55_287_dir/2020_12_03=00_03_33_388.bin,/media/sdb1/dettrain_20220711/filtered_south_gate_3Dec2020/Label/2020_12_03=00_02_55_287_dir/2020_12_03=00_03_33_388.bin.json,0
 2,/media/sdb1/dettrain_20220711/filtered_south_gate_3Dec2020/Data/2020_12_03=00_02_55_287_dir/2020_12_03=00_03_34_387.bin,/media/sdb1/dettrain_20220711/filtered_south_gate_3Dec2020/Label/2020_12_03=00_02_55_287_dir/2020_12_03=00_03_34_387.bin.json,0
 3,/media/sdb1/dettrain_20220711/filtered_south_gate_3Dec2020/Data/2020_12_03=00_02_55_287_dir/2020_12_03=00_03_35_387.bin,/media/sdb1/dettrain_20220711/filtered_south_gate_3Dec2020/Label/2020_12_03=00_02_55_287_dir/2020_12_03=00_03_35_387.bin.json,0
