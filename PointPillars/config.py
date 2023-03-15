@@ -1,4 +1,7 @@
 import numpy as np
+import pandas as pd
+
+Anchor_file='/media/sdb1/zoe/FYP/folder_root/Anchor.csv'
 
 VehicaleClasses = {
 
@@ -141,31 +144,32 @@ class NetworkParameters:
     downscaling_factor = 2
 
     # length, width, height, z-center, orientation
-    anchor_dims = np.array([
-        [2.24, 1.12, 1.96, 2.52, 0],
-        [5.6, 2.52, 2.24, 2.52, 0],
-        [8.12, 2.8, 3.36, 3.08, 0],
-        [10.08, 2.8, 3.36, 3.08, 0],
-        [11.76, 3.36, 4.76, 3.36, 0],
-        [13.44, 3.08, 3.92, 3.36, 0],
-        [2.24, 1.12, 1.96, 2.52, 1.5708],
-        [5.6, 2.52, 2.24, 2.52, 1.5708],
-        [8.12, 2.8, 3.36, 3.08, 1.5708],
-        [10.08, 2.8, 3.36, 3.08, 1.5708],
-        [11.76, 3.36, 4.76, 3.36, 1.5708],
-        [13.44, 3.08, 3.92, 3.36, 1.5708],
-    ], dtype=np.float32).tolist()
-
+    # anchor_dims = np.array([
+    #     [2.24, 1.12, 1.96, 2.52, 0],
+    #     [5.6, 2.52, 2.24, 2.52, 0],
+    #     [8.12, 2.8, 3.36, 3.08, 0],
+    #     [10.08, 2.8, 3.36, 3.08, 0],
+    #     [11.76, 3.36, 4.76, 3.36, 0],
+    #     [13.44, 3.08, 3.92, 3.36, 0],
+    #     [2.24, 1.12, 1.96, 2.52, 1.5708],
+    #     [5.6, 2.52, 2.24, 2.52, 1.5708],
+    #     [8.12, 2.8, 3.36, 3.08, 1.5708],
+    #     [10.08, 2.8, 3.36, 3.08, 1.5708],
+    #     [11.76, 3.36, 4.76, 3.36, 1.5708],
+    #     [13.44, 3.08, 3.92, 3.36, 1.5708],
+    # ], dtype=np.float32).tolist()
+    anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).iloc[1:,:].values, dtype=np.float32).tolist(),3)
+    
     nb_dims = 3
 
     positive_iou_threshold = 0.6
     negative_iou_threshold = 0.3
     batch_size = 4
-    total_training_epochs = 80
+    total_training_epochs = 120
     # total_training_epochs = 20
 
     # 101040.    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
-    iters_to_decay = 95760
+    iters_to_decay = 54540
     learning_rate = 2e-4
     decay_rate = 1e-8
     L1 = 0
