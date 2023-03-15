@@ -90,9 +90,10 @@ if __name__ == "__main__":
 
         points=Trandformation(lidar_path,T)
         points=GetInsidePolygon(points, validPolygon=validPolygon,NonValidPolygonlist=NonValidPolygonlist)
-        print(i, points.shape,'--------------------------------------------')
 
         tranformed_path=WriteToBin(points, lidar_path)
+        print(i, points.shape,tranformed_path,' --------------------------------------------')
+
         df.iloc[i,2]=tranformed_path
 
 
