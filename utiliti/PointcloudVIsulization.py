@@ -180,7 +180,7 @@ def GetMatchedDatafile(Path):
 
 def GetTestClasses():
     classes=list(VehicaleClasses.keys())
-    Path='/media/sdb1/zoe/FYP/folder_root/MatchFile.csv'
+    Path='/media/sdb1/zoe/FYP/folder_root/NewMatchFile.csv'
     lidar_files_match=[]
     label_files_match=[]
     lidar_files, label_files = GetMatchedDatafile(Path)
@@ -200,7 +200,7 @@ def GetTestClasses():
     print(len(lidar_files_match),len(label_files_match))
     if len(lidar_files_match)==len(label_files_match):
         match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match})
-        match_data.to_csv('TestFile.csv')
+        match_data.to_csv('/media/sdb1/zoe/FYP/folder_root/CleanClasses.csv')
 
 def ReadAllLable(path):
     df= pd.DataFrame()
@@ -218,20 +218,20 @@ def ReadRootFile(path):
 if __name__ == "__main__":
     # lidar_files, label_files = GetAllTrainFile()
 
-    # DataPath='/media/sdb1/zoe/FYP/folder_root/MatchFile.csv'
-    # DataPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\MatchFile.csv'
+    DataPath='/media/sdb1/zoe/FYP/folder_root/NewMatchFile.csv'
+    # DataPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\NewMatchFile.csv'
     # df=pd.read_csv(DataPath)
     # df['Transformed']=df['lidar_files'].map(lambda x: x.split('/')[-1])
     # print(df['Transformed'].nunique(),df["lidar_files"].nunique())
     # ReadRootFile(DataPath)
     # lidar_files, label_files = GetMatchedDatafile(DataPath)
-    GetAllTrainFile()
+    # GetAllTrainFile()
     # ReadAllLable(DataPath)
     # print(lidar_files[0],label_files[0])
     # PCVisualization(lidar_files[0])
     # ReadLabelInOneFile(label_files[0])
 
-    # GetTestClasses()
+    GetTestClasses()
 
 # 
 
