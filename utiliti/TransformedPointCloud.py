@@ -80,6 +80,7 @@ if __name__ == "__main__":
     df['Transformed']=0
 
     T=GetTransformMatrix()
+    print(len(TransformedFiles))
 
     for i in range(len(df)):
         lidar_path=df.iloc[i,0]
