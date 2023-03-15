@@ -84,7 +84,7 @@ if __name__ == "__main__":
     print(len(TransformedFiles))
 
     for i in range(len(df)):
-        lidar_path=df.iloc[i,0]
+        lidar_path=df.iloc[i,"Transformed"]
 
         if lidar_path.split('/')[-1] in TransformedFiles: print(i); continue
 
