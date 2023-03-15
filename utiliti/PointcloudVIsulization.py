@@ -152,6 +152,7 @@ def GetAllTrainFile():
 
     lidar_files_match=[]
     label_files_match=[]
+    fileNameList=[]
     print('-----------------------------------------------------------------')
     # checking
     # for i in range(len(label_files)):
@@ -162,14 +163,18 @@ def GetAllTrainFile():
     #         lidar_files_match.extend(filename)
     for i in range(len(lidar_files)):
         filenametarget=lidar_files[i].split("/")[-1]
+        filename.append(filenametarget)
         filename=[file for file in label_files if filenametarget in file]
         if len(filename)>0:
             lidar_files_match.append(lidar_files[i])
             label_files_match.append(filename[0])
 
     print(len(lidar_files_match),len(label_files_match))
-    match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match})
-    print(match_data['lidar_files'].nunique(),match_data["lidar_files"].nunique())
+    match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match,"Files":fileNameList})
+    print(match_data['lidar_files'].nunique(),match_data["lidar_files"].nunique(),match_data["Files"].nunique())
+    match_data=match_data.drop_duplicates(subset='Files',keep="first")
+    print(match_data['lidar_files'].nunique(),match_data["lidar_files"].nunique(),match_data["Files"].nunique())
+
     match_data.to_csv('/media/sdb1/zoe/FYP/folder_root/NewMatchFile.csv')
 
     return [lidar_files_match, label_files_match]
@@ -218,14 +223,14 @@ def ReadRootFile(path):
 if __name__ == "__main__":
     # lidar_files, label_files = GetAllTrainFile()
 
-    DataPath='/media/sdb1/zoe/FYP/folder_root/NewMatchFile.csv'
+    # DataPath='/media/sdb1/zoe/FYP/folder_root/NewMatchFile.csv'
     # DataPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\NewMatchFile.csv'
     # df=pd.read_csv(DataPath)
     # df['Transformed']=df['lidar_files'].map(lambda x: x.split('/')[-1])
     # print(df['Transformed'].nunique(),df["lidar_files"].nunique())
     # ReadRootFile(DataPath)
     # lidar_files, label_files = GetMatchedDatafile(DataPath)
-    # GetAllTrainFile()
+    GetAllTrainFile()
     # ReadAllLable(DataPath)
     # print(lidar_files[0],label_files[0])
     # PCVisualization(lidar_files[0])
