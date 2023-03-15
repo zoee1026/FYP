@@ -84,7 +84,7 @@ if __name__ == "__main__":
     print(len(TransformedFiles))
 
     for i in range(len(df)):
-        lidar_path=df.loc[i,"Transformed"]
+        lidar_path=df.loc[i,'lidar_files']
 
         # if lidar_path.split('/')[-1] in TransformedFiles: print(i); continue
 
@@ -94,7 +94,7 @@ if __name__ == "__main__":
         tranformed_path=WriteToBin(points, lidar_path)
         print(i, points.shape,tranformed_path,' --------------------------------------------')
 
-        df.iloc[i,2]=tranformed_path
+        df.loc[i,'Transformed']=tranformed_path
 
 
     df.to_csv(SaveCleanFile)
