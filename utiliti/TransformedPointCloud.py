@@ -94,4 +94,5 @@ if __name__ == "__main__":
         tranformed_path=WriteToBin(points, lidar_path)
         df.iloc[i,2]=tranformed_path
 
+
     df.to_csv(SaveCleanFile)
