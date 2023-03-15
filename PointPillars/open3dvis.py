@@ -174,10 +174,10 @@ def translate_boxes_to_open3d_instance(gt_boxes):
     lwh = gt_boxes[3:6]
     axis_angles = np.array([0, 0, float(gt_boxes[6]) - 1e-10])
     rot = open3d.geometry.get_rotation_matrix_from_axis_angle(axis_angles)
-    box3d = open3d.geometry.OrientedBoundingBox(center, rot, lwh)
+    box3d = open3d.geometry.OrientedBoundingBox(center, np.eye(3), lwh)
 
     line_set = open3d.geometry.LineSet.create_from_oriented_bounding_box(box3d)
-
+    line_set.rotate(rot,center=tuple(center))
     # import ipdb; ipdb.set_trace(context=20)
     lines = np.asarray(line_set.lines)
     lines = np.concatenate([lines, np.array([[1, 4], [7, 6]])], axis=0)
