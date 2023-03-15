@@ -157,7 +157,7 @@ def GetAllTrainFile():
     print('-----------------------------------------------------------------')
     # checking
     for i in range(len(label_files)):
-        filenametarget='/'.join(label_files[i].split("/")[-2:].split('.')[0])
+        filenametarget='/'.join(label_files[i].split("/")[-2:]).split('.')[0]
         filename=[file for file in lidar_files if filenametarget in file]
         if len(filename)==1:
             label_files_match.append(label_files[i])
