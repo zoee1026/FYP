@@ -223,8 +223,10 @@ if __name__ == "__main__":
     
 
     # DataPath='/media/sdb1/zoe/FYP/folder_root/NewMatchFile.csv'
+    DataPath='/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
+
     # DataPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\NewMatchFile.csv'
-    DataPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\CleanClasses.csv'
+    # DataPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\CleanFiles.csv'
 
     # GetAllTrainFile()
     # lidar_files, label_files = GetAllTrainFile()
