@@ -23,10 +23,12 @@ def ReadLabelInOneFile(labelPath):
         return np.array(elements)
 
 if __name__ == '__main__':
-    PointPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\train_files\2020_12_03=00_03_35_387.bin'
-    LabelPath=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_label\2020_12_03=00_03_35_387.bin.json"
+    # PointPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\train_files\2020_12_03=00_03_35_387.bin'
+    # LabelPath=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_label\2020_12_03=00_03_35_387.bin.json"
+    PointPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_lidar\2020_12_03=00_03_33_388.bin'
+    LabelPath=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_label\2020_12_03=00_03_33_388.bin.json"
     elements=ReadLabelInOneFile(LabelPath)
     labels=[VehicaleClasses[x] for x in list(elements[:,-1])]
 
-    draw_scenes(PointPath=PointPath,transform=False,gt_boxes=elements, ref_labels=labels)
+    draw_scenes(PointPath=PointPath,transform=True,gt_boxes=elements, ref_labels=labels)
 

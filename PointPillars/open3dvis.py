@@ -177,6 +177,8 @@ def translate_boxes_to_open3d_instance(gt_boxes):
     box3d = open3d.geometry.OrientedBoundingBox(center, np.eye(3), lwh)
 
     line_set = open3d.geometry.LineSet.create_from_oriented_bounding_box(box3d)
+
+    # rotate from center alpha --> same boxbox
     line_set.rotate(rot,center=tuple(center))
     # import ipdb; ipdb.set_trace(context=20)
     lines = np.asarray(line_set.lines)

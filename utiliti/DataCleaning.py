@@ -178,16 +178,16 @@ def GetAllTrainFile():
 
     return [lidar_files_match, label_files_match]
 
-def GetMatchedDatafile(Path):
+def GetMatchedDataFileInside(Path):
     df=pd.read_csv(Path)
     return [df['lidar_files'].tolist(),df['label_files'].tolist()]
 
-def GetTestClasses():
+def GetCleanedClasses():
     classes=list(VehicaleClasses.keys())
     Path='/media/sdb1/zoe/FYP/folder_root/NewMatchFile.csv'
     lidar_files_match=[]
     label_files_match=[]
-    lidar_files, label_files = GetMatchedDatafile(Path)
+    lidar_files, label_files = GetMatchedDataFileInside(Path)
     print(len(lidar_files),len(label_files))
 
     for i in range(len(label_files)):
@@ -213,29 +213,25 @@ def ReadAllLable(path):
         raw=ReadLabelInOneFile(i)
         df=pd.concat([df,raw])
     print(df.info())
-    df.to_csv('LabelSummary.csv')
+    df.to_csv('/media/sdb1/zoe/FYP/folder_root/LabelSummary.csv')
 
 def ReadRootFile(path):
     df=pd.read_csv(path)
     print(df.loc[0,:])
 
 if __name__ == "__main__":
-    # lidar_files, label_files = GetAllTrainFile()
+    
 
     # DataPath='/media/sdb1/zoe/FYP/folder_root/NewMatchFile.csv'
     # DataPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\NewMatchFile.csv'
-    # df=pd.read_csv(DataPath)
-    # df['Transformed']=df['lidar_files'].map(lambda x: x.split('/')[-1])
-    # print(df['Transformed'].nunique(),df["lidar_files"].nunique())
-    # ReadRootFile(DataPath)
-    # lidar_files, label_files = GetMatchedDatafile(DataPath)
-    GetAllTrainFile()
-    # ReadAllLable(DataPath)
-    # print(lidar_files[0],label_files[0])
-    # PCVisualization(lidar_files[0])
-    # ReadLabelInOneFile(label_files[0])
+    DataPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\CleanClasses.csv'
 
-    GetTestClasses()
-
-# 
-
+    # GetAllTrainFile()
+    # lidar_files, label_files = GetAllTrainFile()
+     
+    # GetCleanedClasses()
+    
+    ReadAllLable(DataPath)
+    lidar_files, label_files = GetMatchedDataFileInside(DataPath)      
+    print(lidar_files[0],label_files[0])
+    ReadLabelInOneFile(label_files[0])
