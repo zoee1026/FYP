@@ -85,7 +85,7 @@ if __name__ == "__main__":
     for i in range(len(df)):
         lidar_path=df.iloc[i,0]
 
-        if lidar_path.split('/')[-1] in TransformedFiles: continue
+        if lidar_path.split('/')[-1] in TransformedFiles: print(i); continue
 
         points=Trandformation(lidar_path,T)
         points=GetInsidePolygon(points, validPolygon=validPolygon,NonValidPolygonlist=NonValidPolygonlist)
