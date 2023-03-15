@@ -157,7 +157,7 @@ def GetAllTrainFile():
     print('-----------------------------------------------------------------')
     # checking
     for i in range(len(label_files)):
-        filenametarget=label_files[i].split("/")[-1].split('.')[0]
+        filenametarget='/'.join(label_files[i].split("/")[-2:].split('.')[0])
         filename=[file for file in lidar_files if filenametarget in file]
         if len(filename)==1:
             label_files_match.append(label_files[i])
@@ -165,7 +165,7 @@ def GetAllTrainFile():
 
     print(len(lidar_files_match),len(label_files_match))
     match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match})
-    print(df['label_files'].nunique(),df["lidar_files"].nunique())
+    print(match_data['label_files'].nunique(),match_data["lidar_files"].nunique())
     match_data.to_csv('/media/sdb1/zoe/FYP/folder_root/MatchFile.csv')
 
     return [lidar_files_match, label_files_match]
@@ -215,13 +215,13 @@ if __name__ == "__main__":
     # lidar_files, label_files = GetAllTrainFile()
 
     # DataPath='/media/sdb1/zoe/FYP/folder_root/MatchFile.csv'
-    DataPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\MatchFile.csv'
-    df=pd.read_csv(DataPath)
-    df['Transformed']=df['lidar_files'].map(lambda x: x.split('/')[-1])
-    print(df['Transformed'].nunique(),df["lidar_files"].nunique())
+    # DataPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\MatchFile.csv'
+    # df=pd.read_csv(DataPath)
+    # df['Transformed']=df['lidar_files'].map(lambda x: x.split('/')[-1])
+    # print(df['Transformed'].nunique(),df["lidar_files"].nunique())
     # ReadRootFile(DataPath)
     # lidar_files, label_files = GetMatchedDatafile(DataPath)
-    # GetAllTrainFile()
+    GetAllTrainFile()
     # ReadAllLable(DataPath)
     # print(lidar_files[0],label_files[0])
     # PCVisualization(lidar_files[0])
