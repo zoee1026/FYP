@@ -141,7 +141,7 @@ def GetAllTrainFile():
             lidar_files.extend(sorted([file
                                     for path, subdir, files in os.walk(os.path.join(PATH, date, 'Data'))
                                     for file in glob.glob(os.path.join(path, "*.bin"))]))
-        else: continue
+        # else: continue
 
         label_files.extend(sorted([file
                                    for path, subdir, files in os.walk(os.path.join(PATH, date, label_dir))
@@ -154,12 +154,19 @@ def GetAllTrainFile():
     label_files_match=[]
     print('-----------------------------------------------------------------')
     # checking
-    for i in range(len(label_files)):
-        filenametarget='/'.join(label_files[i].split("/")[-2:]).split('.')[0]
-        filename=[file for file in lidar_files if filenametarget in file]
+    # for i in range(len(label_files)):
+    #     filenametarget='/'.join(label_files[i].split("/")[-2:]).split('.')[0]
+    #     filename=[file for file in lidar_files if filenametarget in file]
+    #     if len(filename)==1:
+    #         label_files_match.append(label_files[i])
+    #         lidar_files_match.extend(filename)
+    for i in range(len(lidar_files)):
+        filenametarget=lidar_files[i].split("/")[-1]
+        filename=[file for file in label_files if filenametarget in file]
         if len(filename)==1:
             label_files_match.append(label_files[i])
             lidar_files_match.extend(filename)
+        else: print(len(filename))
 
     print(len(lidar_files_match),len(label_files_match))
     match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match})
