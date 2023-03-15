@@ -152,7 +152,6 @@ def GetAllTrainFile():
 
     lidar_files_match=[]
     label_files_match=[]
-    fileNameList=[]
     print('-----------------------------------------------------------------')
     # checking
     # for i in range(len(label_files)):
@@ -163,14 +162,14 @@ def GetAllTrainFile():
     #         lidar_files_match.extend(filename)
     for i in range(len(lidar_files)):
         filenametarget=lidar_files[i].split("/")[-1]
-        fileNameList.append(filenametarget)
         filename=[file for file in label_files if filenametarget in file]
         if len(filename)>0:
             lidar_files_match.append(lidar_files[i])
             label_files_match.append(filename[0])
 
     print(len(lidar_files_match),len(label_files_match))
-    match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match,"Files":fileNameList})
+    match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match})
+    match_data['Files']=match_data['lidar_files'].map(lambda x:x.split("/")[-1])
     print(match_data['lidar_files'].nunique(),match_data["lidar_files"].nunique(),match_data["Files"].nunique())
     match_data=match_data.drop_duplicates(subset='Files',keep="first")
     print(match_data['lidar_files'].nunique(),match_data["lidar_files"].nunique(),match_data["Files"].nunique())
