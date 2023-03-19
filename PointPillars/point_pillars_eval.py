@@ -19,9 +19,9 @@ def generate_config_from_cmd_args():
     parser = argparse.ArgumentParser(description='PointPillars inference on test data.')
     parser.add_argument('--gpu_idx', default=2, type=int, required=False, 
         help='GPU index to use for inference')
-    parser.add_argument('--data_root', default='test.csv', type=str, required=True, 
+    parser.add_argument('--data_root', default='test.csv', type=str, required=False, 
         help='Test data root path holding folders velodyne, label')
-    parser.add_argument('--result_dir', default="./Result", type=str, required=True,
+    parser.add_argument('--result_dir', default="./Result", type=str, required=False,
         help='Path for dumping result labels in KITTI format')
     parser.add_argument('--model_path', default='zoe_pointpillars.h5', type=str, required=False,
         help='Path to the model weights to be used for inference')
@@ -49,7 +49,7 @@ def load_model_and_evaluate(configs):
     point_cloud_processor = DataProcessor()
     model_exec_time = []
     
-    out_labels_path = os.path.join(configs.result_dir, "labels")
+    out_labels_path = os.path.join(configs.result_dir, "Mar19_labels")
     os.makedirs(out_labels_path, exist_ok=True)
 
     for idx in tqdm(range(len(lidar_files))):
