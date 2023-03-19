@@ -307,7 +307,7 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_thr
 
     # Get only the boxes where occupancy is greater or equal threshold.
     real_boxes = np.where(occ >= occ_threshold)
-    if len(real_boxe)s==0:real_boxes=np.where(occ== np.amax(occ))
+    if len(real_boxes)==0:real_boxes=np.where(occ== np.amax(occ))
     # Get the indices of the occupancy array
     coordinates = list(zip(real_boxes[0], real_boxes[1], real_boxes[2]))
     # Assign anchor dimensions as original bounding box coordinates which will eventually be changed
