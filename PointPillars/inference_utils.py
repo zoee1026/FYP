@@ -302,7 +302,7 @@ def rotational_nms(set_boxes, confidences, occ_threshold=0.5, nms_iou_thr=0.5):
     return indices
 
 
-def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_threshold=0.5):
+def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_threshold=0.4):
     """ Generating the bounding boxes based on the regression targets """
 
     # Get only the boxes where occupancy is greater or equal threshold.
