@@ -273,7 +273,7 @@ def dump_predictions(predictions: List, file_path: str):
                 out_txt_file.write("\n")
 
 
-def rotational_nms(set_boxes, confidences, occ_threshold=0.7, nms_iou_thr=0.5):
+def rotational_nms(set_boxes, confidences, occ_threshold=0.5, nms_iou_thr=0.5):
     """ rotational NMS
     set_boxes = size NSeqs list of size NDet lists of tuples. each tuple has the form ((pos, pos), (size, size), angle)
     confidences = size NSeqs list of lists containing NDet floats, i.e. one per detection
@@ -307,6 +307,7 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_thr
 
     # Get only the boxes where occupancy is greater or equal threshold.
     real_boxes = np.where(occ >= occ_threshold)
+    if len(real_boxes==0):real_boxes=np.where(occ== np.amax(occ))
     # Get the indices of the occupancy array
     coordinates = list(zip(real_boxes[0], real_boxes[1], real_boxes[2]))
     # Assign anchor dimensions as original bounding box coordinates which will eventually be changed

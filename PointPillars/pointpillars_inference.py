@@ -104,8 +104,10 @@ def load_model_and_run_inference(configs):
             logging.debug("{:04d}: {}".format(idx, boxes[idx]))
         
         print(len(boxes))
+        pred=[boxes[i] for i in nms_indices]
+        print(len(pred),'---------------------------------------')
 
-        dump_predictions(boxes, os.path.join(out_labels_path, "{}.txt".format(file_name)))
+        dump_predictions(pred, os.path.join(out_labels_path, "{}.txt".format(file_name)))
     
     model_exec_time = model_exec_time[1:]
     total_model_exec_time = sum(model_exec_time)
