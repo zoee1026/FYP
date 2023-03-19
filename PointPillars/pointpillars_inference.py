@@ -74,8 +74,6 @@ def load_model_and_run_inference(configs):
         logging.debug("heading shape: {}".format(heading.shape))
         logging.debug("classification shape: {}".format(classification.shape))
         
-        print (occupancy)
-
         if occupancy.shape[0] == 1:
             logging.debug("Single image inference, reducing batch dim for output tensors")
             occupancy = np.squeeze(occupancy, axis=0)
@@ -104,8 +102,10 @@ def load_model_and_run_inference(configs):
         logging.debug("Number of boxes post-nms: {}".format(len(nms_indices)))
         for idx in nms_indices:
             logging.debug("{:04d}: {}".format(idx, boxes[idx]))
+        
+        print(len(boxes))
 
-        dump_predictions([ occupancy, position, size, angle, heading, classification ], os.path.join(out_labels_path, "{}.txt".format(file_name)))
+        dump_predictions(boxes, os.path.join(out_labels_path, "{}.txt".format(file_name)))
     
     model_exec_time = model_exec_time[1:]
     total_model_exec_time = sum(model_exec_time)
