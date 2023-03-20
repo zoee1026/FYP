@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 from processors import DataProcessor
 from inference_utils import generate_bboxes_from_pred, rotational_nms, \
-    gather_boxes_in_kitti_format, dump_predictions, draw_projected_box3d, pillar_net_predict_server, BBox
+    gather_boxes_in_kitti_format, dump_predictions, draw_projected_box3d, pillar_net_predict_server, BBox,get_formated_label
 from readers import KittiDataReader
 from config import Parameters
 from network import build_point_pillar_graph
@@ -105,9 +105,11 @@ def load_model_and_run_inference(configs):
         
         print(len(boxes))
         pred=[boxes[i] for i in nms_indices]
+        for i in pred:
+            print(i)
         print(len(pred),'---------------------------------------')
 
-        dump_predictions(pred, os.path.join(out_labels_path, "{}.txt".format(file_name)))
+        dump_predictions(get_formated_label(pred,nms_indices), os.path.join(out_labels_path, "{}.txt".format(file_name)))
     
     model_exec_time = model_exec_time[1:]
     total_model_exec_time = sum(model_exec_time)

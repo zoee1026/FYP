@@ -96,6 +96,10 @@ class BBox(Parameters, tuple):
                 bbox_2d_image_coordinate[0][2], bbox_2d_image_coordinate[0][3],
                 self.height, self.width, self.length, self.x, self.y, self.z, self.yaw, self.conf], \
             bbox_3d_image_coordinate, self.heading
+    
+    def get_labels(self):
+        return  [self.class_dict[self.cls],
+                self.height, self.width, self.length, self.x, self.y, self.z, self.yaw]
 
     def get_2D_BBox(self, P: np.ndarray):
         """ Projects the 3D box onto the image plane and provides 2D BB 
@@ -262,7 +266,12 @@ def gather_boxes_in_kitti_format(boxes: List[BBox], indices: List, P2: np.ndarra
 
     return kitti_format_bb, bb_3d_corners, bb_heading_info
 
-
+def get_formated_label(boxes: List[BBox], indices: List):
+    labels=[]
+    for idx in indices:
+        labels.append(boxes[idx].get_labels())
+    return labels
+      
 def dump_predictions(predictions: List, file_path: str):
     """ Dumps the model predictions in txt files so that it can be used by KITTI evaluation toolkit """
     with open(file_path, 'w') as out_txt_file:

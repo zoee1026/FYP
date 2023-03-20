@@ -180,6 +180,7 @@ def translate_boxes_to_open3d_instance(gt_boxes):
 
     # rotate from center alpha --> same boxbox
     line_set.rotate(rot,center=tuple(center))
+
     # import ipdb; ipdb.set_trace(context=20)
     lines = np.asarray(line_set.lines)
     lines = np.concatenate([lines, np.array([[1, 4], [7, 6]])], axis=0)
