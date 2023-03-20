@@ -98,6 +98,9 @@ class BBox(Parameters, tuple):
             bbox_3d_image_coordinate, self.heading
     
     def get_labels(self):
+        if (int(self.heading) == 0) and (self.yaw < 0):
+            self.yaw = - self.yaw
+
         return  [self.class_dict[self.cls],
                 self.height, self.width, self.length, self.x, self.y, self.z, self.yaw]
 
@@ -344,7 +347,8 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_thr
         bb_length = np.exp(siz[value][0]) * real_anchors[i][0]
         bb_width = np.exp(siz[value][1]) * real_anchors[i][1]
         bb_height = np.exp(siz[value][2]) * real_anchors[i][2]
-        bb_yaw = ang[value] + real_anchors[i][4]
+        # bb_yaw = ang[value] + real_anchors[i][4]
+        bb_yaw = ang[value]
         bb_heading = np.round(hdg[value])
         bb_cls = np.argmax(softmax(clf[value]))
         bb_conf = occ[value]
