@@ -109,7 +109,7 @@ def load_model_and_run_inference(configs):
             print(i)
         print(len(pred),'---------------------------------------')
 
-        dump_predictions(get_formated_label(pred,nms_indices), os.path.join(out_labels_path, "{}.txt".format(file_name)))
+        dump_predictions(get_formated_label(boxes,nms_indices), os.path.join(out_labels_path, "{}.txt".format(file_name)))
     
     model_exec_time = model_exec_time[1:]
     total_model_exec_time = sum(model_exec_time)
