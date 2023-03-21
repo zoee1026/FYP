@@ -226,31 +226,58 @@ float rotatedY(float x, float y, float angle)
 }
 
 // Construct bounding box in 2D, coordinates are returned in clockwise order
+// Polyline2D boundingBox3DToTopDown(const BoundingBox3D &box1)
+// {
+//     Polyline2D box;
+//     box.push_back({rotatedX(-0.5 * box1.width, 0.5 * box1.length,
+//                             box1.yaw) + box1.x,
+//                    rotatedY(-0.5 * box1.width, 0.5 * box1.length,
+//                             box1.yaw) + box1.y});
+
+//     box.push_back({rotatedX(0.5 * box1.width, 0.5 * box1.length,
+//                             box1.yaw) + box1.x,
+//                    rotatedY(0.5 * box1.width, 0.5 * box1.length,
+//                             box1.yaw) + box1.y});
+
+//     box.push_back({rotatedX(0.5 * box1.width, -0.5 * box1.length,
+//                             box1.yaw) + box1.x,
+//                    rotatedY(0.5 * box1.width, -0.5 * box1.length,
+//                             box1.yaw) + box1.y});
+
+//     box.push_back({rotatedX(-0.5 * box1.width, -0.5 * box1.length,
+//                             box1.yaw) + box1.x,
+//                    rotatedY(-0.5 * box1.width, -0.5 * box1.length,
+//                             box1.yaw) + box1.y});
+
+//     return box;
+// }
+
 Polyline2D boundingBox3DToTopDown(const BoundingBox3D &box1)
 {
     Polyline2D box;
-    box.push_back({rotatedX(-0.5 * box1.width, 0.5 * box1.length,
+    box.push_back({rotatedX(-0.5 * box1.length, 0.5 * box1.width,
                             box1.yaw) + box1.x,
-                   rotatedY(-0.5 * box1.width, 0.5 * box1.length,
+                   rotatedY(-0.5 * box1.length, 0.5 * box1.width,
                             box1.yaw) + box1.y});
 
-    box.push_back({rotatedX(0.5 * box1.width, 0.5 * box1.length,
+    box.push_back({rotatedX(0.5 * box1.length, 0.5 * box1.width,
                             box1.yaw) + box1.x,
-                   rotatedY(0.5 * box1.width, 0.5 * box1.length,
+                   rotatedY(0.5 * box1.length, 0.5 * box1.width,
                             box1.yaw) + box1.y});
 
-    box.push_back({rotatedX(0.5 * box1.width, -0.5 * box1.length,
+    box.push_back({rotatedX(0.5 * box1.length, -0.5 * box1.width,
                             box1.yaw) + box1.x,
-                   rotatedY(0.5 * box1.width, -0.5 * box1.length,
+                   rotatedY(0.5 * box1.length, -0.5 * box1.width,
                             box1.yaw) + box1.y});
 
-    box.push_back({rotatedX(-0.5 * box1.width, -0.5 * box1.length,
+    box.push_back({rotatedX(-0.5 * box1.length, -0.5 * box1.width,
                             box1.yaw) + box1.x,
-                   rotatedY(-0.5 * box1.width, -0.5 * box1.length,
+                   rotatedY(-0.5 * box1.length, -0.5 * box1.width,
                             box1.yaw) + box1.y});
 
     return box;
 }
+
 
 // This functions clips all the edges w.r.t one Clip edge of clipping area
 // Returns a clipped polygon...
