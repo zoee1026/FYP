@@ -101,11 +101,11 @@ class BBox(Parameters, tuple):
             bbox_3d_image_coordinate, self.heading
     
     def get_labels(self):
-        if (int(self.heading) == 0) and (self.yaw < 0):
-            self.yaw = - self.yaw
+        # if (int(self.heading) == 0) and (self.yaw < 0):
+        #     self.yaw = - self.yaw
 
         return  [self.class_dict[self.cls],
-                self.height, self.width, self.length, self.x, self.y, self.z, self.yaw]
+                self.height, self.width, self.length, self.x, self.y, self.z+self.height/2, self.yaw]
 
     def get_2D_BBox(self, P: np.ndarray):
         """ Projects the 3D box onto the image plane and provides 2D BB 
@@ -294,11 +294,9 @@ def ReadLabel(labelPath):
         boundingBoxes = data['bounding_boxes']
 
         for box in boundingBoxes:
-            print(list(box['center'].values())[:2].append(list(box['center'].values())[2]+box['height']/2))
-
             element = Label3D(
                     str(box["object_id"]),
-                    np.array([box['center']['x'],box['center']['y'],box['center']['z']+box['height']/2], dtype=np.float32),
+                    np.array([box['center']['x'],box['center']['y'],box['center']['z']], dtype=np.float32),
                     np.array([box['width'],box['length'],box['height']], dtype=np.float32),
                     float(box['angle'])
                 )
