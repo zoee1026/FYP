@@ -298,9 +298,9 @@ def ReadLabel(labelPath):
 
             element = Label3D(
                     str(box["object_id"]),
-                    np.array(list(box['center'].values())[:2].append(list(box['center'].values())[2]+box['height']/2), dtype=np.float32),
+                    np.array([box['center']['x'],box['center']['y'],box['center']['z']+box['height']/2], dtype=np.float32),
                     np.array([box['width'],box['length'],box['height']], dtype=np.float32),
-                    float(box['angle'])
+                    float(box['angle'], dtype=np.float32)
                 )
             # if element.classification =="dontcare":
             if element.classification not in list(VehicaleClasses.keys()):
