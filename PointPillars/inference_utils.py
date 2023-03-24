@@ -103,7 +103,6 @@ class BBox(Parameters, tuple):
     def get_labels(self):
         # if (int(self.heading) == 0) and (self.yaw < 0):
         #     self.yaw = - self.yaw
-        self.z=+self.height/2
         return  [self.class_dict[self.cls],
                 self.height, self.width, self.length, self.x, self.y, self.z, self.yaw]
 
@@ -369,12 +368,12 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_thr
         bb_length = np.exp(siz[value][0]) * real_anchors[i][0]
         bb_width = np.exp(siz[value][1]) * real_anchors[i][1]
         bb_height = np.exp(siz[value][2]) * real_anchors[i][2]
-        # bb_yaw = ang[value] + real_anchors[i][4]
-        bb_yaw = ang[value]
+        bb_yaw = ang[value] + real_anchors[i][4]
+        # bb_yaw = ang[value]
         bb_heading = np.round(hdg[value])
         bb_cls = np.argmax(softmax(clf[value]))
         bb_conf = occ[value]
-        predicted_boxes.append(BBox(bb_x, bb_y, bb_z, bb_length, bb_width, bb_height,
+        predicted_boxes.append(BBox(bb_x, bb_y, bb_z+bb_height/2, bb_length, bb_width, bb_height,
                                     bb_yaw, bb_heading, bb_cls, bb_conf))
 
     return predicted_boxes
