@@ -54,10 +54,11 @@ class KittiDataReader(DataReader):
             boundingBoxes = data['bounding_boxes']
 
             for box in boundingBoxes:
+                box['center']['z']=+box['height']/2
                 element = Label3D(
                         str(box["object_id"]),
                         np.array(list(box['center'].values()), dtype=np.float32),
-                        np.array([box['length'],box['width'],box['height']], dtype=np.float32),
+                        np.array([box['width'],box['length'],box['height']], dtype=np.float32),
                         float(box['angle'])
                     )
                 # if element.classification =="dontcare":
