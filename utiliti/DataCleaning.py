@@ -64,32 +64,6 @@ class Label3D:
             self.classification, self.centroid[0], self.centroid[1], self.dimension[0], self.dimension[1], self.yaw)
 
 
-# match files label
-def PCVisualization(lidarPath):
-    # pointcloud = np.fromfile(lidarPath, dtype=np.float32)
-    # pointcloud = pointcloud.reshape((-1, 4))
-    # print(pointcloud.shape)
-
-    # fig = plt.figure(figsize=(8, 8))
-    # ax = fig.add_subplot(111, projection='3d')
-
-    # xs = pointcloud[:, 0]#[::20]
-    # ys = pointcloud[:, 1]#[::20]
-    # zs = pointcloud[:, 2]#[::20]
-
-    # ax.set_box_aspect((np.ptp(xs), np.ptp(ys), np.ptp(zs)))
-    # ax.scatter(xs, ys, zs, s=0.01)
-    # ax.grid(False)
-    # ax.axis('off')
-    # ax.set_xlabel('x')
-    # ax.set_ylabel('y')
-    # ax.set_zlabel('z')
-
-    # ax.view_init(elev=40, azim=180)
-    # plt.plot([1,2,3], [1,2,3])
-    # plt.show()
-    pass
-
 def ReadLabelInOneFile(labelPath):
     with open(labelPath) as json_file:
         data = json.load(json_file)
@@ -108,7 +82,10 @@ def ReadLabelInOneFile(labelPath):
                         raw[k].append(v)
                     else:
                         raw[k] = [v]
-        return (pd.DataFrame(raw))
+        df=pd.DataFrame(raw)
+        df['Folder']=''.join(labelPath.split('/')[:-1])
+        df['FileName']=labelPath.split('/')[-1].split('.')[0]
+        return ()
 
     # with open(labelPath) as json_file:
     #     data = json.load(json_file)
@@ -222,8 +199,8 @@ def ReadRootFile(path):
 if __name__ == "__main__":
     
 
-    # DataPath='/media/sdb1/zoe/FYP/folder_root/NewMatchFile.csv'
-    DataPath='/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
+    DataPath='/media/sdb1/zoe/FYP/folder_root/NewMatchFile.csv'
+    # DataPath='/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
 
     # DataPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\NewMatchFile.csv'
     # DataPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\CleanFiles.csv'
