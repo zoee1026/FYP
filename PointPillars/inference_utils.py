@@ -292,6 +292,7 @@ def ReadLabel(labelPath):
         data = json.load(json_file)
         elements = []
         boundingBoxes = data['bounding_boxes']
+        print(list(box['center'].values())[:2].append(list(box['center'].values())[2]+box['height']/2))
 
         for box in boundingBoxes:
             element = Label3D(
