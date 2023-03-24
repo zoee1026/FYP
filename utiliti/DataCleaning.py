@@ -85,7 +85,7 @@ def ReadLabelInOneFile(labelPath):
         df=pd.DataFrame(raw)
         df['Folder']=''.join(labelPath.split('/')[:-1])
         df['FileName']=labelPath.split('/')[-1].split('.')[0]
-        return ()
+        return df
 
     # with open(labelPath) as json_file:
     #     data = json.load(json_file)
