@@ -6,6 +6,9 @@ from readers import DataReader
 from processors import DataProcessor
 import tensorflow as tf
 from scipy.special import softmax
+from readers import Label3D
+import json
+from config import VehicaleClasses
 
 
 class BBox(Parameters, tuple):
@@ -284,6 +287,25 @@ def dump_predictions(predictions: List, file_path: str):
                     out_txt_file.write("{} ".format(bbox_attribute))
                 out_txt_file.write("\n")
 
+def ReadLabel(labelPath):
+   with open(labelPath) as json_file:
+        data = json.load(json_file)
+        elements = []
+        boundingBoxes = data['bounding_boxes']
+
+        for box in boundingBoxes:
+            element = Label3D(
+                    str(box["object_id"]),
+                    np.array(list(box['center'].values()), dtype=np.float32),
+                    np.array([box['length'],box['width'],box['height']], dtype=np.float32),
+                    float(box['angle'])
+                )
+            # if element.classification =="dontcare":
+            if element.classification not in list(VehicaleClasses.keys()):
+                continue
+            else:
+                print (element)
+                elements.append(element)
 
 def rotational_nms(set_boxes, confidences, occ_threshold=0.5, nms_iou_thr=0.5):
     """ rotational NMS
@@ -314,7 +336,7 @@ def rotational_nms(set_boxes, confidences, occ_threshold=0.5, nms_iou_thr=0.5):
     return indices
 
 
-def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_threshold=0.4):
+def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_threshold=0.3):
     """ Generating the bounding boxes based on the regression targets """
 
     # Get only the boxes where occupancy is greater or equal threshold.
