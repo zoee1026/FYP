@@ -300,7 +300,7 @@ def ReadLabel(labelPath):
                     str(box["object_id"]),
                     np.array([box['center']['x'],box['center']['y'],box['center']['z']+box['height']/2], dtype=np.float32),
                     np.array([box['width'],box['length'],box['height']], dtype=np.float32),
-                    float(box['angle'], dtype=np.float32)
+                    float(box['angle'])
                 )
             # if element.classification =="dontcare":
             if element.classification not in list(VehicaleClasses.keys()):
