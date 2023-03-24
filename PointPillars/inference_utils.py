@@ -103,9 +103,9 @@ class BBox(Parameters, tuple):
     def get_labels(self):
         # if (int(self.heading) == 0) and (self.yaw < 0):
         #     self.yaw = - self.yaw
-
+        self.z=+self.height/2
         return  [self.class_dict[self.cls],
-                self.height, self.width, self.length, self.x, self.y, self.z+self.height/2, self.yaw]
+                self.height, self.width, self.length, self.x, self.y, self.z, self.yaw]
 
     def get_2D_BBox(self, P: np.ndarray):
         """ Projects the 3D box onto the image plane and provides 2D BB 
