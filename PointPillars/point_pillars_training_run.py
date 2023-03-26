@@ -23,7 +23,7 @@ MODEL_ROOT = "./log"
 MODEL_PATH = "model.h5"
 MODEL_SAVE = "train.h5"
 
-zoe_pointpillars='zoe_pointpillars2.h5'
+zoe_pointpillars='zoe_pointpillars3.h5'
 
 def train_PillarNet():
 
@@ -31,12 +31,12 @@ def train_PillarNet():
 
     pillar_net = build_point_pillar_graph(params)
 
-    if os.path.exists(os.path.join('zoe_pointpillars2.h5')):
-        logging.info("Using pre-trained weights found at path: {}".format(zoe_pointpillars))
-        pillar_net.load_weights('zoe_pointpillars2.h5')
-        print("load")
-    else:
-        logging.info("No pre-trained weights found. Initializing weights and training model.")
+    # if os.path.exists(os.path.join('zoe_pointpillars2.h5')):
+    #     logging.info("Using pre-trained weights found at path: {}".format(zoe_pointpillars))
+    #     pillar_net.load_weights('zoe_pointpillars2.h5')
+    #     print("load")
+    # else:
+    #     logging.info("No pre-trained weights found. Initializing weights and training model.")
 
     loss = PointPillarNetworkLoss(params)
 
@@ -81,13 +81,14 @@ def train_PillarNet():
                        epochs=int(params.total_training_epochs),
                     #    epochs=1,
                        workers=6)
-        pillar_net.save('my_model2')
+        pillar_net.save('my_model3')
         pillar_net.save(zoe_pointpillars)
         print('save========================================================================================')
 
     except KeyboardInterrupt:
         model_str = "interrupted_%s.h5" % time.strftime("%Y%m%d-%H%M%S")
         pillar_net.save(os.path.join(log_dir, model_str))
+        pillar_net.save(zoe_pointpillars)
         print("Interrupt. Saving output to %s" % os.path.join(os.getcwd(), log_dir[1:], model_str))
         print('<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
         print(model_str)
