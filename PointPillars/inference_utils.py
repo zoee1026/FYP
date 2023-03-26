@@ -63,7 +63,7 @@ class BBox(Parameters, tuple):
 
     def __str__(self):
         return "BB | Cls: %s, x: %f, y: %f, z: %f, l: %f, w: %f, h: %f, yaw: %f, heading: %f, conf: %f" % (
-            self.cls, self.x, self.y, self.z, self.length, self.width, self.height, self.yaw, self.heading, self.conf)
+            OutPutVehecleClasees[self.cls], self.x, self.y, self.z, self.length, self.width, self.height, self.yaw, self.heading, self.conf)
 
     @staticmethod
     def bb_class_colour_map(class_name: str):
@@ -458,7 +458,7 @@ def Get_finalPrecisions(precisions):
     print ('Overall precision is ', overall)
 
     for k,v in precisions.items():
-        if isinstance(k, int):
+        if isinstance(k, int) & len(v)>0:
             print("Precision of ", OutPutVehecleClasees[k], 'is ',sum(v)/len(v))
         else: continue
             
