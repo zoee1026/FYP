@@ -428,6 +428,7 @@ def focal_loss_checker(y_true, y_pred, n_occs=-1):
     print("#matched gt: ", p, " #unmatched gt: ", y_true.shape[1] - p, " #unmatched pred: ", y_pred.shape[1] - p,
           " occupancy threshold: ", occ_thr)
 
+
 def cal_precision (boxes, gt, precisions):
     gt_classes=[VehicaleClasses[i.classification] for i in gt]
     pred_classes=[i.cls for i in boxes]
@@ -439,7 +440,7 @@ def cal_precision (boxes, gt, precisions):
         FP = 0
         for i, pred_c in enumerate(pred_classes):
             if pred_c == c:
-                if pred_c == gt_classes[i]:
+                if pred_c in gt_classes:
                     TP += 1
                     precisions['TP']+=1
                 else:
