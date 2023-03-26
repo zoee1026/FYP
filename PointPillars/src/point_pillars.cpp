@@ -225,7 +225,7 @@ float rotatedY(float x, float y, float angle)
     return x * std::sin(angle) + y * std::cos(angle);
 }
 
-# Construct bounding box in 2D, coordinates are returned in clockwise order
+// Construct bounding box in 2D, coordinates are returned in clockwise order
 Polyline2D boundingBox3DToTopDown(const BoundingBox3D &box1)
 {
     Polyline2D box;
