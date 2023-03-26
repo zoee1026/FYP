@@ -31,12 +31,12 @@ def train_PillarNet():
 
     pillar_net = build_point_pillar_graph(params)
 
-    # if os.path.exists(os.path.join('zoe_pointpillars2.h5')):
-    #     logging.info("Using pre-trained weights found at path: {}".format(zoe_pointpillars))
-    #     pillar_net.load_weights('zoe_pointpillars2.h5')
-    #     print("load")
-    # else:
-    #     logging.info("No pre-trained weights found. Initializing weights and training model.")
+    if os.path.exists(os.path.join(zoe_pointpillars)):
+        logging.info("Using pre-trained weights found at path: {}".format(zoe_pointpillars))
+        pillar_net.load_weights(zoe_pointpillars)
+        print("load")
+    else:
+        logging.info("No pre-trained weights found. Initializing weights and training model.")
 
     loss = PointPillarNetworkLoss(params)
 
