@@ -65,21 +65,21 @@ OutPutVehecleClasees = {
 
 
 class GridParameters:
-    x_min = -50.4
-    x_max = 23.52
-    x_step = 0.28
+    # x_min = -50.4
+    # x_max = 23.52
+    # x_step = 0.28
 
-    y_min = -43.68
-    y_max = 70.56
-    y_step = 0.28
+    # y_min = -43.68
+    # y_max = 70.56
+    # y_step = 0.28
 
-    # x_min = -61.44
-    # x_max = 30.72
-    # x_step = 0.16
+    x_min = -65.28
+    x_max = 34.56
+    x_step = 0.16
 
-    # y_min = -46.08
-    # y_max = 53.76
-    # y_step = 0.16
+    y_min = -46.08
+    y_max = 53.76
+    y_step = 0.16
 
 
     z_min = 0.6
@@ -109,8 +109,8 @@ class DataParameters:
 class NetworkParameters:
 
     max_points_per_pillar = 100
-    # max_pillars = 12000
-    max_pillars = 8000
+    max_pillars = 12000
+    # max_pillars = 8000
 
     nb_features = 9
     nb_channels = 128
