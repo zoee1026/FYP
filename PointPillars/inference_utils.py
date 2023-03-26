@@ -8,7 +8,7 @@ import tensorflow as tf
 from scipy.special import softmax
 from readers import Label3D
 import json
-from config import VehicaleClasses
+from config import VehicaleClasses,OutPutVehecleClasees
 
 
 class BBox(Parameters, tuple):
@@ -286,7 +286,7 @@ def dump_predictions(predictions: List, file_path: str):
                     out_txt_file.write("{} ".format(bbox_attribute))
                 out_txt_file.write("\n")
 
-def ReadLabel(labelPath):
+def ReadGTLabel(labelPath):
    with open(labelPath) as json_file:
         data = json.load(json_file)
         elements = []
@@ -305,6 +305,7 @@ def ReadLabel(labelPath):
             else:
                 print (element)
                 elements.append(element)
+        return elements
 
 def rotational_nms(set_boxes, confidences, occ_threshold=0.5, nms_iou_thr=0.5):
     """ rotational NMS
@@ -427,6 +428,39 @@ def focal_loss_checker(y_true, y_pred, n_occs=-1):
     print("#matched gt: ", p, " #unmatched gt: ", y_true.shape[1] - p, " #unmatched pred: ", y_pred.shape[1] - p,
           " occupancy threshold: ", occ_thr)
 
+def cal_precision (boxes, gt, precisions):
+    gt_classes=[VehicaleClasses[i.classification] for i in gt]
+    pred_classes=[i.cls for i in boxes]
+    
+    classes = set(gt_classes + pred_classes)
+
+    for c in classes:
+        TP = 0
+        FP = 0
+        for i, pred_c in enumerate(pred_classes):
+            if pred_c == c:
+                if pred_c == gt_classes[i]:
+                    TP += 1
+                    precisions['TP']+=1
+                else:
+                    FP += 1
+                    precisions['FP']+=1
+
+        if TP + FP > 0:
+            precision = TP / (TP + FP)
+        else:
+            precision = 0
+        precisions[c].append(precision)
+
+def Get_finalPrecisions(precisions):
+    overall=precisions['TP']/(precisions['TP']+precisions['FP'])
+    print ('Overall precision is ', overall)
+
+    for k,v in precisions.items():
+        if isinstance(k, int):
+            print("Precision of ", OutPutVehecleClasees[k], 'is ',sum(v)/len(v))
+        else: continue
+            
 
 @tf.function
 def pillar_net_predict_server(inputs, model):

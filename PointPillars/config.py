@@ -65,16 +65,25 @@ OutPutVehecleClasees = {
 
 
 class GridParameters:
-    x_min = -50.4
-    x_max = 23.52
-    x_step = 0.28
+    # x_min = -50.4
+    # x_max = 23.52
+    # x_step = 0.28
 
-    y_min = -43.68
-    y_max = 70.56
-    y_step = 0.28
+    # y_min = -43.68
+    # y_max = 70.56
+    # y_step = 0.28
+
+    x_min = -57.6
+    x_max = 26.88
+    x_step = 0.16
+
+    y_min = -42.24
+    y_max = 53.76
+    y_step = 0.16
+
 
     z_min = 0.6
-    z_max = 12.0
+    z_max = 8.0
 
     # derived parameters
     Xn_f = float(x_max - x_min) / x_step
@@ -88,46 +97,7 @@ class GridParameters:
 
 class DataParameters:
 
-    classes = {
-
-        "one-box": 0,
-        "three-box": 0,
-        "two-box": 0,
-        "black-one-box": 0,
-        "black-three-box": 0,
-        "black-two-box": 0,
-
-        "taxi": 1,
-        "privateminibus": 2,
-        "publicminibus": 3,
-        "motorbike": 4,
-        "pedestrian": 5,
-
-        "construction-vehicle": 6,
-        "crane-truck": 6,
-        "cylindrical-truck": 6,
-
-
-        "black-cargo-mpv": 7,
-        "cargo-mpv": 7,
-
-        "black-mpv": 8,
-        "mpv": 8,
-
-
-        "smalltruck": 9,
-        "black-smalltruck": 9,
-
-        "black-cargo-one-box": 10,
-        "cargo-one-box": 10,
-
-        "mediumtruck": 11,
-        "bigtruck": 12,
-        "flatbed-truck": 13,
-        "coachbus": 14,
-        "dd": 15,
-    }
-
+    classes = VehicaleClasses
     nb_classes = len(np.unique(list(classes.values())))
     assert nb_classes == np.max(
         np.unique(list(classes.values()))) + 1, 'Starting class indexing at zero.'

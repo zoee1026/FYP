@@ -151,6 +151,8 @@ class DataProcessor(Parameters):
             [label.dimension for label in labels], dtype=np.float32)
         target_yaw = np.array(
             [label.yaw for label in labels], dtype=np.float32)
+        
+        ## change from str to int representing classes label
         target_class = np.array([self.classes[label.classification]
                                 for label in labels], dtype=np.int32)
 

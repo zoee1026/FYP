@@ -7,11 +7,10 @@ from inference_utils import generate_bboxes_from_pred, GroundTruthGenerator, foc
 from readers import KittiDataReader
 from config import Parameters
 from network import build_point_pillar_graph
-from read_file_location import GetMatchedDatafile
+from read_file_location import ReadFileFromPath
 
-DATA_ROOT = "../training"
-MODEL_ROOT = "./log"
-MODEL_PATH = "model.h5"
+DATA_ROOT = 'test.csv'
+MODEL_ROOT = 'zoe_pointpillars2.h5'
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
@@ -20,7 +19,7 @@ if __name__ == "__main__":
 
     params = Parameters()
     pillar_net = build_point_pillar_graph(params)
-    pillar_net.load_weights(os.path.join(MODEL_ROOT, MODEL_PATH))
+    pillar_net.load_weights(MODEL_ROOT)
 
     
     # pillar_net.summary()
@@ -32,12 +31,13 @@ if __name__ == "__main__":
     # calibration_files = sorted(glob(os.path.join(DATA_ROOT, "calib", "*.txt")))
     # assert len(lidar_files) == len(label_files) == len(calibration_files), "Input dirs require equal number of files."
     # eval_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files, label_files, calibration_files)
-    lidar_files, label_files = GetMatchedDatafile(DATA_ROOT)
+
+    lidar_files, label_files = ReadFileFromPath(DATA_ROOT)
     assert len(lidar_files) == len(label_files)
     eval_gen = SimpleDataGenerator(data_reader, params.batch_size, lidar_files, label_files)
 
     occupancy, position, size, angle, heading, classification = pillar_net.predict(eval_gen,
-                                                                                   batch_size=params.batch_size)
+                                                                                   batch_size=1)
     set_boxes, confidences = [], []
     loop_range = occupancy.shape[0] if len(occupancy.shape) == 4 else 1
     for i in range(loop_range):

@@ -5,11 +5,12 @@ import numpy as np
 import tensorflow as tf
 from processors import DataProcessor
 from inference_utils import generate_bboxes_from_pred, rotational_nms, \
-    gather_boxes_in_kitti_format, dump_predictions, draw_projected_box3d,\
-    pillar_net_predict_server, BBox, get_formated_label, ReadLabel
+    dump_predictions, get_formated_label, ReadGTLabel, \
+    pillar_net_predict_server, BBox, \
+    cal_precision, Get_finalPrecisions
 
 from readers import KittiDataReader
-from config import Parameters
+from config import Parameters, OutPutVehecleClasees
 from network import build_point_pillar_graph
 import argparse
 import logging
@@ -17,6 +18,27 @@ from easydict import EasyDict as edict
 import time
 from tqdm import tqdm
 from read_file_location import ReadFileFromPath
+
+precisions = {
+    'TP': 0,
+    'FP': 0,
+    0: [],
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+    6: [],
+    7: [],
+    8: [],
+    9: [],
+    10: [],
+    11: [],
+    12: [],
+    13: [],
+    14: [],
+    15: [],
+}
 
 
 def generate_config_from_cmd_args():
@@ -28,11 +50,11 @@ def generate_config_from_cmd_args():
                         help='Test data root path holding folders velodyne, calib')
     parser.add_argument('--result_dir', default="./Result", type=str, required=False,
                         help='Path for dumping result labels in KITTI format')
-    parser.add_argument('--model_path', default='zoe_pointpillars.h5', type=str, required=False,
+    parser.add_argument('--model_path', default='zoe_pointpillars2.h5', type=str, required=False,
                         help='Path to the model weights to be used for inference')
     parser.add_argument('--occ_thresh', default=0.3, type=float, required=False,
                         help='Occlusion threshold for predicted boxes')
-    parser.add_argument('--nms_thresh', default=0.3, type=float, required=False,
+    parser.add_argument('--nms_thresh', default=0.5, type=float, required=False,
                         help='IoU threshold for NMS')
 
     configs = edict(vars(parser.parse_args()))
@@ -97,13 +119,6 @@ def load_model_and_run_inference(configs):
                                           params.anchor_dims, occ_threshold=configs.occ_thresh)
         stop = time.time()
         confidences = [float(box.conf) for box in boxes]
-        logging.debug(
-            "Single frame box extraction time: {}".format(stop-start))
-
-        logging.debug(
-            "Number of predictied boxes pre-nms: {}".format(len(boxes)))
-        for idx in range(len(boxes)):
-            logging.debug("{:04d}: {}".format(idx, boxes[idx]))
 
         start = time.time()
         nms_indices = rotational_nms(
@@ -113,16 +128,18 @@ def load_model_and_run_inference(configs):
             "Single frame rotational NMS time: {}".format(stop-start))
 
         logging.debug("Number of boxes post-nms: {}".format(len(nms_indices)))
-        for idx in nms_indices:
-            logging.debug("{:04d}: {}".format(idx, boxes[idx]))
 
+        # Print out prediction
         print(len(boxes))
-        pred = [boxes[i] for i in nms_indices]
-        for i in pred:
+        nms_boxes = [boxes[i] for i in nms_indices]
+        for i in nms_boxes:
             print(i)
-        print(len(pred))
-        ReadLabel(label_files[idx])
-        print('----------------------------------------------------------------------------')
+        print(len(nms_boxes))
+        gt = ReadGTLabel(label_files[idx])
+        cal_precision(nms_boxes, gt, precisions)
+
+        print(
+            '----------------------------------------------------------------------------')
 
         dump_predictions(get_formated_label(boxes, nms_indices), os.path.join(
             out_labels_path, "{}.txt".format(file_name)))
@@ -144,3 +161,4 @@ if __name__ == '__main__':
         pred_config.result_dir))
 
     load_model_and_run_inference(pred_config)
+    Get_finalPrecisions(precisions)
