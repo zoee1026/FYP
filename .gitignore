@@ -2,4 +2,7 @@ PointPillars/log/
 train_files/
 PointPillars/Result
 PointPillars/zoe_pointpillars.h5
+PointPillars/zoe_pointpillars2.h5
 PointPillars/my_model/
+PointPillars/my_model2/
+
