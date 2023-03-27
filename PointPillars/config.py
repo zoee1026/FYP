@@ -73,24 +73,24 @@ class GridParameters:
     # y_max = 70.56
     # y_step = 0.28
 
-    x_min = -53.76
-    x_max = 26.88
-    x_step = 0.16
+    x_min = -53.2
+    x_max = 25.2
+    x_step = 0.2
 
-    y_min = -38.08
-    y_max = 51.52
-    y_step = 0.16
+    y_min = -42
+    y_max = 53.2
+    y_step = 0.2
 
     # x_min = -57.12
     # x_max = 30.24
     # x_step = 0.24
 
-    # y_min = -40.32
-    # y_max = 53.76
+    # y_min = -43.68
+    # y_max = 57.12
     # y_step = 0.24
 
-    z_min = 0
-    z_max = 6.4
+    # z_min = 0
+    # z_max = 6.4
 
     # derived parameters
     Xn_f = float(x_max - x_min) / x_step
@@ -116,8 +116,8 @@ class DataParameters:
 class NetworkParameters:
 
     max_points_per_pillar = 100
-    max_pillars = 10000
-    # max_pillars = 8000
+    # max_pillars = 10000
+    max_pillars = 8000
 
     nb_features = 9
     nb_channels = 128
