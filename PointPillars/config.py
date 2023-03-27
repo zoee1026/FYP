@@ -81,12 +81,12 @@ class GridParameters:
     # y_max = 50.4
     # y_step = 0.2
 
-    x_min = -53.76
-    x_max = 26.88
+    x_min = -51.84
+    x_max = 25.92
     x_step = 0.24
 
-    y_min = -43.68
-    y_max = 57.12
+    y_min = -40.32
+    y_max = 54.72
     y_step = 0.24
 
     z_min = 0
