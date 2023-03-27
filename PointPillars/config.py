@@ -89,8 +89,8 @@ class GridParameters:
     # y_max = 57.12
     # y_step = 0.24
 
-    # z_min = 0
-    # z_max = 6.4
+    z_min = 0
+    z_max = 6.4
 
     # derived parameters
     Xn_f = float(x_max - x_min) / x_step
