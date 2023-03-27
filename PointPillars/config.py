@@ -109,8 +109,8 @@ class DataParameters:
 class NetworkParameters:
 
     max_points_per_pillar = 100
-    # max_pillars = 12000
-    max_pillars = 8000
+    max_pillars = 12000
+    # max_pillars = 8000
 
     nb_features = 9
     nb_channels = 128
