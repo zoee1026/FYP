@@ -458,8 +458,10 @@ def Get_finalPrecisions(precisions):
     print ('Overall precision is ', overall)
 
     for k,v in precisions.items():
-        if isinstance(k, int) & len(v)>0:
-            print("Precision of ", OutPutVehecleClasees[k], 'is ',sum(v)/len(v))
+        if isinstance(k, int):
+            if len(v)>0:
+                print("Precision of ", OutPutVehecleClasees[k], 'is ',sum(v)/len(v))
+            else: continue
         else: continue
             
 

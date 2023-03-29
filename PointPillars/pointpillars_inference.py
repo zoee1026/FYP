@@ -46,7 +46,7 @@ def generate_config_from_cmd_args():
         description='PointPillars inference on test data.')
     parser.add_argument('--gpu_idx', default=2, type=int, required=False,
                         help='GPU index to use for inference')
-    parser.add_argument('--data_root', default='test.csv', type=str, required=False,
+    parser.add_argument('--data_root', default='train.csv', type=str, required=False,
                         help='Test data root path holding folders velodyne, calib')
     parser.add_argument('--result_dir', default="./Result", type=str, required=False,
                         help='Path for dumping result labels in KITTI format')
@@ -141,8 +141,8 @@ def load_model_and_run_inference(configs):
         print(
             '----------------------------------------------------------------------------')
 
-        dump_predictions(get_formated_label(boxes, nms_indices), os.path.join(
-            out_labels_path, "{}.txt".format(file_name)))
+        # dump_predictions(get_formated_label(boxes, nms_indices), os.path.join(
+        #     out_labels_path, "{}.txt".format(file_name)))
 
     model_exec_time = model_exec_time[1:]
     total_model_exec_time = sum(model_exec_time)
