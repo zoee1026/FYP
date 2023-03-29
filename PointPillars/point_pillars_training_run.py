@@ -23,7 +23,7 @@ MODEL_ROOT = "./log"
 MODEL_PATH = "model.h5"
 MODEL_SAVE = "train.h5"
 
-zoe_pointpillars='zoe_pointpillars3.h5'
+zoe_pointpillars='zoe_pointpillars4.h5'
 
 def train_PillarNet():
 
@@ -81,7 +81,7 @@ def train_PillarNet():
                        epochs=int(params.total_training_epochs),
                     #    epochs=1,
                        workers=6)
-        pillar_net.save('my_model3')
+        pillar_net.save('my_model4')
         pillar_net.save(zoe_pointpillars)
         print('save========================================================================================')
 
