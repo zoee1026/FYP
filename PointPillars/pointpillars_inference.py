@@ -65,7 +65,7 @@ def generate_config_from_cmd_args():
 
 def load_model_and_run_inference(configs):
     params = Parameters()  # Load all model related parameters
-    pillar_net = build_point_pillar_graph(params, batch_size=1)
+    pillar_net = build_point_pillar_graph(params, batch_size=4)
 
     logging.info("Loading model from path: {}".format(configs.model_path))
     pillar_net.load_weights(configs.model_path)
