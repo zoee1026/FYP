@@ -82,7 +82,7 @@ class GridParameters:
     # y_step = 0.2
 
     x_min = -50.4
-    x_max = 20.16
+    x_max = 23.52
     x_step = 0.24
 
     y_min = -40.32
@@ -123,21 +123,6 @@ class NetworkParameters:
     nb_channels = 128
     downscaling_factor = 2
 
-    # length, width, height, z-center, orientation
-    # anchor_dims = np.array([
-    #     [2.24, 1.12, 1.96, 2.52, 0],
-    #     [5.6, 2.52, 2.24, 2.52, 0],
-    #     [8.12, 2.8, 3.36, 3.08, 0],
-    #     [10.08, 2.8, 3.36, 3.08, 0],
-    #     [11.76, 3.36, 4.76, 3.36, 0],
-    #     [13.44, 3.08, 3.92, 3.36, 0],
-    #     [2.24, 1.12, 1.96, 2.52, 1.5708],
-    #     [5.6, 2.52, 2.24, 2.52, 1.5708],
-    #     [8.12, 2.8, 3.36, 3.08, 1.5708],
-    #     [10.08, 2.8, 3.36, 3.08, 1.5708],
-    #     [11.76, 3.36, 4.76, 3.36, 1.5708],
-    #     [13.44, 3.08, 3.92, 3.36, 1.5708],
-    # ], dtype=np.float32).tolist()
     anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).iloc[1:,:].values, dtype=np.float32).tolist(),3)
     
     nb_dims = 3
