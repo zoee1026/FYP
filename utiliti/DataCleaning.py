@@ -190,7 +190,7 @@ def ReadAllLable(path):
         raw=ReadLabelInOneFile(i)
         df=pd.concat([df,raw])
     print(df.info())
-    df.to_csv('/media/sdb1/zoe/FYP/folder_root/LabelSummary.csv')
+    df.to_csv('/media/sdb1/zoe/FYP/folder_root/TestLabelSummary.csv')
 
 def ReadRootFile(path):
     df=pd.read_csv(path)
@@ -199,7 +199,7 @@ def ReadRootFile(path):
 if __name__ == "__main__":
     
 
-    DataPath='/media/sdb1/zoe/FYP/folder_root/NewMatchFile.csv'
+    DataPath='/media/sdb1/zoe/FYP/PointPillars/test.csv'
     # DataPath='/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
 
     # DataPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\NewMatchFile.csv'
