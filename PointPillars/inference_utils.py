@@ -449,9 +449,7 @@ def cal_precision (boxes, gt, precisions):
 
         if TP + FP > 0:
             precision = TP / (TP + FP)
-        else:
-            precision = 0
-        precisions[c].append(precision)
+            precisions[c].append(precision)
 
 def Get_finalPrecisions(precisions):
     overall=precisions['TP']/(precisions['TP']+precisions['FP'])

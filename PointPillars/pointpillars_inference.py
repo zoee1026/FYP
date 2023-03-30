@@ -68,6 +68,7 @@ def load_model_and_run_inference(configs):
     pillar_net = build_point_pillar_graph(params, batch_size=1)
 
     logging.info("Loading model from path: {}".format(configs.model_path))
+    # model = tf.saved_model.load('model_directory')
     pillar_net.load_weights(configs.model_path)
     logging.info("Model loaded.")
 
@@ -141,8 +142,8 @@ def load_model_and_run_inference(configs):
         print(
             '----------------------------------------------------------------------------')
 
-        # dump_predictions(get_formated_label(boxes, nms_indices), os.path.join(
-        #     out_labels_path, "{}.txt".format(file_name)))
+        dump_predictions(get_formated_label(boxes, nms_indices), os.path.join(
+            out_labels_path, "{}.txt".format(file_name)))
 
     model_exec_time = model_exec_time[1:]
     total_model_exec_time = sum(model_exec_time)
