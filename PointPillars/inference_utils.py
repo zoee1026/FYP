@@ -372,6 +372,7 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_thr
         bb_yaw = ang[value] + real_anchors[i][4]
         # bb_yaw = ang[value]
         bb_heading = np.round(hdg[value])
+        if bb_heading==0: bb_yaw-=np.pi
         bb_cls = np.argmax(softmax(clf[value]))
         bb_conf = occ[value]
         predicted_boxes.append(BBox(bb_x, bb_y, bb_z+bb_height/2, bb_length, bb_width, bb_height,
