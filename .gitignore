@@ -1,5 +1,6 @@
 PointPillars/log/
 train_files/
+eval_files
 PointPillars/Result
 PointPillars/zoe_pointpillars.h5
 PointPillars/zoe_pointpillars2.h5
