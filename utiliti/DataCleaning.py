@@ -14,6 +14,7 @@ PATH = '/media/sdb1/deteval_13Jun2022'
 MATCH_DATA_PATH='/media/sdb1/zoe/FYP/folder_root/eval.csv'
 REMOVE_DONTCARE='/media/sdb1/zoe/FYP/folder_root/Eval_CleanClass.csv'
 LABELFILE='/media/sdb1/zoe/FYP/folder_root/EvaluationLabelSummary.csv'
+CLEANFILE='/media/sdb1/zoe/FYP/folder_root/Eval_CleanFiles.csv'
 
 Lidar_Path = ''
 Label_Path = ''
@@ -212,7 +213,7 @@ if __name__ == "__main__":
      
     # GetCleanedClasses()
     
-    ReadAllLable(LABELFILE)
+    ReadAllLable(CLEANFILE)
     # lidar_files, label_files = GetMatchedDataFileInside(DataPath)      
     # print(lidar_files[0],label_files[0])
     # ReadLabelInOneFile(label_files[0])
