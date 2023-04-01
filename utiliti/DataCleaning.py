@@ -9,7 +9,12 @@ import json
 import glob
 
 
-PATH = '/media/sdb1/dettrain_20220711'
+# PATH = '/media/sdb1/dettrain_20220711'
+PATH = '/media/sdb1/deteval_13Jun2022'
+MATCH_DATA_PATH='/media/sdb1/zoe/FYP/folder_root/eval.csv'
+REMOVE_DONTCARE='/media/sdb1/zoe/FYP/folder_root/Eval_CleanClass.csv'
+LABELFILE='/media/sdb1/zoe/FYP/folder_root/EvaluationLabelSummary.csv'
+
 Lidar_Path = ''
 Label_Path = ''
 
@@ -151,17 +156,14 @@ def GetAllTrainFile():
     match_data=match_data.drop_duplicates(subset='Files',keep="first")
     print(match_data['lidar_files'].nunique(),match_data["lidar_files"].nunique(),match_data["Files"].nunique())
 
-    match_data.to_csv('/media/sdb1/zoe/FYP/folder_root/NewMatchFile.csv')
+    match_data.to_csv(MATCH_DATA_PATH)
 
     return [lidar_files_match, label_files_match]
 
-def GetMatchedDataFileInside(Path):
-    df=pd.read_csv(Path)
-    return [df['lidar_files'].tolist(),df['label_files'].tolist()]
 
 def GetCleanedClasses():
     classes=list(VehicaleClasses.keys())
-    Path='/media/sdb1/zoe/FYP/folder_root/NewMatchFile.csv'
+    Path=MATCH_DATA_PATH
     lidar_files_match=[]
     label_files_match=[]
     lidar_files, label_files = GetMatchedDataFileInside(Path)
@@ -181,7 +183,7 @@ def GetCleanedClasses():
     print(len(lidar_files_match),len(label_files_match))
     if len(lidar_files_match)==len(label_files_match):
         match_data=pd.DataFrame({"lidar_files":lidar_files_match,"label_files":label_files_match})
-        match_data.to_csv('/media/sdb1/zoe/FYP/folder_root/CleanClasses.csv')
+        match_data.to_csv(REMOVE_DONTCARE)
 
 def ReadAllLable(path):
     df= pd.DataFrame()
@@ -190,27 +192,27 @@ def ReadAllLable(path):
         raw=ReadLabelInOneFile(i)
         df=pd.concat([df,raw])
     print(df.info())
-    df.to_csv('/media/sdb1/zoe/FYP/folder_root/TestLabelSummary.csv')
+    df.to_csv(LABELFILE)
 
 def ReadRootFile(path):
     df=pd.read_csv(path)
     print(df.loc[0,:])
 
+def GetMatchedDataFileInside(Path):
+    df=pd.read_csv(Path)
+    return [df['lidar_files'].tolist(),df['label_files'].tolist()]
+
 if __name__ == "__main__":
     
 
-    DataPath='/media/sdb1/zoe/FYP/PointPillars/test.csv'
-    # DataPath='/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
+    # DataPath='/media/sdb1/zoe/FYP/PointPillars/test.csv'
 
-    # DataPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\NewMatchFile.csv'
-    # DataPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\CleanFiles.csv'
-
-    # GetAllTrainFile()
+    GetAllTrainFile()
     # lidar_files, label_files = GetAllTrainFile()
      
-    # GetCleanedClasses()
+    GetCleanedClasses()
     
-    ReadAllLable(DataPath)
+    # ReadAllLable(DataPath)
     # lidar_files, label_files = GetMatchedDataFileInside(DataPath)      
     # print(lidar_files[0],label_files[0])
     # ReadLabelInOneFile(label_files[0])
