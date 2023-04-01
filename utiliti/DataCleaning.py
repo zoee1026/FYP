@@ -207,12 +207,12 @@ if __name__ == "__main__":
 
     # DataPath='/media/sdb1/zoe/FYP/PointPillars/test.csv'
 
-    GetAllTrainFile()
+    # GetAllTrainFile()
     # lidar_files, label_files = GetAllTrainFile()
      
-    GetCleanedClasses()
+    # GetCleanedClasses()
     
-    # ReadAllLable(DataPath)
+    ReadAllLable(LABELFILE)
     # lidar_files, label_files = GetMatchedDataFileInside(DataPath)      
     # print(lidar_files[0],label_files[0])
     # ReadLabelInOneFile(label_files[0])
