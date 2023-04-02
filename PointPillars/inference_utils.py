@@ -290,8 +290,8 @@ def dump_predictions(predictions: List, file_path: str, file_csv):
                     bboxList.append(bbox_attribute)
                 out_txt_file.write("\n")
                 
-                bboxList.append(out_txt_file)
-                bboxList.append(out_txt_file.split('/')[-1])
+                bboxList.append(file_path)
+                bboxList.append(file_path.split('/')[-1])
 
                 df= pd.DataFrame(bboxList)
                 file_csv=pd.concat([df,file_csv])
