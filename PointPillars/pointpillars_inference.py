@@ -2,6 +2,7 @@ import os
 # import cv2
 from glob import glob
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 from processors import DataProcessor
 from inference_utils import generate_bboxes_from_pred, rotational_nms, \
@@ -39,7 +40,8 @@ precisions = {
     14: [],
     15: [],
 }
-
+RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/ResultLabelFiles.csv'
+file_csv=pd.DataFrame()
 
 def generate_config_from_cmd_args():
     parser = argparse.ArgumentParser(
@@ -143,7 +145,7 @@ def load_model_and_run_inference(configs):
             '----------------------------------------------------------------------------')
 
         dump_predictions(get_formated_label(boxes, nms_indices), os.path.join(
-            out_labels_path, "{}.txt".format(file_name)))
+            out_labels_path, "{}.txt".format(file_name)),file_csv)
 
     model_exec_time = model_exec_time[1:]
     total_model_exec_time = sum(model_exec_time)
@@ -163,3 +165,6 @@ if __name__ == '__main__':
 
     load_model_and_run_inference(pred_config)
     Get_finalPrecisions(precisions)
+
+    print('----------------------------------------------------------------')
+    print(file_csv.info())

@@ -9,7 +9,9 @@ from scipy.special import softmax
 from readers import Label3D
 import json
 from config import VehicaleClasses,OutPutVehecleClasees
-
+import glob
+import os
+import pandas as pd
 
 class BBox(Parameters, tuple):
     """ bounding box tuple that can easily be accessed while being compatible to cv2 rotational rects """
@@ -277,14 +279,22 @@ def get_formated_label(boxes: List[BBox], indices: List):
         labels.append(boxes[idx].get_labels())
     return labels
       
-def dump_predictions(predictions: List, file_path: str):
+def dump_predictions(predictions: List, file_path: str, file_csv):
     """ Dumps the model predictions in txt files so that it can be used by KITTI evaluation toolkit """
     with open(file_path, 'w') as out_txt_file:
         if len(predictions):
             for bbox in predictions:
+                bboxList=[]
                 for bbox_attribute in bbox:
                     out_txt_file.write("{} ".format(bbox_attribute))
+                    bboxList.append(bbox_attribute)
                 out_txt_file.write("\n")
+                
+                bboxList.append(out_txt_file)
+                bboxList.append(out_txt_file.split('/')[-1])
+
+                df= pd.DataFrame(bboxList)
+                file_csv=pd.concat([df,file_csv])
 
 def ReadGTLabel(labelPath):
    with open(labelPath) as json_file:
@@ -462,7 +472,6 @@ def Get_finalPrecisions(precisions):
                 print("Precision of ", OutPutVehecleClasees[k], 'is ',sum(v)/len(v))
             else: continue
         else: continue
-            
 
 @tf.function
 def pillar_net_predict_server(inputs, model):
