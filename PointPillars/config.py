@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchor10.csv'
+Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchorLess.csv'
 # Anchor_file=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\ZoeAnchor.csv'
 
 VehicaleClasses = {
@@ -74,10 +74,10 @@ class GridParameters:
     # y_step = 0.28
 
     x_min = -50.4
-    x_max = 36.4
+    x_max = 33.6
     x_step = 0.2
 
-    y_min = -42
+    y_min = -38.4
     y_max = 50.4
     y_step = 0.2
 
