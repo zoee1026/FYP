@@ -93,6 +93,8 @@ pybind11::tuple createPillars(pybind11::array_t<float> points,
             break;
         }
 
+        if (pair.second.size()<10){continue;}
+
         float xMean = 0;
         float yMean = 0;
         float zMean = 0;

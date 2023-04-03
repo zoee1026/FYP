@@ -8,10 +8,11 @@ import tensorflow as tf
 from scipy.special import softmax
 from readers import Label3D
 import json
-from config import VehicaleClasses,OutPutVehecleClasees
+from config import VehicaleClasses, OutPutVehecleClasees
 import glob
 import os
 import pandas as pd
+
 
 class BBox(Parameters, tuple):
     """ bounding box tuple that can easily be accessed while being compatible to cv2 rotational rects """
@@ -90,8 +91,9 @@ class BBox(Parameters, tuple):
         if (int(self.heading) == 0) and (self.yaw < 0):
             self.yaw = - self.yaw
 
-        bbox_2d_image_coordinate, bbox_3d_image_coordinate = self.get_2D_BBox(P2) 
-             # [num_boxes, box_attributes]
+        bbox_2d_image_coordinate, bbox_3d_image_coordinate = self.get_2D_BBox(
+            P2)
+        # [num_boxes, box_attributes]
 
         # TODO: Check alpha calculation
         beta = np.arctan2(self.z, self.x)
@@ -101,12 +103,12 @@ class BBox(Parameters, tuple):
                 bbox_2d_image_coordinate[0][2], bbox_2d_image_coordinate[0][3],
                 self.height, self.width, self.length, self.x, self.y, self.z, self.yaw, self.conf], \
             bbox_3d_image_coordinate, self.heading
-    
+
     def get_labels(self):
         # if (int(self.heading) == 0) and (self.yaw < 0):
         #     self.yaw = - self.yaw
-        return  [self.class_dict[self.cls],
-                self.height, self.width, self.length, self.x, self.y, self.z, self.yaw]
+        return [self.class_dict[self.cls],
+                self.x, self.y, self.z,   self.length,  self.width, self.height, self.yaw, self.conf]
 
     def get_2D_BBox(self, P: np.ndarray):
         """ Projects the 3D box onto the image plane and provides 2D BB 
@@ -273,49 +275,55 @@ def gather_boxes_in_kitti_format(boxes: List[BBox], indices: List, P2: np.ndarra
 
     return kitti_format_bb, bb_3d_corners, bb_heading_info
 
+
 def get_formated_label(boxes: List[BBox], indices: List):
-    labels=[]
+    labels = []
     for idx in indices:
         labels.append(boxes[idx].get_labels())
     return labels
-      
+
+
 def dump_predictions(predictions: List, file_path: str, file_csv):
     """ Dumps the model predictions in txt files so that it can be used by KITTI evaluation toolkit """
     with open(file_path, 'w') as out_txt_file:
         if len(predictions):
             for bbox in predictions:
-                bboxList=[]
+                bboxList = []
                 for bbox_attribute in bbox:
                     out_txt_file.write("{} ".format(bbox_attribute))
                     bboxList.append(bbox_attribute)
                 out_txt_file.write("\n")
-                
+
                 bboxList.append(file_path)
                 bboxList.append(file_path.split('/')[-1])
 
-                df= pd.DataFrame(bboxList)
-                file_csv=pd.concat([df,file_csv])
+                df = pd.DataFrame(bboxList)
+                file_csv = pd.concat([df, file_csv])
+
 
 def ReadGTLabel(labelPath):
-   with open(labelPath) as json_file:
+    with open(labelPath) as json_file:
         data = json.load(json_file)
         elements = []
         boundingBoxes = data['bounding_boxes']
 
         for box in boundingBoxes:
             element = Label3D(
-                    str(box["object_id"]),
-                    np.array([box['center']['x'],box['center']['y'],box['center']['z']], dtype=np.float32),
-                    np.array([box['width'],box['length'],box['height']], dtype=np.float32),
-                    float(box['angle'])
-                )
+                str(box["object_id"]),
+                np.array([box['center']['x'], box['center']['y'],
+                         box['center']['z']], dtype=np.float32),
+                np.array([box['width'], box['length'],
+                         box['height']], dtype=np.float32),
+                float(box['angle'])
+            )
             # if element.classification =="dontcare":
             if element.classification not in list(VehicaleClasses.keys()):
                 continue
             else:
-                print (element)
+                print(element)
                 elements.append(element)
         return elements
+
 
 def rotational_nms(set_boxes, confidences, occ_threshold=0.5, nms_iou_thr=0.5):
     """ rotational NMS
@@ -351,7 +359,8 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_thr
 
     # Get only the boxes where occupancy is greater or equal threshold.
     real_boxes = np.where(occ >= occ_threshold)
-    if len(real_boxes)==0:real_boxes=np.where(occ== np.amax(occ))
+    if len(real_boxes) == 0:
+        real_boxes = np.where(occ == np.amax(occ))
     # Get the indices of the occupancy array
     coordinates = list(zip(real_boxes[0], real_boxes[1], real_boxes[2]))
     # Assign anchor dimensions as original bounding box coordinates which will eventually be changed
@@ -382,7 +391,8 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_thr
         bb_yaw = ang[value] + real_anchors[i][4]
         # bb_yaw = ang[value]
         bb_heading = np.round(hdg[value])
-        if bb_heading==0: bb_yaw-=np.pi
+        if bb_heading == 0:
+            bb_yaw -= np.pi
         bb_cls = np.argmax(softmax(clf[value]))
         bb_conf = occ[value]
         predicted_boxes.append(BBox(bb_x, bb_y, bb_z+bb_height/2, bb_length, bb_width, bb_height,
@@ -440,10 +450,10 @@ def focal_loss_checker(y_true, y_pred, n_occs=-1):
           " occupancy threshold: ", occ_thr)
 
 
-def cal_precision (boxes, gt, precisions):
-    gt_classes=[VehicaleClasses[i.classification] for i in gt]
-    pred_classes=[i.cls for i in boxes]
-    
+def cal_precision(boxes, gt, precisions):
+    gt_classes = [VehicaleClasses[i.classification] for i in gt]
+    pred_classes = [i.cls for i in boxes]
+
     classes = set(gt_classes + pred_classes)
 
     for c in classes:
@@ -453,25 +463,30 @@ def cal_precision (boxes, gt, precisions):
             if pred_c == c:
                 if pred_c in gt_classes:
                     TP += 1
-                    precisions['TP']+=1
+                    precisions['TP'] += 1
                 else:
                     FP += 1
-                    precisions['FP']+=1
+                    precisions['FP'] += 1
 
         if TP + FP > 0:
             precision = TP / (TP + FP)
             precisions[c].append(precision)
 
-def Get_finalPrecisions(precisions):
-    overall=precisions['TP']/(precisions['TP']+precisions['FP'])
-    print ('Overall precision is ', overall)
 
-    for k,v in precisions.items():
+def Get_finalPrecisions(precisions):
+    overall = precisions['TP']/(precisions['TP']+precisions['FP'])
+    print('Overall precision is ', overall)
+
+    for k, v in precisions.items():
         if isinstance(k, int):
-            if len(v)>0:
-                print("Precision of ", OutPutVehecleClasees[k], 'is ',sum(v)/len(v))
-            else: continue
-        else: continue
+            if len(v) > 0:
+                print("Precision of ",
+                      OutPutVehecleClasees[k], 'is ', sum(v)/len(v))
+            else:
+                continue
+        else:
+            continue
+
 
 @tf.function
 def pillar_net_predict_server(inputs, model):
