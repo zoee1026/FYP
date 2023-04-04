@@ -7,6 +7,7 @@ from pcdet.utils import common_utils
 
 from .dataset import DatasetTemplate
 from .kitti.kitti_dataset import KittiDataset
+from .kitti.my_dataset import MyDataset
 from .nuscenes.nuscenes_dataset import NuScenesDataset
 from .waymo.waymo_dataset import WaymoDataset
 from .pandaset.pandaset_dataset import PandasetDataset
@@ -22,7 +23,8 @@ __all__ = {
     'PandasetDataset': PandasetDataset,
     'LyftDataset': LyftDataset,
     'ONCEDataset': ONCEDataset,
-    'CustomDataset': CustomDataset
+    'CustomDataset': CustomDataset,
+    'MyDataset': MyDataset,
 }
 
 
@@ -69,7 +71,8 @@ def build_dataloader(dataset_cfg, class_names, batch_size, dist, root_path=None,
             sampler = torch.utils.data.distributed.DistributedSampler(dataset)
         else:
             rank, world_size = common_utils.get_dist_info()
-            sampler = DistributedSampler(dataset, world_size, rank, shuffle=False)
+            sampler = DistributedSampler(
+                dataset, world_size, rank, shuffle=False)
     else:
         sampler = None
     dataloader = DataLoader(
