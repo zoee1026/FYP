@@ -63,9 +63,8 @@ class MyDataset(DatasetTemplate):
         # labels_file_list=glob.glob(str(self.root_path/'training/labels/*.txt'))
         # point_file_list.sort()
         # labels_file_list.sort()
-        df = pd.read_csv(root_path)
-        self.sample_file_list = df['lidar_files'].tolist()
-        self.samplelabel_file_list = df['label_files'].tolist()
+        self.sample_file_list = pd.read_csv(self.root_path)['lidar_files'].tolist()
+        self.samplelabel_file_list = pd.read_csv(self.root_path)['label_files'].tolist()
 
     def __len__(self):
         return len(self.sample_file_list)
