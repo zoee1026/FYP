@@ -83,7 +83,7 @@ MODEL:
         ANCHOR_GENERATOR_CONFIG: [
             {
                 'class_name': 0,
-                'anchor_sizes': [[4.43,	1.85,	1.64]],
+                'anchor_sizes': [[4.43,1.85,1.64]],
                 'anchor_rotations': [0, 1.57],
                 'anchor_bottom_heights': [2.23],
                 'align_center': False,
@@ -93,7 +93,7 @@ MODEL:
             },
             {
                 'class_name': 1,
-                'anchor_sizes': [[4.57,	1.77,	1.71]],
+                'anchor_sizes': [[4.57,1.77,1.71]],
                 'anchor_rotations': [0, 1.57],
                 'anchor_bottom_heights': [2.26],
                 'align_center': False,
@@ -103,7 +103,7 @@ MODEL:
             },
             {
                 'class_name': 2,
-                'anchor_sizes': [[7.86,	2.27,	2.67]],
+                'anchor_sizes': [[7.86,2.27,2.67]],
                 'anchor_rotations': [0, 1.57],
                 'anchor_bottom_heights': [2.74],
                 'align_center': False,
@@ -113,7 +113,7 @@ MODEL:
             },
             {
                 'class_name': 3,
-                'anchor_sizes': [[6.75,	2.25,	2.75]],
+                'anchor_sizes': [[6.75,2.25,2.75]],
                 'anchor_rotations': [0, 1.57],
                 'anchor_bottom_heights': [2.52],
                 'align_center': False,
@@ -122,7 +122,7 @@ MODEL:
                 'unmatched_threshold': 0.35
             },{
                 'class_name': 4,
-                'anchor_sizes': [[2,	0.81,	1.69]],
+                'anchor_sizes': [[2,0.81,1.69]],
                 'anchor_rotations': [0, 1.57],
                 'anchor_bottom_heights': [2.24],
                 'align_center': False,
@@ -132,7 +132,7 @@ MODEL:
             },
             {
                 'class_name': 5,
-                'anchor_sizes': [[0.567,0.62,	1.63]],
+                'anchor_sizes': [[0.567,0.62,1.63]],
                 'anchor_rotations': [0, 1.57],
                 'anchor_bottom_heights': [2.17],
                 'align_center': False,
@@ -142,7 +142,7 @@ MODEL:
             },
             {
                 'class_name': 6,
-                'anchor_sizes': [[10.37,2.72,	3.37]],
+                'anchor_sizes': [[10.37,2.72,3.37]],
                 'anchor_rotations': [0, 1.57],
                 'anchor_bottom_heights': [3.1],
                 'align_center': False,
@@ -160,7 +160,7 @@ MODEL:
                 'unmatched_threshold': 0.35
             },{
                 'class_name': 8,
-                'anchor_sizes': [[4.76,	1.97,	1.94]],
+                'anchor_sizes': [[4.76,1.97,1.94]],
                 'anchor_rotations': [0, 1.57],
                 'anchor_bottom_heights': [-2.40],
                 'align_center': False,
@@ -169,7 +169,7 @@ MODEL:
                 'unmatched_threshold': 0.35
             },{
                 'class_name': 9,
-                'anchor_sizes': [[7.00,	2.45,	3.18]],
+                'anchor_sizes': [[7.00,2.45,3.18]],
                 'anchor_rotations': [0, 1.57],
                 'anchor_bottom_heights': [3],
                 'align_center': False,
@@ -179,7 +179,7 @@ MODEL:
             },
             {
                 'class_name': 10,
-                'anchor_sizes': [[4.75,	1.85,	2.01]],
+                'anchor_sizes': [[4.75,1.85,2.01]],
                 'anchor_rotations': [0, 1.57],
                 'anchor_bottom_heights': [-0.6],
                 'align_center': False,
@@ -189,7 +189,7 @@ MODEL:
             },
             {
                 'class_name': 11,
-                'anchor_sizes': [[10.55,	2.77,	3.46]],
+                'anchor_sizes': [[10.55,2.77,3.46]],
                 'anchor_rotations': [0, 1.57],
                 'anchor_bottom_heights': [3.14],
                 'align_center': False,
@@ -199,7 +199,7 @@ MODEL:
             },
             {
                 'class_name': 12,
-                'anchor_sizes': [[11.02,	2.80,4.34]],
+                'anchor_sizes': [[11.02,2.80,4.34]],
                 'anchor_rotations': [0, 1.57],
                 'anchor_bottom_heights': [3.6],
                 'align_center': False,
@@ -209,7 +209,7 @@ MODEL:
             },
             {
                 'class_name': 13,
-                'anchor_sizes': [[5.32,	1.98,	1.80]],
+                'anchor_sizes': [[5.32,1.98,1.80]],
                 'anchor_rotations': [0, 1.57],
                 'anchor_bottom_heights': [2.23],
                 'align_center': False,
@@ -219,7 +219,7 @@ MODEL:
             },
             {
                 'class_name': 14,
-                'anchor_sizes': [[11.71,	2.78,	3.56]],
+                'anchor_sizes': [[11.71,2.78,3.56]],
                 'anchor_rotations': [0, 1.57],
                 'anchor_bottom_heights': [3.21],
                 'align_center': False,
@@ -229,7 +229,7 @@ MODEL:
             },
             {
                 'class_name': 15,
-                'anchor_sizes': [[11.22,	2.98,	4.51]],
+                'anchor_sizes': [[11.22,2.98,4.51]],
                 'anchor_rotations': [0, 1.57],
                 'anchor_bottom_heights': [3.34],
                 'align_center': False,
