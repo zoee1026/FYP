@@ -149,7 +149,7 @@ MODEL:
                 'feature_map_stride': 2,
                 'matched_threshold': 0.5,
                 'unmatched_threshold': 0.35
-            },,{
+            },{
                 'class_name': 7,
                 'anchor_sizes': [[5.35,2.07,2.06]],
                 'anchor_rotations': [0, 1.57],
