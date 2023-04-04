@@ -203,6 +203,12 @@ def GetMatchedDataFileInside(Path):
     df=pd.read_csv(Path)
     return [df['lidar_files'].tolist(),df['label_files'].tolist()]
 
+def CombineCSV(path1,path2):
+    df1=pd.read_csv(path1)
+    df2=pd.read_csv(path2)
+    df=pd.concat([df1,df2])
+    df.to_csv(r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\All.csv')
+
 if __name__ == "__main__":
     
 
@@ -213,7 +219,10 @@ if __name__ == "__main__":
      
     # GetCleanedClasses()
     
-    ReadAllLable(CLEANFILE)
+    # ReadAllLable(CLEANFILE)
     # lidar_files, label_files = GetMatchedDataFileInside(DataPath)      
     # print(lidar_files[0],label_files[0])
     # ReadLabelInOneFile(label_files[0])
+    path1=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\CleanFiles.csv'
+    path2=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\Eval_CleanFiles.csv'
+    CombineCSV(path1,path2)
