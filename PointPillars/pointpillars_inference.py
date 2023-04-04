@@ -40,7 +40,7 @@ precisions = {
     14: [],
     15: [],
 }
-RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/ResultLabelFiles.csv'
+RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Valcsv'
 file_csv=pd.DataFrame()
 
 def generate_config_from_cmd_args():
@@ -48,7 +48,7 @@ def generate_config_from_cmd_args():
         description='PointPillars inference on test data.')
     parser.add_argument('--gpu_idx', default=2, type=int, required=False,
                         help='GPU index to use for inference')
-    parser.add_argument('--data_root', default='/media/sdb1/zoe/FYP/folder_root/Eval_CleanFiles.csv', type=str, required=False,
+    parser.add_argument('--data_root', default='test.csv', type=str, required=False,
                         help='Test data root path holding folders velodyne, calib')
     parser.add_argument('--result_dir', default="./Result", type=str, required=False,
                         help='Path for dumping result labels in KITTI format')
