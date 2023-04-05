@@ -81,15 +81,15 @@ class GridParameters:
     # y_max = 62.4
     # y_step = 0.2
 
-    # x_min = -50.4
-    # x_max = 23.52
-    # x_step = 0.24
+    x_min = -69.12
+    x_max = 39.68
+    x_step = 0.16
 
-    # y_min = -40.32
-    # y_max = 50.4
-    # y_step = 0.24
+    y_min = -39.68
+    y_max = -69.12
+    y_step = 0.16
 
-    z_min = 0
+    z_min = 1.2
     z_max = 6.4
 
     # derived parameters
@@ -117,7 +117,7 @@ class NetworkParameters:
 
     max_points_per_pillar = 100
     # max_pillars = 10000
-    max_pillars = 8000
+    max_pillars = 1000
 
     nb_features = 9
     nb_channels = 128
