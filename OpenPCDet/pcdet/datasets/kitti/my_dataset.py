@@ -59,7 +59,7 @@ class MyDataset(DatasetTemplate):
         """
         super().__init__(dataset_cfg=dataset_cfg, class_names=class_names,
                          training=training, root_path=root_path, logger=logger)
-        # point_file_list=glob.glob(str(self.root_path/'training/points/*.bin'))
+        # point_file_list=glob.glob(str(l=- /'training/points/*.bin'))
         # labels_file_list=glob.glob(str(self.root_path/'training/labels/*.txt'))
         # point_file_list.sort()
         # labels_file_list.sort()
@@ -89,8 +89,8 @@ class MyDataset(DatasetTemplate):
                                                         box['height'], box['angle'], VehicaleClasses[str(box["object_id"])]]
                 elements.append(element)
 
-            points_label = np.loadtxt(
-                self.samplelabel_file_list[index], dtype=np.float32).reshape(-1, 7)
+            # points_label = np.loadtxt(
+            #     self.samplelabel_file_list[index], dtype=np.float32).reshape(-1, 7)
             # points_label=points_label[:,[2,0,1,5,3,4,6]]
             points_label = np.array(elements)[:, :-1]
             gt_names = np.array(elements)[:, -1].reshape(-1, 1)
