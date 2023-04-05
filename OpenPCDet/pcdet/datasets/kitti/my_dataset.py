@@ -77,6 +77,10 @@ class MyDataset(DatasetTemplate):
         # points=points[:,[2,0,1]]
         # points[:,0]=-points[:,0]
         # points[:,1]=-points[:,1]
+        # points_label = np.loadtxt(
+        #     self.samplelabel_file_list[index], dtype=np.float32).reshape(-1, 7)
+        # points_label=points_label[:,[2,0,1,5,3,4,6]]
+
         with open(self.samplelabel_file_list[index]) as json_file:
             data = json.load(json_file)
             elements = []
@@ -89,9 +93,6 @@ class MyDataset(DatasetTemplate):
                                                         box['height'], box['angle'], VehicaleClasses[str(box["object_id"])]]
                 elements.append(element)
 
-            # points_label = np.loadtxt(
-            #     self.samplelabel_file_list[index], dtype=np.float32).reshape(-1, 7)
-            # points_label=points_label[:,[2,0,1,5,3,4,6]]
             points_label = np.array(elements)[:, :-1]
             gt_names = np.array(elements)[:, -1].reshape(-1, 1)
 
