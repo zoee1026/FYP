@@ -81,8 +81,8 @@ def train_PillarNet():
                        epochs=int(params.total_training_epochs),
                     #    epochs=1,
                        workers=6)
-        # pillar_net.save('my_model4')
-        # pillar_net.save(zoe_pointpillars)
+        pillar_net.save('my_model4')
+        pillar_net.save(zoe_pointpillars)
         print('save========================================================================================')
 
     except KeyboardInterrupt:
@@ -97,7 +97,7 @@ def train_PillarNet():
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - [%(levelname)s]: %(message)s")
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"] = '2,3'
+    os.environ["CUDA_VISIBLE_DEVICES"] = '3'
     # CUDA_VISIBLE_DEVICES=0,1
     # tf.get_logger().setLevel("ERROR")
     train_PillarNet()

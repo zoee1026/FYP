@@ -65,6 +65,7 @@ class MyDataset(DatasetTemplate):
         # labels_file_list.sort()
         self.sample_file_list = pd.read_csv(self.root_path)['lidar_files'].tolist()
         self.samplelabel_file_list = pd.read_csv(self.root_path)['label_files'].tolist()
+        self.infos = []
 
     def __len__(self):
         return len(self.sample_file_list)
