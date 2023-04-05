@@ -8,9 +8,6 @@ venv/
 *.idea/
 *.so
 *.yaml 
-!tools/cfgs/my/*.yaml
-!tools/cfgs/dataset_configs/my_dataset.yaml
-
 *.sh
 *.pth
 *.pkl
@@ -18,3 +15,7 @@ venv/
 *.bin
 output
 version.py
+
+!tools/cfgs/my/*.yaml
+!tools/cfgs/dataset_configs/mykitti_dataset.yaml
+!tools/cfgs/dataset_configs/mynuscenes_dataset.yaml
