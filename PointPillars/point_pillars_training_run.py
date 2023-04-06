@@ -31,9 +31,10 @@ def train_PillarNet():
 
     pillar_net = build_point_pillar_graph(params)
 
-    if os.path.exists(os.path.join(zoe_pointpillars)):
-        logging.info("Using pre-trained weights found at path: {}".format(zoe_pointpillars))
-        pillar_net.load_weights(zoe_pointpillars)
+    pretrained= os.path.join(MODEL_ROOT,MODEL_SAVE)
+    if os.path.exists(pretrained):
+        logging.info("Using pre-trained weights found at path: {}".format(pretrained))
+        pillar_net.load_weights(pretrained)
         print("load")
     else:
         logging.info("No pre-trained weights found. Initializing weights and training model.")
