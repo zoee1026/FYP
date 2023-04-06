@@ -13,7 +13,7 @@ DATA_CONFIG:
 
         - NAME: shuffle_points
           SHUFFLE_ENABLED: {
-            'train': False,
+            'train': True,
             'test': False
           }
 

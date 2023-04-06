@@ -13,8 +13,9 @@ import glob
 PATH = '/media/sdb1/deteval_13Jun2022'
 MATCH_DATA_PATH='/media/sdb1/zoe/FYP/folder_root/eval.csv'
 REMOVE_DONTCARE='/media/sdb1/zoe/FYP/folder_root/Eval_CleanClass.csv'
-LABELFILE='/media/sdb1/zoe/FYP/folder_root/EvaluationLabelSummary.csv'
+LABELFILE='/media/sdb1/zoe/FYP/folder_root/ALLLabelSummary.csv'
 CLEANFILE='/media/sdb1/zoe/FYP/folder_root/Eval_CleanFiles.csv'
+ALLFILES='/media/sdb1/zoe/FYP/folder_root/All.csv'
 
 Lidar_Path = ''
 Label_Path = ''
@@ -219,10 +220,10 @@ if __name__ == "__main__":
      
     # GetCleanedClasses()
     
-    # ReadAllLable(CLEANFILE)
+    ReadAllLable(ALLFILES)
     # lidar_files, label_files = GetMatchedDataFileInside(DataPath)      
     # print(lidar_files[0],label_files[0])
     # ReadLabelInOneFile(label_files[0])
-    path1=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\CleanFiles.csv'
-    path2=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\Eval_CleanFiles.csv'
-    CombineCSV(path1,path2)
+    # path1=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\CleanFiles.csv'
+    # path2=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\Eval_CleanFiles.csv'
+    # CombineCSV(path1,path2)
