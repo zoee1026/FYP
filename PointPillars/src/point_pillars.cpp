@@ -567,6 +567,7 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
                         }
 
                         tensor.mutable_at(objectCount, xId, yId, anchorCount, 9) = labelBox.classId;
+                        occu++;
 
                     }
                     else if (iouOverlap < negativeThreshold)
@@ -578,7 +579,7 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
                         tensor.mutable_at(objectCount, xId, yId, anchorCount, 0) = -1;
                     }
 
-                    anchorCount++;occu++;
+                    anchorCount++;
                 }
             }
         }
