@@ -396,7 +396,7 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
                                              float yMax,
                                              float zMin,
                                              float zMax,
-                                             bool printTime = false)
+                                             bool printTime = true)
 {
     
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
