@@ -40,8 +40,12 @@ precisions = {
     14: [],
     15: [],
 }
-RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Valcsv'
+RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val.csv'
 file_csv=pd.DataFrame()
+MODEL='zoe_pointpillars2.h5'
+# EVAL_PATH='test.csv'
+EVAL_PATH='/media/sdb1/zoe/FYP/folder_root/Eval_CleanFiles.csv'
+SAVE=True
 
 def generate_config_from_cmd_args():
     parser = argparse.ArgumentParser(
@@ -52,7 +56,7 @@ def generate_config_from_cmd_args():
                         help='Test data root path holding folders velodyne, calib')
     parser.add_argument('--result_dir', default="./Result", type=str, required=False,
                         help='Path for dumping result labels in KITTI format')
-    parser.add_argument('--model_path', default='zoe_pointpillars2.h5', type=str, required=False,
+    parser.add_argument('--model_path', default=MODEL, type=str, required=False,
                         help='Path to the model weights to be used for inference')
     parser.add_argument('--occ_thresh', default=0.4, type=float, required=False,
                         help='Occlusion threshold for predicted boxes')
@@ -144,8 +148,9 @@ def load_model_and_run_inference(configs):
         print(
             '----------------------------------------------------------------------------')
 
-        dump_predictions(get_formated_label(boxes, nms_indices), os.path.join(
-            out_labels_path, "{}.txt".format(file_name)),file_csv)
+        if SAVE:
+            dump_predictions(get_formated_label(boxes, nms_indices), os.path.join(
+                out_labels_path, "{}.txt".format(file_name)),file_csv)
 
     model_exec_time = model_exec_time[1:]
     total_model_exec_time = sum(model_exec_time)

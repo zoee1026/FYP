@@ -65,29 +65,29 @@ OutPutVehecleClasees = {
 
 
 class GridParameters:
-    # x_min = -50.4
-    # x_max = 23.52
-    # x_step = 0.28
+    x_min = -50.4
+    x_max = 23.52
+    x_step = 0.28
 
-    # y_min = -43.68
-    # y_max = 70.56
-    # y_step = 0.28
+    y_min = -43.68
+    y_max = 70.56
+    y_step = 0.28
 
-    # x_min = -52.8
-    # x_max = 28.8
-    # x_step = 0.2
+    # x_min = -51.2
+    # x_max = 29.44
+    # x_step = 0.16
 
-    # y_min = -43.2
-    # y_max = 62.4
-    # y_step = 0.2
+    # y_min = -39.68
+    # y_max = 69.12
+    # y_step = 0.16
 
-    x_min = -51.2
-    x_max = 29.44
-    x_step = 0.16
+    # x_min = -51.2
+    # x_max = 25.6
+    # x_step = 0.16
 
-    y_min = -39.68
-    y_max = 69.12
-    y_step = 0.16
+    # y_min = -46.08
+    # y_max = 56.32
+    # y_step = 0.16
 
     z_min = 1.2
     z_max = 6.4
@@ -127,8 +127,11 @@ class NetworkParameters:
     
     nb_dims = 3
 
+    # positive_iou_threshold = 0.5
+    # negative_iou_threshold = 0.35
     positive_iou_threshold = 0.6
     negative_iou_threshold = 0.3
+
     batch_size = 2
     total_training_epochs = 80
     # total_training_epochs = 20
