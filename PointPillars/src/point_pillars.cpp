@@ -481,6 +481,7 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
 
     int posCnt = 0;
     int negCnt = 0;
+    int occu=0;
     int objectCount = 0;
     if (printTime)
     {
@@ -577,7 +578,7 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
                         tensor.mutable_at(objectCount, xId, yId, anchorCount, 0) = -1;
                     }
 
-                    anchorCount++;
+                    anchorCount++;occu++;
                 }
             }
         }
@@ -625,23 +626,23 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
         }
         else
         {
-            posCnt++;
+            posCnt++;occu++;
             // if (printTime)
             // {
-            std::cout << "\nAt least 1 anchor was positively matched for object " << objectCount << std::endl;
-            std::cout << "Best IOU was " << maxIou << "." << std::endl;
-            std::cout << "Number of posCnt " << posCnt << "." << std::endl;
+            // std::cout << "\nAt least 1 anchor was positively matched for object " << objectCount << std::endl;
+
 
             // }
         }
-
+        std::cout << "Best IOU was " << maxIou << "." << std::endl;
+        std::cout << "Number of posCnt " << occu << "." << std::endl;
         objectCount++;
     }
 
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
-    if (printTime)
-        std::cout << "createPillarsTarget took: " << static_cast<float>(duration) / 1e6 << " seconds" << std::endl;
+    // if (printTime)
+    std::cout << "createPillarsTarget took: " << static_cast<float>(duration) / 1e6 << " seconds" << std::endl;
 
     return std::make_tuple(tensor, posCnt, negCnt);
 }
