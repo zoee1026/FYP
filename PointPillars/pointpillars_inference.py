@@ -44,7 +44,7 @@ RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val.csv'
 MODEL='zoe_pointpillars2.h5'
 EVAL_PATH='test.csv'
 # EVAL_PATH='/media/sdb1/zoe/FYP/folder_root/Eval_CleanFiles.csv'
-SAVE=True
+SAVE=False
 
 def generate_config_from_cmd_args():
     parser = argparse.ArgumentParser(
@@ -68,8 +68,9 @@ def generate_config_from_cmd_args():
     # return image_file_names, lidar_file_names, calib_file_names
 
 
-def load_model_and_run_inference(configs, csv):
+def load_model_and_run_inference(configs):
     params = Parameters()  # Load all model related parameters
+    csv =pd.DataFrame()
     pillar_net = build_point_pillar_graph(params, batch_size=1)
 
     logging.info("Loading model from path: {}".format(configs.model_path))
@@ -155,9 +156,10 @@ def load_model_and_run_inference(configs, csv):
     model_fps = len(model_exec_time) / total_model_exec_time
     logging.info("PointPillars model inference FPS: {}".format(model_fps))
 
-    print('----------------------------------------------------------------')
-    print(csv.info())
-    csv.to_csv(RESULT_LABEL_CSV)
+    if SAVE:
+        print('----------------------------------------------------------------')
+        print(csv.info())
+        csv.to_csv(RESULT_LABEL_CSV)
 
 
 if __name__ == '__main__':
@@ -170,9 +172,7 @@ if __name__ == '__main__':
     logging.info("Results will be saved at path: {}".format(
         pred_config.result_dir))
     
-    Result_CSV =pd.DataFrame()
-
-    load_model_and_run_inference(pred_config,Result_CSV)
+    load_model_and_run_inference(pred_config)
     Get_finalPrecisions(precisions)
 
 
