@@ -41,7 +41,7 @@ precisions = {
     15: [],
 }
 RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val.csv'
-file_csv=pd.DataFrame()
+FILE_CCSV=pd.DataFrame()
 MODEL='zoe_pointpillars2.h5'
 EVAL_PATH='test.csv'
 # EVAL_PATH='/media/sdb1/zoe/FYP/folder_root/Eval_CleanFiles.csv'
@@ -139,8 +139,8 @@ def load_model_and_run_inference(configs):
         # Print out prediction
         print(len(boxes))
         nms_boxes = [boxes[i] for i in nms_indices]
-        for i in nms_boxes:
-            print(i)
+        # for i in nms_boxes:
+        #     print(i)
         print(len(nms_boxes))
         gt = ReadGTLabel(label_files[idx])
         cal_precision(nms_boxes, gt, precisions)
@@ -150,7 +150,7 @@ def load_model_and_run_inference(configs):
 
         if SAVE:
             dump_predictions(get_formated_label(boxes, nms_indices), os.path.join(
-                out_labels_path, "{}.txt".format(file_name)),file_csv)
+                out_labels_path, "{}.txt".format(file_name)),FILE_CCSV)
 
     model_exec_time = model_exec_time[1:]
     total_model_exec_time = sum(model_exec_time)
@@ -172,5 +172,5 @@ if __name__ == '__main__':
     Get_finalPrecisions(precisions)
 
     print('----------------------------------------------------------------')
-    print(file_csv.info())
-    file_csv.to_csv(RESULT_LABEL_CSV)
+    print(FILE_CCSV.info())
+    FILE_CCSV.to_csv(RESULT_LABEL_CSV)

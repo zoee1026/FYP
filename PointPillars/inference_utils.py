@@ -296,7 +296,7 @@ def dump_predictions(predictions: List, file_path: str, file_csv:pd.DataFrame):
 
                 bboxList.append(file_path)
                 bboxList.append(file_path.split('/')[-1])
-
+                print(bboxList)
                 df = pd.DataFrame(bboxList)
                 file_csv = pd.concat([df, file_csv])
 
