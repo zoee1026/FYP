@@ -25,8 +25,8 @@ MODEL_PATH = "model.h5"
 MODEL_SAVE = "train.h5"
 
 # zoe_pointpillars='zoe_pp_yolo1.h5'
-# zoe_pointpillars='zoe_pp_yolo1.h5'
-zoe_pointpillars='zoe_pointpillars4.h5'
+zoe_pointpillars='zoe_pp_yolo1.h5'
+# zoe_pointpillars='zoe_pointpillars4.h5'
 
 
 def train_PillarNet():
@@ -92,7 +92,7 @@ def train_PillarNet():
 
     except KeyboardInterrupt:
         model_str = "interrupted_%s.h5" % time.strftime("%Y%m%d-%H%M%S")
-        pillar_net.save(os.path.join(log_dir, model_str))
+        # pillar_net.save(os.path.join(log_dir, model_str))
         pillar_net.save(zoe_pointpillars)
         print("Interrupt. Saving output to %s" % os.path.join(os.getcwd(), log_dir[1:], model_str))
         print('<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
