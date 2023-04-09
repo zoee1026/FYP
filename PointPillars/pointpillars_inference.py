@@ -45,7 +45,7 @@ file_csv=pd.DataFrame()
 MODEL='zoe_pointpillars2.h5'
 EVAL_PATH='test.csv'
 # EVAL_PATH='/media/sdb1/zoe/FYP/folder_root/Eval_CleanFiles.csv'
-SAVE=True
+SAVE=False
 
 def generate_config_from_cmd_args():
     parser = argparse.ArgumentParser(
@@ -173,3 +173,4 @@ if __name__ == '__main__':
 
     print('----------------------------------------------------------------')
     print(file_csv.info())
+    file_csv.to_csv(RESULT_LABEL_CSV)

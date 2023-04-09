@@ -283,7 +283,7 @@ def get_formated_label(boxes: List[BBox], indices: List):
     return labels
 
 
-def dump_predictions(predictions: List, file_path: str, file_csv):
+def dump_predictions(predictions: List, file_path: str, file_csv:pd.DataFrame):
     """ Dumps the model predictions in txt files so that it can be used by KITTI evaluation toolkit """
     with open(file_path, 'w') as out_txt_file:
         if len(predictions):
