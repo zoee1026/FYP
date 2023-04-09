@@ -91,21 +91,21 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     # 80, 80, 512 -> 80, 80, 256
     P3_out      = C3(P4_upsample, int(nb_channels * 4), base_depth, shortcut = False, name = 'conv3_for_upsample2')
 
-    # 80, 80, 256 -> 40, 40, 256
-    P3_downsample   = ZeroPadding2D(((1, 0),(1, 0)))(P3_out)
-    P3_downsample   = DarknetConv2D_BN_SiLU(int(nb_channels * 4), (3, 3), strides = (2, 2), name = 'down_sample1')(P3_downsample)
-    # 40, 40, 256 cat 40, 40, 256 -> 40, 40, 512
-    P3_downsample   = Concatenate(axis = -1)([P3_downsample, P4])
-    # 40, 40, 512 -> 40, 40, 512
-    P4_out          = C3(P3_downsample, int(nb_channels * 8), base_depth, shortcut = False, name = 'conv3_for_downsample1') 
+    # # 80, 80, 256 -> 40, 40, 256
+    # P3_downsample   = ZeroPadding2D(((1, 0),(1, 0)))(P3_out)
+    # P3_downsample   = DarknetConv2D_BN_SiLU(int(nb_channels * 4), (3, 3), strides = (2, 2), name = 'down_sample1')(P3_downsample)
+    # # 40, 40, 256 cat 40, 40, 256 -> 40, 40, 512
+    # P3_downsample   = Concatenate(axis = -1)([P3_downsample, P4])
+    # # 40, 40, 512 -> 40, 40, 512
+    # P4_out          = C3(P3_downsample, int(nb_channels * 8), base_depth, shortcut = False, name = 'conv3_for_downsample1') 
 
-    # 40, 40, 512 -> 20, 20, 512
-    P4_downsample   = ZeroPadding2D(((1, 0),(1, 0)))(P4_out)
-    P4_downsample   = DarknetConv2D_BN_SiLU(int(nb_channels * 8), (3, 3), strides = (2, 2), name = 'down_sample2')(P4_downsample)
-    # 20, 20, 512 cat 20, 20, 512 -> 20, 20, 1024
-    P4_downsample   = Concatenate(axis = -1)([P4_downsample, P5])
-    # 20, 20, 1024 -> 20, 20, 1024
-    P5_out          = C3(P4_downsample, int(nb_channels * 16), base_depth, shortcut = False, name = 'conv3_for_downsample2')
+    # # 40, 40, 512 -> 20, 20, 512
+    # P4_downsample   = ZeroPadding2D(((1, 0),(1, 0)))(P4_out)
+    # P4_downsample   = DarknetConv2D_BN_SiLU(int(nb_channels * 8), (3, 3), strides = (2, 2), name = 'down_sample2')(P4_downsample)
+    # # 20, 20, 512 cat 20, 20, 512 -> 20, 20, 1024
+    # P4_downsample   = Concatenate(axis = -1)([P4_downsample, P5])
+    # # 20, 20, 1024 -> 20, 20, 1024
+    # P5_out          = C3(P4_downsample, int(nb_channels * 16), base_depth, shortcut = False, name = 'conv3_for_downsample2')
 
     # UpSample back 
     output = tf.keras.layers.Conv2DTranspose(2 * nb_channels, (3, 3), strides=(4, 4), padding="same", activation="linear",
