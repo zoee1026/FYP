@@ -87,7 +87,7 @@ class GridParameters:
     # y_step = 0.16
 
     # zoe_pointpillars4
-    x_min = -51.2
+    x_min = -56.32
     x_max = 25.6
     x_step = 0.16
 
@@ -123,7 +123,7 @@ class NetworkParameters:
 
     max_points_per_pillar = 100
     # max_pillars = 10000
-    max_pillars = 1000
+    max_pillars = 10000
 
     nb_features = 9
     nb_channels = 64
@@ -154,7 +154,7 @@ class NetworkParameters:
     focal_weight = 3.0      # 1.0
     loc_weight = 2.0        # 2.0
     size_weight = 2.0       # 2.0
-    angle_weight = 1.0      # 2.0
+    angle_weight = 2.0      # 2.0
     heading_weight = 0.2    # 0.2
     class_weight = 0.5      # 0.2
 
