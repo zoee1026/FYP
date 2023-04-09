@@ -68,7 +68,7 @@ def generate_config_from_cmd_args():
     # return image_file_names, lidar_file_names, calib_file_names
 
 
-def load_model_and_run_inference(configs, FILE_CCSV):
+def load_model_and_run_inference(configs, csv):
     params = Parameters()  # Load all model related parameters
     pillar_net = build_point_pillar_graph(params, batch_size=1)
 
@@ -148,8 +148,8 @@ def load_model_and_run_inference(configs, FILE_CCSV):
             '----------------------------------------------------------------------------')
 
         if SAVE:
-            dump_predictions(get_formated_label(boxes, nms_indices), os.path.join(
-                out_labels_path, "{}.txt".format(file_name)),FILE_CCSV)
+            csv=dump_predictions(get_formated_label(boxes, nms_indices), os.path.join(
+                out_labels_path, "{}.txt".format(file_name)),csv)
 
     model_exec_time = model_exec_time[1:]
     total_model_exec_time = sum(model_exec_time)
@@ -167,11 +167,11 @@ if __name__ == '__main__':
     logging.info("Results will be saved at path: {}".format(
         pred_config.result_dir))
     
-    FILE_CCSV=pd.DataFrame()
+    Result_CSV =pd.DataFrame()
 
-    load_model_and_run_inference(pred_config,FILE_CCSV )
+    load_model_and_run_inference(pred_config,Result_CSV  )
     Get_finalPrecisions(precisions)
 
     print('----------------------------------------------------------------')
-    print(FILE_CCSV.info())
-    FILE_CCSV.to_csv(RESULT_LABEL_CSV)
+    print(Result_CSV .info())
+    Result_CSV .to_csv(RESULT_LABEL_CSV)
