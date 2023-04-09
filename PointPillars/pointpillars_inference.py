@@ -139,8 +139,8 @@ def load_model_and_run_inference(configs):
         # Print out prediction
         print(len(boxes))
         nms_boxes = [boxes[i] for i in nms_indices]
-        # for i in nms_boxes:
-        #     print(i)
+        for i in nms_boxes:
+            print(i)
         print(len(nms_boxes))
         gt = ReadGTLabel(label_files[idx])
         cal_precision(nms_boxes, gt, precisions)
