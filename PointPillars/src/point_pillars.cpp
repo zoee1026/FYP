@@ -354,23 +354,23 @@ float align_iou(const BoundingBox3D& box1,
           const BoundingBox3D& box2)
 {
     // Compute the coordinates of the four corners of each rectangle
-    double x1_min = box1.x- box1.length/2, x1_max = box1.x+ box1.length/2;
-    double y1_min = box1.y- box1.width/2, y1_max = box1.y+ box1.width/2;
-    double x2_min = box2.x- box2.length/2, x2_max = box2.x+ box2.length/2;
-    double y2_min = box2.y- box2.width/2, y2_max = box2.y+ box2.width/2;
+    float x1_min = box1.x- box1.length/2, x1_max = box1.x+ box1.length/2;
+    float y1_min = box1.y- box1.width/2, y1_max = box1.y+ box1.width/2;
+    float x2_min = box2.x- box2.length/2, x2_max = box2.x+ box2.length/2;
+    float y2_min = box2.y- box2.width/2, y2_max = box2.y+ box2.width/2;
 
     // Compute the overlap area between the two rectangles
-    double x_overlap = max(0.0, min(x1_max, x2_max) - max(x1_min, x2_min));
-    double y_overlap = max(0.0, min(y1_max, y2_max) - max(y1_min, y2_min));
-    double overlap_area = x_overlap * y_overlap;
+    float x_overlap = std::max(0.0, std::min(x1_max, x2_max) - std::max(x1_min, x2_min));
+    float y_overlap = std::max(0.0, std::min(y1_max, y2_max) - std::max(y1_min, y2_min));
+    float overlap_area = x_overlap * y_overlap;
 
     // Compute the union area of the two rectangles
-    double area1 = box1.length * box1.width;
-    double area2 = box2.length * box2.width;
-    double union_area = area1 + area2 - overlap_area;
+    float area1 = box1.length * box1.width;
+    float area2 = box2.length * box2.width;
+    float union_area = area1 + area2 - overlap_area;
 
     // Compute the IoU
-    double iou = overlap_area / union_area;
+    float iou = overlap_area / union_area;
 
     // Return the IoU value
     return iou;
