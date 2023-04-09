@@ -299,9 +299,7 @@ def dump_predictions(predictions: List, file_path: str, file_csv:pd.DataFrame):
                 print(bboxList)
                 df = pd.DataFrame([bboxList])
                 file_csv = pd.concat([file_csv,df], ignore_index=True)
-                print(len(file_csv))
         return file_csv
-
 
 
 def ReadGTLabel(labelPath):

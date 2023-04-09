@@ -144,17 +144,20 @@ def load_model_and_run_inference(configs, csv):
         gt = ReadGTLabel(label_files[idx])
         cal_precision(nms_boxes, gt, precisions)
 
-        print(
-            '----------------------------------------------------------------------------')
-
         if SAVE:
             csv=dump_predictions(get_formated_label(boxes, nms_indices), os.path.join(
                 out_labels_path, "{}.txt".format(file_name)),csv)
+        print('----------------------------------------------------------------------------')
+    
 
     model_exec_time = model_exec_time[1:]
     total_model_exec_time = sum(model_exec_time)
     model_fps = len(model_exec_time) / total_model_exec_time
     logging.info("PointPillars model inference FPS: {}".format(model_fps))
+
+    print('----------------------------------------------------------------')
+    print(Result_CSV .info())
+    Result_CSV .to_csv(RESULT_LABEL_CSV)
 
 
 if __name__ == '__main__':
@@ -172,6 +175,4 @@ if __name__ == '__main__':
     load_model_and_run_inference(pred_config,Result_CSV  )
     Get_finalPrecisions(precisions)
 
-    print('----------------------------------------------------------------')
-    print(Result_CSV .info())
-    Result_CSV .to_csv(RESULT_LABEL_CSV)
+
