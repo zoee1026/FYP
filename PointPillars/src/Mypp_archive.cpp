@@ -254,6 +254,33 @@ Polyline2D boundingBox3DToTopDown(const BoundingBox3D &box1)
     return box;
 }
 
+// Polyline2D boundingBox3DToTopDown(const BoundingBox3D &box1)
+// {
+//     Polyline2D box;
+//     box.push_back({rotatedX(-0.5 * box1.length, 0.5 * box1.width,
+//                             box1.yaw) + box1.x,
+//                    rotatedY(-0.5 * box1.length, 0.5 * box1.width,
+//                             box1.yaw) + box1.y});
+
+//     box.push_back({rotatedX(0.5 * box1.length, 0.5 * box1.width,
+//                             box1.yaw) + box1.x,
+//                    rotatedY(0.5 * box1.length, 0.5 * box1.width,
+//                             box1.yaw) + box1.y});
+
+//     box.push_back({rotatedX(0.5 * box1.length, -0.5 * box1.width,
+//                             box1.yaw) + box1.x,
+//                    rotatedY(0.5 * box1.length, -0.5 * box1.width,
+//                             box1.yaw) + box1.y});
+
+//     box.push_back({rotatedX(-0.5 * box1.length, -0.5 * box1.width,
+//                             box1.yaw) + box1.x,
+//                    rotatedY(-0.5 * box1.length, -0.5 * box1.width,
+//                             box1.yaw) + box1.y});
+
+//     return box;
+// }
+
+
 // This functions clips all the edges w.r.t one Clip edge of clipping area
 // Returns a clipped polygon...
 Polyline2D clip(const Polyline2D &poly_points,
@@ -350,33 +377,6 @@ int clip(int n, int lower, int upper) {
   return std::max(lower, std::min(n, upper));
 }
 
-float align_iou(const BoundingBox3D& box1,
-          const BoundingBox3D& box2)
-{
-    // Compute the coordinates of the four corners of each rectangle
-    double x1_min = box1.x- box1.length/2, x1_max = box1.x+ box1.length/2;
-    double y1_min = box1.y- box1.width/2, y1_max = box1.y+ box1.width/2;
-    double x2_min = box2.x- box2.length/2, x2_max = box2.x+ box2.length/2;
-    double y2_min = box2.y- box2.width/2, y2_max = box2.y+ box2.width/2;
-
-    // Compute the overlap area between the two rectangles
-    double x_overlap = max(0.0, min(x1_max, x2_max) - max(x1_min, x2_min));
-    double y_overlap = max(0.0, min(y1_max, y2_max) - max(y1_min, y2_min));
-    double overlap_area = x_overlap * y_overlap;
-
-    // Compute the union area of the two rectangles
-    double area1 = box1.length * box1.width;
-    double area2 = box2.length * box2.width;
-    double union_area = area1 + area2 - overlap_area;
-
-    // Compute the IoU
-    double iou = overlap_area / union_area;
-
-    // Return the IoU value
-    return iou;
-}
-
-
 std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind11::array_t<float>& objectPositions,
                                              const pybind11::array_t<float>& objectDimensions,
                                              const pybind11::array_t<float>& objectYaws,
@@ -396,7 +396,7 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
                                              float yMax,
                                              float zMin,
                                              float zMax,
-                                             bool printTime = true)
+                                             bool printTime = false)
 {
     
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
@@ -492,7 +492,7 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
     {
         // zone-in on potential spatial area of interest
         // Length of (width,length) axis diagonal.
-        float objectDiameter = std::sqrt(std::pow(labelBox.width, 2) + std::pow(labelBox.length, 2))/2;
+        float objectDiameter = std::sqrt(std::pow(labelBox.width, 2) + std::pow(labelBox.length, 2));
         // Offset = Number of grid boxes that can fit on the object diameter
         const auto x_offset = static_cast<int>(std::ceil(objectDiameter / (xStep * downscalingFactor)));
         const auto y_offset = static_cast<int>(std::ceil(objectDiameter / (yStep * downscalingFactor)));
@@ -531,8 +531,7 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
                     // This is because we need to check them along the X-Y grid.
                     // However, they did have a z value attached to them. 
 
-                    // const float iouOverlap = iou(anchorBox, labelBox); // Get IOU between two 3D boxes.
-                    const float iouOverlap = align_iou(anchorBox, labelBox); // Get IOU between two 3D boxes.
+                    const float iouOverlap = iou(anchorBox, labelBox); // Get IOU between two 3D boxes.
 
                     if (maxIou < iouOverlap)
                     {

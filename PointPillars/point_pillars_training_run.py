@@ -9,7 +9,8 @@ from easydict import EasyDict as edict
 
 from config import Parameters
 from loss import PointPillarNetworkLoss
-from network import build_point_pillar_graph
+# from nets.network import build_point_pillar_graph
+from nets.network_yolo import build_point_pillar_graph
 from processors import SimpleDataGenerator
 from readers import KittiDataReader
 
@@ -25,7 +26,7 @@ MODEL_SAVE = "train.h5"
 
 # zoe_pointpillars='zoe_pp_yolo1.h5'
 # zoe_pointpillars='zoe_pp_yolo1.h5'
-zoe_pointpillars='zoe_pointpillars2.h5'
+zoe_pointpillars='zoe_pointpillars4.h5'
 
 
 def train_PillarNet():

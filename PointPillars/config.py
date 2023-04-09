@@ -1,7 +1,9 @@
 import numpy as np
 import pandas as pd
 
-Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchor.csv'
+# Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchor.csv'
+Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans.csv'
+
 # Anchor_file=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\ZoeAnchor.csv'
 
 VehicaleClasses = {
@@ -65,14 +67,17 @@ OutPutVehecleClasees = {
 
 
 class GridParameters:
-    x_min = -50.4
-    x_max = 23.52
-    x_step = 0.28
 
-    y_min = -43.68
-    y_max = 70.56
-    y_step = 0.28
+    # zoe_pointpillars2
+    # x_min = -50.4
+    # x_max = 23.52
+    # x_step = 0.28
 
+    # y_min = -43.68
+    # y_max = 70.56
+    # y_step = 0.28
+
+    # zoe_pointpillars3
     # x_min = -51.2
     # x_max = 29.44
     # x_step = 0.16
@@ -81,13 +86,14 @@ class GridParameters:
     # y_max = 69.12
     # y_step = 0.16
 
-    # x_min = -51.2
-    # x_max = 25.6
-    # x_step = 0.16
+    # zoe_pointpillars4
+    x_min = -51.2
+    x_max = 25.6
+    x_step = 0.16
 
-    # y_min = -46.08
-    # y_max = 56.32
-    # y_step = 0.16
+    y_min = -46.08
+    y_max = 56.32
+    y_step = 0.16
 
     z_min = 1.2
     z_max = 6.4
@@ -120,17 +126,17 @@ class NetworkParameters:
     max_pillars = 1000
 
     nb_features = 9
-    nb_channels = 128
+    nb_channels = 64
     downscaling_factor = 2
 
-    anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).iloc[1:,:].values, dtype=np.float32).tolist(),3)
-    
+    # anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).iloc[1:,:].values, dtype=np.float32).tolist(),3)
+    anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).values, dtype=np.float32).tolist(),3)
     nb_dims = 3
 
     # positive_iou_threshold = 0.5
     # negative_iou_threshold = 0.35
-    positive_iou_threshold = 0.6
-    negative_iou_threshold = 0.3
+    positive_iou_threshold = 0.7
+    negative_iou_threshold = 0.35
 
     batch_size = 4
     total_training_epochs = 80
