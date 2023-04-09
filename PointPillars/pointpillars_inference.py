@@ -43,8 +43,8 @@ precisions = {
 RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val.csv'
 file_csv=pd.DataFrame()
 MODEL='zoe_pointpillars2.h5'
-# EVAL_PATH='test.csv'
-EVAL_PATH='/media/sdb1/zoe/FYP/folder_root/Eval_CleanFiles.csv'
+EVAL_PATH='test.csv'
+# EVAL_PATH='/media/sdb1/zoe/FYP/folder_root/Eval_CleanFiles.csv'
 SAVE=True
 
 def generate_config_from_cmd_args():
