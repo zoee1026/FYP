@@ -298,8 +298,10 @@ def dump_predictions(predictions: List, file_path: str, file_csv:pd.DataFrame):
                 bboxList.append(file_path.split('/')[-1])
                 print(bboxList)
                 df = pd.DataFrame([bboxList])
-                print(len(df))
                 file_csv = pd.concat([file_csv,df], ignore_index=True)
+                print(len(file_csv))
+        return file_csv
+
 
 
 def ReadGTLabel(labelPath):
