@@ -41,7 +41,6 @@ precisions = {
     15: [],
 }
 RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val.csv'
-FILE_CCSV=pd.DataFrame()
 MODEL='zoe_pointpillars2.h5'
 EVAL_PATH='test.csv'
 # EVAL_PATH='/media/sdb1/zoe/FYP/folder_root/Eval_CleanFiles.csv'
@@ -69,7 +68,7 @@ def generate_config_from_cmd_args():
     # return image_file_names, lidar_file_names, calib_file_names
 
 
-def load_model_and_run_inference(configs):
+def load_model_and_run_inference(configs, FILE_CCSV):
     params = Parameters()  # Load all model related parameters
     pillar_net = build_point_pillar_graph(params, batch_size=1)
 
@@ -167,8 +166,10 @@ if __name__ == '__main__':
 
     logging.info("Results will be saved at path: {}".format(
         pred_config.result_dir))
+    
+    FILE_CCSV=pd.DataFrame()
 
-    load_model_and_run_inference(pred_config)
+    load_model_and_run_inference(pred_config,FILE_CCSV )
     Get_finalPrecisions(precisions)
 
     print('----------------------------------------------------------------')
