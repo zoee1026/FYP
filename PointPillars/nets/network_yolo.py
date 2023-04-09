@@ -109,7 +109,7 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
 
     # UpSample back 
     output = tf.keras.layers.Conv2DTranspose(2 * nb_channels, (3, 3), strides=(16, 16), padding="same", activation="linear",
-                                          use_bias=False, name="cnn/up3/conv2dt")(output)
+                                          use_bias=False, name="cnn/up3/conv2dt")(P3_out)
     output = tf.keras.layers.BatchNormalization(name="cnn/up3/bn", fused=True)(output)
     output = tf.keras.layers.Activation("relu", name="cnn/up3/relu")(output)
 
