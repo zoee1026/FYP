@@ -156,8 +156,8 @@ def load_model_and_run_inference(configs, csv):
     logging.info("PointPillars model inference FPS: {}".format(model_fps))
 
     print('----------------------------------------------------------------')
-    print(Result_CSV .info())
-    Result_CSV .to_csv(RESULT_LABEL_CSV)
+    print(csv.info())
+    csv.to_csv(RESULT_LABEL_CSV)
 
 
 if __name__ == '__main__':
@@ -172,7 +172,7 @@ if __name__ == '__main__':
     
     Result_CSV =pd.DataFrame()
 
-    load_model_and_run_inference(pred_config,Result_CSV  )
+    load_model_and_run_inference(pred_config,Result_CSV)
     Get_finalPrecisions(precisions)
 
 
