@@ -26,7 +26,7 @@ MODEL_PATH = "model.h5"
 MODEL_SAVE = "train.h5"
 
 # zoe_pointpillars='zoe_pp_yolo1.h5'
-zoe_pointpillars='zoe_pp_yolo1.h5'
+zoe_pointpillars='zoe_pp_yolo2.h5'
 # zoe_pointpillars='zoe_pointpillars4.h5'
 
 
