@@ -68,7 +68,7 @@ OutPutVehecleClasees = {
 
 class GridParameters:
 
-    # zoe_pointpillars2
+    # zoe_pointpillars2,4
     x_min = -50.4
     x_max = 23.52
     x_step = 0.28
@@ -86,7 +86,7 @@ class GridParameters:
     # y_max = 69.12
     # y_step = 0.16
 
-    # zoe_pointpillars4
+    # zoe_pp_yolo1
     x_min = -56.32
     x_max = 25.6
     x_step = 0.16
