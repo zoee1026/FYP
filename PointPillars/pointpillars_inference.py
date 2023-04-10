@@ -78,7 +78,7 @@ def load_model_and_run_inference(configs):
     logging.info("Loading model from path: {}".format(configs.model_path))
     # model = tf.saved_model.load('model_directory')
     pillar_net.load_weights(configs.model_path)
-    logging.info("Model loaded.")
+    logging.info("Model loaded.==============================================================================")
 
     lidar_files, label_files = ReadFileFromPath(configs.data_root)
 
@@ -102,7 +102,7 @@ def load_model_and_run_inference(configs):
         occupancy, position, size, angle, heading, classification = pillar_net_predict_server(
             [pillars, voxels], pillar_net)
         stop = time.time()
-        logging.debug(
+        print(
             "Single frame PointPillars inference time using predict server: {}".format(stop-start))
         model_exec_time.append(stop-start)
 

@@ -368,7 +368,7 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_thr
     # according to the predicted regression targets
     anchor_dims = anchor_dims
     real_anchors = np.random.rand(len(coordinates), len(anchor_dims[0]))
-
+    print(len(real_boxes))
     for i, value in enumerate(real_boxes[2]):
         real_anchors[i, ...] = anchor_dims[value]
 
