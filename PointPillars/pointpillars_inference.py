@@ -51,8 +51,6 @@ SAVE=False
 def generate_config_from_cmd_args():
     parser = argparse.ArgumentParser(
         description='PointPillars inference on test data.')
-    parser.add_argument('--gpu_idx', default=2, type=int, required=False,
-                        help='GPU index to use for inference')
     parser.add_argument('--data_root', default=EVAL_PATH, type=str, required=False,
                         help='Test data root path holding folders velodyne, calib')
     parser.add_argument('--result_dir', default="./Result", type=str, required=False,
@@ -169,8 +167,7 @@ if __name__ == '__main__':
                         format="%(asctime)s - [%(levelname)s]: %(message)s")
     pred_config = generate_config_from_cmd_args()
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"] = str(pred_config.gpu_idx)
-
+    os.environ["CUDA_VISIBLE_DEVICES"] = '2,3'
     logging.info("Results will be saved at path: {}".format(
         pred_config.result_dir))
     
