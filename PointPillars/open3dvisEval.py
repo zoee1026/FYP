@@ -41,17 +41,25 @@ def ReadResultInOneFile(labelPath):
 
 
 if __name__ == '__main__':
-    # PointPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\train_files\2020_12_03=00_03_35_387.bin'
-    # LabelPath=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_label\2020_12_03=00_03_35_387.bin.json"
-    PointPath = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_lidar\2020_12_02=09_28_20_428.bin'
-    LabelPath = r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_label\2020_12_02=09_28_20_428.bin.json"
-    resultPath = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_result\2020_12_02=09_28_20_428.txt'
+    resultPath=''
+    PointPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\train_files\2020_12_03=00_03_35_387.bin'
+    LabelPath=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_label\2020_12_03=00_03_35_387.bin.json"
+    # PointPath = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_lidar\2020_12_02=09_28_20_428.bin'
+    # LabelPath = r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_label\2020_12_02=09_28_20_428.bin.json"
+    # resultPath = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_result\2020_12_02=09_28_20_428.txt'
+
     label_elements = ReadLabelInOneFile(LabelPath)
-    # labels=[VehicaleClasses[x] for x in list(label_elements[:,-1])]
-    result_elements = ReadResultInOneFile(resultPath)
-    print(result_elements[:, -1])
-    draw_scenes(PointPath=PointPath, transform=False, gt_boxes=label_elements,
-                ref_boxes=result_elements, ref_labels=result_elements[:, -1])
-    # draw_scenes(PointPath=PointPath,transform=False,gt_boxes=label_elements, ref_labels=labels)
-    CountNumPoint(pointpath=PointPath, vertices=np.array(
-        [[-21.25832748,  -1.55922395], [-16.85124969,  -1.55922395], [-21.25832748,   0.14472836],[-16.85124969,   0.14472836]]))
+    labels=[VehicaleClasses[x] for x in list(label_elements[:,-1])]
+
+
+    if resultPath:
+        result_elements = ReadResultInOneFile(resultPath)
+        print(result_elements[:, -1])
+        draw_scenes(PointPath=PointPath, transform=False, gt_boxes=label_elements,
+                    ref_boxes=result_elements, ref_labels=result_elements[:, -1])
+    else:
+        draw_scenes(PointPath=PointPath,transform=False,gt_boxes=label_elements, ref_labels=labels)
+
+
+    # CountNumPoint(pointpath=PointPath, vertices=np.array(
+    #     [[-21.25832748,  -1.55922395], [-16.85124969,  -1.55922395], [-21.25832748,   0.14472836],[-16.85124969,   0.14472836]]))
