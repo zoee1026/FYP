@@ -23,7 +23,7 @@ tf.get_logger().setLevel("ERROR")
 DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
 MODEL_ROOT = "./log"
 MODEL_PATH = "model.h5"
-MODEL_SAVE = "train.h5"
+MODEL_SAVE = "train2.h5"
 
 # zoe_pointpillars='zoe_pp_yolo1.h5'
 zoe_pointpillars='zoe_pp_yolo2.h5'
@@ -103,7 +103,7 @@ def train_PillarNet():
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - [%(levelname)s]: %(message)s")
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"] = '2,3'
+    os.environ["CUDA_VISIBLE_DEVICES"] = '1,3'
     # CUDA_VISIBLE_DEVICES=0,1
     # tf.get_logger().setLevel("ERROR")
     train_PillarNet()
