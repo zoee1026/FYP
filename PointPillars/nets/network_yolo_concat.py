@@ -12,7 +12,7 @@ from keras.layers import (Concatenate, Input, Lambda, UpSampling2D,
                           ZeroPadding2D)
 from keras.models import Model
 
-from nets.CSPdarknet import (C3, DarknetConv2D, DarknetConv2D_BN_SiLU,
+from nets.CSPdarknet_3resnet import (C3, DarknetConv2D, DarknetConv2D_BN_SiLU,
                              darknet_body,compose)
 import tensorflow as tf
 import numpy as np
