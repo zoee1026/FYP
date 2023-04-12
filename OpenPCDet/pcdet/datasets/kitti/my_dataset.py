@@ -139,7 +139,7 @@ class MyDataset(DatasetTemplate):
             infos = pickle.load(f)
 
         for k in range(len(infos)):
-             print('gt_database sample: %d/%d' % (k + 1, len(infos)))
+            print('gt_database sample: %d/%d' % (k + 1, len(infos)))
             info = infos[k]
             sample_idx = info['point_cloud']['lidar_idx']
             points = self.get_lidar(sample_idx)
