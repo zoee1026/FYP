@@ -79,7 +79,7 @@ def load_model_and_run_inference(configs):
 
     logging.info("Loading model from path: {}".format(configs.model_path))
     # model = tf.saved_model.load('model_directory')
-    with h5py.File(os.path.join(MODEL_ROOT,MODEL_SAVE), 'r') as f:
+    with h5py.File(MODEL, 'r') as f:
             pillar_net.load_weights(f)
     f.close()
     logging.info("Model loaded.==============================================================================")
