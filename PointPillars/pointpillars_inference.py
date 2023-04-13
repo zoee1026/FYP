@@ -79,8 +79,10 @@ def load_model_and_run_inference(configs):
 
     logging.info("Loading model from path: {}".format(configs.model_path))
     # model = tf.saved_model.load('model_directory')
-    with h5py.File(configs.model_path, 'r+') as f:
-        pillar_net.load_weights(f)
+    # with h5py.File(configs.model_path, 'r') as f:
+    #     pillar_net.load_weights(f)
+    pillar_net.load_weights(MODEL)
+
     logging.info("Model loaded.==============================================================================")
 
     lidar_files, label_files = ReadFileFromPath(configs.data_root)
