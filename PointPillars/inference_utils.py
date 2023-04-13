@@ -399,7 +399,7 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_thr
         bb_conf = occ[value]
         predicted_boxes.append(BBox(bb_x, bb_y, bb_z+bb_height/2, bb_length, bb_width, bb_height,
                                     bb_yaw, bb_heading, bb_cls, bb_conf))
-    print('ok2')
+        print('ok',i,'===========')
         
 
     return predicted_boxes
