@@ -167,7 +167,7 @@ if __name__ == '__main__':
                         format="%(asctime)s - [%(levelname)s]: %(message)s")
     pred_config = generate_config_from_cmd_args()
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"] = '1,3'
+    os.environ["CUDA_VISIBLE_DEVICES"] = '2,3'
     logging.info("Results will be saved at path: {}".format(
         pred_config.result_dir))
     
