@@ -10,8 +10,8 @@ from easydict import EasyDict as edict
 from config import Parameters
 from loss import PointPillarNetworkLoss
 # from nets.network import build_point_pillar_graph
-# from nets.network_yolo import build_point_pillar_graph
-from nets.network_yolo_concat import build_point_pillar_graph
+from nets.network_yolo import build_point_pillar_graph
+# from nets.network_yolo_concat import build_point_pillar_graph
 from processors import SimpleDataGenerator
 from readers import KittiDataReader
 
@@ -36,9 +36,9 @@ def train_PillarNet():
     pillar_net = build_point_pillar_graph(params)
 
     pretrained= os.path.join(MODEL_ROOT,MODEL_SAVE)
-    if os.path.exists(zoe_pointpillars):
-        logging.info("Using pre-trained weights found at path: {}".format(zoe_pointpillars))
-        pillar_net.load_weights(zoe_pointpillars)
+    if os.path.exists('zoe_pp_yolo1.h5'):
+        logging.info("Using pre-trained weights found at path: {}".format('zoe_pp_yolo1.h5'))
+        pillar_net.load_weights('zoe_pp_yolo1.h5')
         print("load")
     else:
         logging.info("No pre-trained weights found. Initializing weights and training model.")
