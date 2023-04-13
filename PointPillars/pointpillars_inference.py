@@ -21,6 +21,8 @@ from easydict import EasyDict as edict
 import time
 from tqdm import tqdm
 from read_file_location import ReadFileFromPath
+import h5py
+
 
 precisions = {
     'TP': 0,
@@ -77,7 +79,9 @@ def load_model_and_run_inference(configs):
 
     logging.info("Loading model from path: {}".format(configs.model_path))
     # model = tf.saved_model.load('model_directory')
-    pillar_net.load_weights(MODEL)
+    with h5py.File(MODEL, 'r') as f:
+            pillar_net.load_weights(f)
+    f.close()
     logging.info("Model loaded.==============================================================================")
 
     lidar_files, label_files = ReadFileFromPath(configs.data_root)
