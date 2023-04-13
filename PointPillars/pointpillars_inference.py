@@ -83,7 +83,7 @@ def load_model_and_run_inference(configs):
     #     pillar_net.load_weights(f)
     pillar_net.load_weights(MODEL)
 
-    logging.info("Model loaded.==============================================================================")
+    logging.info("Model loaded.=================================================")
 
     lidar_files, label_files = ReadFileFromPath(configs.data_root)
 
@@ -133,6 +133,7 @@ def load_model_and_run_inference(configs):
                                           params.anchor_dims, occ_threshold=configs.occ_thresh)
         stop = time.time()
         confidences = [float(box.conf) for box in boxes]
+        print(len(confidences))
 
         start = time.time()
         nms_indices = rotational_nms(

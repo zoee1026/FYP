@@ -37,9 +37,10 @@ def train_PillarNet():
 
     pretrained= os.path.join(MODEL_ROOT,MODEL_SAVE)
     if os.path.exists('zoe_pp_yolo1.h5'):
-        with h5py.File('zoe_pp_yolo1.h5', 'r') as f:
-            pillar_net.load_weights(f)
-        f.close()
+        # with h5py.File('zoe_pp_yolo1.h5', 'r') as f:
+        #     pillar_net.load_weights(f)
+        # f.close()
+        pillar_net.load_weights(zoe_pointpillars)
         
         logging.info("Using pre-trained weights found at path: {}".format(zoe_pointpillars))
         
@@ -107,6 +108,8 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - [%(levelname)s]: %(message)s")
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = '1,3'
+    os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
+
     # CUDA_VISIBLE_DEVICES=0,1
     # tf.get_logger().setLevel("ERROR")
     train_PillarNet()
