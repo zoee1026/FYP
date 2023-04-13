@@ -48,7 +48,7 @@ RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val.csv'
 MODEL='zoe_pp_yolo1.h5'
 EVAL_PATH='test.csv'
 MODEL_ROOT = "./log"
-MODEL_SAVE = "train2.h5"
+MODEL_SAVE = "train1.h5"
 # EVAL_PATH='/media/sdb1/zoe/FYP/folder_root/Eval_CleanFiles.csv'
 SAVE=False
 
