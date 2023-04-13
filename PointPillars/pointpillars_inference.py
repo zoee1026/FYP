@@ -173,6 +173,7 @@ if __name__ == '__main__':
     pred_config = generate_config_from_cmd_args()
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = '0,1'
+    os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
     logging.info("Results will be saved at path: {}".format(
         pred_config.result_dir))
     
