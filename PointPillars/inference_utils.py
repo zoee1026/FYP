@@ -355,13 +355,13 @@ def rotational_nms(set_boxes, confidences, occ_threshold=0.5, nms_iou_thr=0.5):
     return indices
 
 
-def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_threshold=0.8):
+def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_threshold=0.5):
     """ Generating the bounding boxes based on the regression targets """
 
     # Get only the boxes where occupancy is greater or equal threshold.
     real_boxes = np.where(occ >= occ_threshold)
     print(np.array(occ).shape,'++++++++++++++++++')
-    if len(real_boxes) == 0:
+    if len(np.array(occ).shape[1]) == 0:
         real_boxes = np.where(occ == np.amax(occ))
     print(np.array(real_boxes).shape,'++++++++++++++++++')
 
@@ -372,7 +372,6 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_thr
     # according to the predicted regression targets
     anchor_dims = anchor_dims
     real_anchors = np.random.rand(len(coordinates), len(anchor_dims[0]))
-    print(len(real_boxes),'-------------------------')
     for i, value in enumerate(real_boxes[2]):
         real_anchors[i, ...] = anchor_dims[value]
     print('ok')

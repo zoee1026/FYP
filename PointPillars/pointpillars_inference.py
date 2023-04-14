@@ -61,7 +61,7 @@ def generate_config_from_cmd_args():
                         help='Path for dumping result labels in KITTI format')
     parser.add_argument('--model_path', default=MODEL, type=str, required=False,
                         help='Path to the model weights to be used for inference')
-    parser.add_argument('--occ_thresh', default=0.8, type=float, required=False,
+    parser.add_argument('--occ_thresh', default=0.5, type=float, required=False,
                         help='Occlusion threshold for predicted boxes')
     parser.add_argument('--nms_thresh', default=0.5, type=float, required=False,
                         help='IoU threshold for NMS')
