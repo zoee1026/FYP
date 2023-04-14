@@ -363,7 +363,7 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_thr
     print(np.array(occ).shape,'++++++++++++++++++')
     if len(real_boxes) == 0:
         real_boxes = np.where(occ == np.amax(occ))
-    print(real_boxes[0][0],real_boxes[0],'++++++++++++++++++')
+    print(np.array(real_boxes).shape,'++++++++++++++++++')
 
     # Get the indices of the occupancy array
     coordinates = list(zip(real_boxes[0], real_boxes[1], real_boxes[2]))
