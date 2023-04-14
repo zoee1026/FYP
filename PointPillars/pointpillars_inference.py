@@ -45,7 +45,7 @@ precisions = {
     15: [],
 }
 RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val.csv'
-MODEL='zoe_pp_yolo1.h5'
+MODEL='zoe_pp_yolo2.h5'
 EVAL_PATH='test.csv'
 MODEL_ROOT = "./log"
 MODEL_SAVE = "train.h5"
@@ -59,7 +59,7 @@ def generate_config_from_cmd_args():
                         help='Test data root path holding folders velodyne, calib')
     parser.add_argument('--result_dir', default="./Result", type=str, required=False,
                         help='Path for dumping result labels in KITTI format')
-    parser.add_argument('--model_path', default=os.path.join(MODEL_ROOT,MODEL_SAVE), type=str, required=False,
+    parser.add_argument('--model_path', default=MODEL, type=str, required=False,
                         help='Path to the model weights to be used for inference')
     parser.add_argument('--occ_thresh', default=0.8, type=float, required=False,
                         help='Occlusion threshold for predicted boxes')
