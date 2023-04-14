@@ -100,7 +100,7 @@ def train_PillarNet():
         # pillar_net.save(os.path.join(log_dir, model_str))
         pillar_net.save(zoe_pointpillars)
         pillar_net.save('my_model5')
-        print("Interrupt. Saving output to %s" % os.path.join(os.getcwd(), log_dir[1:], model_str))
+        # print("Interrupt. Saving output to %s" % os.path.join(os.getcwd(), log_dir[1:], model_str))
         print('<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
         print(model_str)
 
