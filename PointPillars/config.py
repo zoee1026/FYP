@@ -154,7 +154,7 @@ class NetworkParameters:
     focal_weight = 3.0      # 1.0
     loc_weight = 2.0        # 2.0
     size_weight = 2.0       # 2.0
-    angle_weight = 2.0      # 2.0
+    angle_weight = 0.5      # 2.0
     heading_weight = 0.2    # 0.2
     class_weight = 0.5      # 0.2
 
