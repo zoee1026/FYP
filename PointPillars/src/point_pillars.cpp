@@ -630,13 +630,13 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
         else
         {
             posCnt++;
-            if (printTime)
-            {
-            std::cout << "\nAt least 1 anchor was positively matched for object " << objectCount << std::endl;
-            std::cout << "Best IOU was " << maxIou << "." << std::endl;
-            std::cout << "Number of posCnt " << occu << "." << std::endl;
+            // if (printTime)
+            // {
+            // std::cout << "\nAt least 1 anchor was positively matched for object " << objectCount << std::endl;
+            // std::cout << "Best IOU was " << maxIou << "." << std::endl;
+        std::cout << "Number of posCnt " << occu << "." << std::endl;
 
-            }
+            // }
         }
 
         objectCount++;

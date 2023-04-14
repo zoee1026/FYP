@@ -24,8 +24,8 @@ DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
 MODEL_ROOT = "./log"
 MODEL_SAVE = "train2.h5"
 
-# zoe_pointpillars='zoe_pp_yolo1.h5'
-zoe_pointpillars='zoe_pp_yolo2.h5'
+zoe_pointpillars='zoe_pp_yolo1.h5'
+# zoe_pointpillars='zoe_pp_yolo2.h5'
 # zoe_pointpillars='zoe_pointpillars4.h5'
 
 
@@ -36,7 +36,7 @@ def train_PillarNet():
     pillar_net = build_point_pillar_graph(params)
 
     pretrained= os.path.join(MODEL_ROOT,MODEL_SAVE)
-    if os.path.exists('zoe_pp_yolo1.h5'):
+    if os.path.exists(zoe_pointpillars):
         # with h5py.File('zoe_pp_yolo1.h5', 'r') as f:
         #     pillar_net.load_weights(f)
         # f.close()
@@ -107,7 +107,7 @@ def train_PillarNet():
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - [%(levelname)s]: %(message)s")
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"] = '1,3'
+    os.environ["CUDA_VISIBLE_DEVICES"] = '2,3'
     os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
 
     # CUDA_VISIBLE_DEVICES=0,1
