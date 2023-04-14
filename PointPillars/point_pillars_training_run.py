@@ -24,8 +24,8 @@ DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
 MODEL_ROOT = "./log"
 MODEL_SAVE = "train.h5"
 
-zoe_pointpillars='zoe_pp_yolo1.h5'
-# zoe_pointpillars='zoe_pp_yolo2.h5'
+# zoe_pointpillars='zoe_pp_yolo1.h5'
+zoe_pointpillars='zoe_pp_yolo2.h5'
 # zoe_pointpillars='zoe_pointpillars4.h5'
 
 
@@ -107,7 +107,7 @@ def train_PillarNet():
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - [%(levelname)s]: %(message)s")
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"] = '0,1'
+    os.environ["CUDA_VISIBLE_DEVICES"] = '1,3'
     os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
 
     # CUDA_VISIBLE_DEVICES=0,1
