@@ -326,7 +326,7 @@ def ReadGTLabel(labelPath):
         return elements
 
 
-def rotational_nms(set_boxes, confidences, occ_threshold=0.5, nms_iou_thr=0.5):
+def rotational_nms(set_boxes, confidences, occ_threshold=0.3, nms_iou_thr=0.5):
     """ rotational NMS
     set_boxes = size NSeqs list of size NDet lists of tuples. each tuple has the form ((pos, pos), (size, size), angle)
     confidences = size NSeqs list of lists containing NDet floats, i.e. one per detection
@@ -360,7 +360,6 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_thr
 
     # Get only the boxes where occupancy is greater or equal threshold.
     real_boxes = np.where(occ >= occ_threshold)
-    print(np.array(occ).shape,'++++++++++++++++++')
     if np.array(real_boxes).shape[1] == 0:
         real_boxes = np.where(occ == np.amax(occ))
     print(np.array(real_boxes).shape,'++++++++++++++++++')
