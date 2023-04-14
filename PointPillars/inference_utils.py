@@ -360,7 +360,7 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_thr
 
     # Get only the boxes where occupancy is greater or equal threshold.
     real_boxes = np.where(occ >= occ_threshold)
-    print(occ[0][0],occ[0],'++++++++++++++++++')
+    print(len(occ),'++++++++++++++++++')
     print(real_boxes[0][0],real_boxes[0],'++++++++++++++++++')
     if len(real_boxes) == 0:
         real_boxes = np.where(occ == np.amax(occ))
