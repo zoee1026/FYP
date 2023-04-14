@@ -243,7 +243,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
 
         if self.label_files is not None:
             occupancy = np.array(occupancy)
-            print(np.array(np.where(occupancy==1)).shape,np.array(np.where(occupancy==0)).shape)
+            # print(np.array(np.where(occupancy==1)).shape,np.array(np.where(occupancy==0)).shape)
             position = np.array(position)
             size = np.array(size)
             angle = np.array(angle)
