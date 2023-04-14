@@ -348,11 +348,15 @@ def rotational_nms(set_boxes, confidences, occ_threshold=0.3, nms_iou_thr=0.5):
     #     nms_boxes.append([boxes[i] for i in indices])
 
     # IF batch_size == 1
-    indices = cv.dnn.NMSBoxesRotated(
-        set_boxes, confidences, occ_threshold, nms_iou_thr)
-    indices = np.array(indices).reshape(len(indices)).tolist()
+    if len(set_boxes)>1:
+        indices = cv.dnn.NMSBoxesRotated(
+            set_boxes, confidences, occ_threshold, nms_iou_thr)
+        indices = np.array(indices).reshape(len(indices)).tolist()
     # nms_boxes.append([set_boxes[i] for i in indices])
-    return indices
+        return indices  
+    else:
+        return [0]
+
 
 
 def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_threshold=0.5):
