@@ -645,8 +645,8 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
     // if (printTime)
-    std::cout << "createPillarsTarget took: " << static_cast<float>(duration) / 1e6 << " seconds" << std::endl;
-    std::cout << "Number of posCnt " << occu << "." << std::endl;
+    // std::cout << "createPillarsTarget took: " << static_cast<float>(duration) / 1e6 << " seconds" << std::endl;
+    // std::cout << "Number of posCnt " << occu << "." << std::endl;
     return std::make_tuple(tensor, posCnt, negCnt);
 }
 
