@@ -22,7 +22,7 @@ tf.get_logger().setLevel("ERROR")
 # DATA_ROOT = '..folder_root//MatchFile.csv'
 DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
 MODEL_ROOT = "./log"
-MODEL_SAVE = "train2.h5"
+MODEL_SAVE = "train.h5"
 
 zoe_pointpillars='zoe_pp_yolo1.h5'
 # zoe_pointpillars='zoe_pp_yolo2.h5'
