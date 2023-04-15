@@ -70,7 +70,7 @@ class PointPillarNetworkLoss:
         return rad_tg_encoding, rad_pred_encoding
 
     def angle_loss(self, y_true: tf.Tensor, y_pred: tf.Tensor):
-        # y_true, y_pred = self.add_sin_difference(y_true, y_pred)
+        y_true, y_pred = self.add_sin_difference(y_true, y_pred)
         loss = tf.compat.v1.losses.huber_loss(y_true,
                                     y_pred, delta=3.0,
                                     reduction="none")

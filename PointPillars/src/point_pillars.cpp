@@ -532,7 +532,7 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
                     // However, they did have a z value attached to them. 
 
                     // const float iouOverlap = iou(anchorBox, labelBox); // Get IOU between two 3D boxes.
-                    const float iouOverlap = align_iou(anchorBox, labelBox); // Get IOU between two 3D boxes.
+                    const float iouOverlap = iou(anchorBox, labelBox); // Get IOU between two 3D boxes.
 
                     if (maxIou < iouOverlap)
                     {

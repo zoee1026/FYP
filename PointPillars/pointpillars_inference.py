@@ -46,7 +46,7 @@ precisions = {
 }
 RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val.csv'
 MODEL='zoe_pp_yolo2.h5'
-EVAL_PATH='test.csv'
+EVAL_PATH='train.csv'
 MODEL_ROOT = "./log"
 MODEL_SAVE = "train2.h5"
 pretrained= os.path.join(MODEL_ROOT,MODEL_SAVE)
@@ -60,7 +60,7 @@ def generate_config_from_cmd_args():
                         help='Test data root path holding folders velodyne, calib')
     parser.add_argument('--result_dir', default="./Result", type=str, required=False,
                         help='Path for dumping result labels in KITTI format')
-    parser.add_argument('--model_path', default=pretrained, type=str, required=False,
+    parser.add_argument('--model_path', default=MODEL, type=str, required=False,
                         help='Path to the model weights to be used for inference')
     parser.add_argument('--occ_thresh', default=0.4, type=float, required=False,
                         help='Occlusion threshold for predicted boxes')
@@ -82,7 +82,7 @@ def load_model_and_run_inference(configs):
     # model = tf.saved_model.load('model_directory')
     # with h5py.File(configs.model_path, 'r') as f:
     #     pillar_net.load_weights(f)
-    pillar_net.load_weights(pretrained)
+    pillar_net.load_weights(MODEL)
 
     logging.info("Model loaded.=================================================")
 

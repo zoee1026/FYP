@@ -27,6 +27,7 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     max_points  = int(params.max_points_per_pillar)
     nb_features = int(params.nb_features)
     nb_channels = int(params.nb_channels)
+    base_channels=params.nb_channels
     # batch_size  = int(params.batch_size)
     image_size  = tuple([params.Xn, params.Yn])
     nb_classes  = int(params.nb_classes)
@@ -71,44 +72,43 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
                                      name="pillars/scatter_nd")([corrected_indices, x])
 
     # 2d cnn backbone
-
-    feat1, feat2, feat3 = darknet_body(pillars, nb_channels, base_depth)
+    feat1, feat2, feat3 = darknet_body(pillars, base_channels, base_depth)
     # 20, 20, 1024 -> 20, 20, 512
-    P5          = DarknetConv2D_BN_SiLU(int(nb_channels * 8), (1, 1), name = 'conv_for_feat3')(feat3)  
+    P5          = DarknetConv2D_BN_SiLU(int(base_channels * 8), (1, 1), name = 'conv_for_feat3')(feat3)  
     # 20, 20, 512 -> 40, 40, 512
     P5_upsample = UpSampling2D()(P5) 
     # 40, 40, 512 cat 40, 40, 512 -> 40, 40, 1024
     P5_upsample = Concatenate(axis = -1)([P5_upsample, feat2])
     # 40, 40, 1024 -> 40, 40, 512
-    P5_upsample = C3(P5_upsample, int(nb_channels * 8), base_depth, shortcut = False, name = 'conv3_for_upsample1')
+    P5_upsample = C3(P5_upsample, int(base_channels * 8), base_depth, shortcut = False, name = 'conv3_for_upsample1')
 
     # 40, 40, 512 -> 40, 40, 256
-    P4          = DarknetConv2D_BN_SiLU(int(nb_channels * 4), (1, 1), name = 'conv_for_feat2')(P5_upsample)
+    P4          = DarknetConv2D_BN_SiLU(int(base_channels * 4), (1, 1), name = 'conv_for_feat2')(P5_upsample)
     # 40, 40, 256 -> 80, 80, 256
     P4_upsample = UpSampling2D()(P4)
     # 80, 80, 256 cat 80, 80, 256 -> 80, 80, 512
     P4_upsample = Concatenate(axis = -1)([P4_upsample, feat1])
     # 80, 80, 512 -> 80, 80, 256
-    P3_out      = C3(P4_upsample, int(nb_channels * 4), base_depth, shortcut = False, name = 'conv3_for_upsample2')
+    P3_out      = C3(P4_upsample, int(base_channels * 4), base_depth, shortcut = False, name = 'conv3_for_upsample2')
 
     # # 80, 80, 256 -> 40, 40, 256
     # P3_downsample   = ZeroPadding2D(((1, 0),(1, 0)))(P3_out)
-    # P3_downsample   = DarknetConv2D_BN_SiLU(int(nb_channels * 4), (3, 3), strides = (2, 2), name = 'down_sample1')(P3_downsample)
+    # P3_downsample   = DarknetConv2D_BN_SiLU(int(base_channels * 4), (3, 3), strides = (2, 2), name = 'down_sample1')(P3_downsample)
     # # 40, 40, 256 cat 40, 40, 256 -> 40, 40, 512
     # P3_downsample   = Concatenate(axis = -1)([P3_downsample, P4])
     # # 40, 40, 512 -> 40, 40, 512
-    # P4_out          = C3(P3_downsample, int(nb_channels * 8), base_depth, shortcut = False, name = 'conv3_for_downsample1') 
+    # P4_out          = C3(P3_downsample, int(base_channels * 8), base_depth, shortcut = False, name = 'conv3_for_downsample1') 
 
     # # 40, 40, 512 -> 20, 20, 512
     # P4_downsample   = ZeroPadding2D(((1, 0),(1, 0)))(P4_out)
-    # P4_downsample   = DarknetConv2D_BN_SiLU(int(nb_channels * 8), (3, 3), strides = (2, 2), name = 'down_sample2')(P4_downsample)
+    # P4_downsample   = DarknetConv2D_BN_SiLU(int(base_channels * 8), (3, 3), strides = (2, 2), name = 'down_sample2')(P4_downsample)
     # # 20, 20, 512 cat 20, 20, 512 -> 20, 20, 1024
     # P4_downsample   = Concatenate(axis = -1)([P4_downsample, P5])
     # # 20, 20, 1024 -> 20, 20, 1024
-    # P5_out          = C3(P4_downsample, int(nb_channels * 16), base_depth, shortcut = False, name = 'conv3_for_downsample2')
+    # P5_out          = C3(P4_downsample, int(base_channels * 16), base_depth, shortcut = False, name = 'conv3_for_downsample2')
 
     # UpSample back 
-    output = tf.keras.layers.Conv2DTranspose(2 * nb_channels, (3, 3), strides=(2, 2), padding="same", activation="linear",
+    output = tf.keras.layers.Conv2DTranspose(2 * base_channels, (3, 3), strides=(2, 2), padding="same", activation="linear",
                                           use_bias=False, name="cnn/up3/conv2dt")(P3_out)
     output = tf.keras.layers.BatchNormalization(name="cnn/up3/bn", fused=True)(output)
     output = tf.keras.layers.Activation("relu", name="cnn/up3/relu")(output)
