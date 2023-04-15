@@ -358,7 +358,6 @@ def rotational_nms(set_boxes, confidences, occ_threshold=0.3, nms_iou_thr=0.5):
         return [0]
 
 
-
 def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_threshold=0.5):
     """ Generating the bounding boxes based on the regression targets """
 
@@ -370,15 +369,12 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_thr
 
     # Get the indices of the occupancy array
     coordinates = list(zip(real_boxes[0], real_boxes[1], real_boxes[2]))
-    print(len(coordinates))
     # Assign anchor dimensions as original bounding box coordinates which will eventually be changed
     # according to the predicted regression targets
     anchor_dims = anchor_dims
     real_anchors = np.random.rand(len(coordinates), len(anchor_dims[0]))
     for i, value in enumerate(real_boxes[2]):
         real_anchors[i, ...] = anchor_dims[value]
-    print('ok')
-
     # Change the anchor boxes based on regression targets, this is the inverse of the operations given in
     # createPillarTargets function (src/PointPillars.cpp)
     predicted_boxes = []
