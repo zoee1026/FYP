@@ -60,7 +60,7 @@ def generate_config_from_cmd_args():
                         help='Test data root path holding folders velodyne, calib')
     parser.add_argument('--result_dir', default="./Result", type=str, required=False,
                         help='Path for dumping result labels in KITTI format')
-    parser.add_argument('--model_path', default=MODEL, type=str, required=False,
+    parser.add_argument('--model_path', default=pretrained, type=str, required=False,
                         help='Path to the model weights to be used for inference')
     parser.add_argument('--occ_thresh', default=0.4, type=float, required=False,
                         help='Occlusion threshold for predicted boxes')
@@ -82,7 +82,7 @@ def load_model_and_run_inference(configs):
     # model = tf.saved_model.load('model_directory')
     # with h5py.File(configs.model_path, 'r') as f:
     #     pillar_net.load_weights(f)
-    pillar_net.load_weights(MODEL)
+    pillar_net.load_weights(configs.model_path)
 
     logging.info("Model loaded.=================================================")
 
