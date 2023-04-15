@@ -159,8 +159,8 @@ pybind11::tuple createPillars(pybind11::array_t<float> points,
 
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
-    if (printTime)
-        std::cout << "createPillars took: " << static_cast<float>(duration) / 1e6 << " seconds" << std::endl;
+    // if (printTime)
+    std::cout << "createPillars took: " << static_cast<float>(duration) / 1e6 << " seconds" << std::endl;
 
     return result;
 }

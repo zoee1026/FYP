@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 
 # Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchor.csv'
-Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans.csv'
-# Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans2.csv'
+# Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans.csv'
+Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans2.csv'
 
 
 # Anchor_file=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\AnchorKmeans.csv'
@@ -88,7 +88,7 @@ class GridParameters:
     # y_max = 69.12
     # y_step = 0.16
 
-    # zoe_pp_yolo1
+    # zoe_pp_yolo1,2
     x_min = -56.32
     x_max = 25.6
     x_step = 0.16
@@ -140,8 +140,8 @@ class NetworkParameters:
     positive_iou_threshold = 0.7
     negative_iou_threshold = 0.35
 
-    batch_size = 2
-    total_training_epochs = 60
+    batch_size = 4
+    total_training_epochs = 20
     # total_training_epochs = 20
 
     # 101040.    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
@@ -156,7 +156,7 @@ class NetworkParameters:
     focal_weight = 3.0      # 1.0
     loc_weight = 2.0        # 2.0
     size_weight = 2.0       # 2.0
-    angle_weight = 0.5      # 2.0
+    angle_weight = 2      # 2.0
     heading_weight = 0.2    # 0.2
     class_weight = 0.5      # 0.2
 
