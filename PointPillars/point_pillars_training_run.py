@@ -20,12 +20,12 @@ from read_file_location import GetMatchedDatafile, TestModel
 tf.get_logger().setLevel("ERROR")
 
 # DATA_ROOT = '..folder_root//MatchFile.csv'
-DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
+DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/All.csv'
 MODEL_ROOT = "./log"
-MODEL_SAVE = "train3.h5"
+MODEL_SAVE = "train2.h5"
 
 # zoe_pointpillars='zoe_pp_yolo1.h5'
-zoe_pointpillars='zoe_pp_yolo3.h5'
+zoe_pointpillars='zoe_pp_yolo2.h5'
 # zoe_pointpillars='zoe_pointpillars4.h5'
 
 
