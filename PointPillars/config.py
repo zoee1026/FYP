@@ -3,7 +3,7 @@ import pandas as pd
 
 # Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchor.csv'
 # Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans.csv'
-Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans2.csv'
+Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans_yaw.csv'
 
 
 # Anchor_file=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\AnchorKmeans.csv'
@@ -79,23 +79,23 @@ class GridParameters:
     # y_max = 70.56
     # y_step = 0.28
 
-    # zoe_pointpillars3
-    # x_min = -51.2
-    # x_max = 29.44
-    # x_step = 0.16
+    # zoe_pp_yolo3
+    x_min = -53.76
+    x_max = 23.04
+    x_step = 0.24
 
-    # y_min = -39.68
-    # y_max = 69.12
-    # y_step = 0.16
+    y_min = -38.4
+    y_max = 46.08
+    y_step = 0.24
 
     # zoe_pp_yolo1,2
-    x_min = -56.32
-    x_max = 25.6
-    x_step = 0.16
+    # x_min = -56.32
+    # x_max = 25.6
+    # x_step = 0.16
 
-    y_min = -46.08
-    y_max = 56.32
-    y_step = 0.16
+    # y_min = -46.08
+    # y_max = 56.32
+    # y_step = 0.16
 
     z_min = 1.2
     z_max = 6.4
