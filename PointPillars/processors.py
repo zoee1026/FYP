@@ -242,6 +242,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
         pillars = np.concatenate(pillars, axis=0)
         voxels = np.concatenate(voxels, axis=0)
 
+
         if self.label_files is not None:
             occupancy = np.array(occupancy)
             # print(np.array(np.where(occupancy==1)).shape,np.array(np.where(occupancy==0)).shape)

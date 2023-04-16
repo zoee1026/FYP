@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 
 # Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchor.csv'
-Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans.csv'
-# Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans_yaw.csv'
+# Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans.csv'
+Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans_yaw.csv'
 
 
 # Anchor_file=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\AnchorKmeans.csv'
@@ -88,7 +88,7 @@ class GridParameters:
     # y_max = 46.08
     # y_step = 0.24
 
-    # zoe_pp_yolo1,2
+    # zoe_pp_yolo1,2,3
     x_min = -56.32
     x_max = 25.6
     x_step = 0.16
@@ -124,7 +124,7 @@ class DataParameters:
 class NetworkParameters:
 
     max_points_per_pillar = 100
-    max_pillars = 12000
+    max_pillars = 8000
     # max_pillars = 10000
 
     nb_features = 9
@@ -140,7 +140,7 @@ class NetworkParameters:
     positive_iou_threshold = 0.7
     negative_iou_threshold = 0.35
 
-    batch_size = 4
+    batch_size = 2
     total_training_epochs = 20
     # total_training_epochs = 20
 
