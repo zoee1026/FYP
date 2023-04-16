@@ -124,7 +124,7 @@ class DataProcessor(Parameters):
                                          self.z_min,
                                          self.z_max,
                                          print_flag)
-        print(np.where(np.array(indices)>0).shape,'----------------------------------------')
+        print(np.array(np.where(np.array(indices)>0)).shape,'----------------------------------------')
 
         return pillars, indices
 
