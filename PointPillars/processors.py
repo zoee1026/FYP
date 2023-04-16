@@ -124,6 +124,7 @@ class DataProcessor(Parameters):
                                          self.z_min,
                                          self.z_max,
                                          print_flag)
+        print(np.where(np.array(voxels)>0).shape,'----------------------------------------')
 
         return pillars, indices
 
@@ -240,7 +241,6 @@ class SimpleDataGenerator(DataProcessor, Sequence):
 
         pillars = np.concatenate(pillars, axis=0)
         voxels = np.concatenate(voxels, axis=0)
-        print(np.where(np.array(voxels)>0).shape,'----------------------------------------')
 
         if self.label_files is not None:
             occupancy = np.array(occupancy)
