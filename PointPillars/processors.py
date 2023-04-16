@@ -240,7 +240,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
 
         pillars = np.concatenate(pillars, axis=0)
         voxels = np.concatenate(voxels, axis=0)
-        print(np.where(voxels>0))
+        print(np.where(np.array(voxels)>0).shape,'----------------------------------------')
 
         if self.label_files is not None:
             occupancy = np.array(occupancy)
