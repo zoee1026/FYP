@@ -220,7 +220,9 @@ class SimpleDataGenerator(DataProcessor, Sequence):
         classification = []
 
         for i in file_ids:
-
+            
+            print(self.lidar_files[i].split("/")[-1])
+            print(self.label_files[i].split("/")[-1].split('.')[0])
             assert self.lidar_files[i].split("/")[-1] == self.label_files[i].split("/")[-1].split('.')[0]
 
             lidar = self.data_reader.read_lidar(self.lidar_files[i])
