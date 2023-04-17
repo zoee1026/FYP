@@ -12,7 +12,7 @@ from keras.layers import (Concatenate, Input, Lambda, UpSampling2D,
                           ZeroPadding2D)
 from keras.models import Model
 
-from nets.CSPdarknet_nofocus import (C3, DarknetConv2D, DarknetConv2D_BN_SiLU,
+from nets.CSPdarknet_3resnet import (C3, DarknetConv2D, DarknetConv2D_BN_SiLU,
                              darknet_body,compose)
 import tensorflow as tf
 import numpy as np
@@ -108,9 +108,9 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     # P5_out          = C3(P4_downsample, int(base_channels * 16), base_depth, shortcut = False, name = 'conv3_for_downsample2')
 
     # UpSample back 
-    output = DarknetConv2D_BN_SiLU(int(base_channels * 2), (1, 1), name = 'upsampling_channel')(P3_out)  
+    # output = DarknetConv2D_BN_SiLU(int(base_channels * 2), (1, 1), name = 'upsampling_channel')(P3_out)  
     
-    output = tf.keras.layers.Conv2DTranspose(2 * base_channels, (3, 3), strides=(2, 2), padding="same", activation="linear",
+    output = tf.keras.layers.Conv2DTranspose(2 * base_channels, (1, 1), strides=(1, 1), padding="same", activation="linear",
                                           use_bias=False, name="cnn/up3/conv2dt")(output)
     output = tf.keras.layers.BatchNormalization(name="cnn/up3/bn", fused=True)(output)
     output = tf.keras.layers.Activation("relu", name="cnn/up3/relu")(output)
@@ -124,7 +124,7 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     # out0 = DarknetConv2D(len(anchors_mask[0]) * (5 + num_classes), (1, 1), strides = (1, 1), name = 'yolo_head_P5')(P5_out)
    
     # Detection head
-    occ = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="occupancy", activation="sigmoid")(output)
+    occ = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="occupancy", activation="sigmoid")(P3_out)
 
     loc = tf.keras.layers.Conv2D(nb_anchors * 3, (1, 1), name="loc", kernel_initializer=tf.keras.initializers.TruncatedNormal(0, 0.001))(output)
     loc = tf.keras.layers.Reshape(tuple(i//2 for i in image_size) + (nb_anchors, 3), name="loc/reshape")(loc)
