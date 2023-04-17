@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
 
-# Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchor.csv'
+Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchor.csv'
 # Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans.csv'
-Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans_yaw.csv'
+# Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans_yaw.csv'
 
 
 # Anchor_file=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\AnchorKmeans.csv'
