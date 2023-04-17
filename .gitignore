@@ -9,7 +9,11 @@ PointPillars/zoe_pointpillars4.h5
 PointPillars/my_model/
 PointPillars/my_model2/
 PointPillars/my_model3/
+PointPillars/my_model5/
+PointPillars/my_model7/
+PointPillars/my_model8/
 PointPillars/zoe_pp_yolo1.h5
 PointPillars/zoe_pp_yolo2.h5
+PointPillars/zoe_pp_yolo3.h5
 
 
