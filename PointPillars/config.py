@@ -97,7 +97,7 @@ class GridParameters:
     # y_max = 56.32
     # y_step = 0.16
 
-    z_min = 0
+    z_min = 1.2
     z_max = 6.4
 
     # derived parameters
