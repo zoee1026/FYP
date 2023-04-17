@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
 
-Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchor.csv'
+# Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchor.csv'
 # Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans.csv'
-# Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans_yaw.csv'
+Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans_yaw.csv'
 
 
 # Anchor_file=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\AnchorKmeans.csv'
@@ -71,13 +71,13 @@ OutPutVehecleClasees = {
 class GridParameters:
 
     # zoe_pointpillars1,4
-    x_min = -50.4
-    x_max = 23.52
-    x_step = 0.28
+    # x_min = -50.4
+    # x_max = 23.52
+    # x_step = 0.28
 
-    y_min = -43.68
-    y_max = 70.56
-    y_step = 0.28
+    # y_min = -43.68
+    # y_max = 70.56
+    # y_step = 0.28
 
     # zoe_pp_yolo3
     # x_min = -53.76
@@ -89,15 +89,15 @@ class GridParameters:
     # y_step = 0.24
 
     # zoe_pp_yolo1,2,3
-    # x_min = -56.32
-    # x_max = 25.6
-    # x_step = 0.16
+    x_min = -56.32
+    x_max = 25.6
+    x_step = 0.16
 
-    # y_min = -46.08
-    # y_max = 56.32
-    # y_step = 0.16
+    y_min = -46.08
+    y_max = 56.32
+    y_step = 0.16
 
-    z_min = 1.2
+    z_min = 0
     z_max = 6.4
 
     # derived parameters
@@ -124,15 +124,15 @@ class DataParameters:
 class NetworkParameters:
 
     max_points_per_pillar = 100
-    max_pillars = 8000
-    # max_pillars = 10000
+    # max_pillars = 8000
+    max_pillars = 10000
 
     nb_features = 9
     nb_channels = 128
     downscaling_factor = 2
 
-    anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).iloc[1:,:].values, dtype=np.float32).tolist(),3)
-    # anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).values, dtype=np.float32).tolist(),3)
+    # anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).iloc[1:,:].values, dtype=np.float32).tolist(),3)
+    anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).values, dtype=np.float32).tolist(),3)
     nb_dims = 3
 
     # positive_iou_threshold = 0.5
@@ -158,7 +158,7 @@ class NetworkParameters:
     size_weight = 2.0       # 2.0
     angle_weight = 2      # 2.0
     heading_weight = 0.2    # 0.2
-    class_weight = 0.5      # 0.2
+    class_weight = 1      # 0.2
 
     def __init__(self):
         super(NetworkParameters, self).__init__()

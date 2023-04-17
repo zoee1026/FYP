@@ -23,11 +23,11 @@ tf.get_logger().setLevel("ERROR")
 # DATA_ROOT = '..folder_root//MatchFile.csv'
 DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
 MODEL_ROOT = "./log"
-MODEL_SAVE = "train5.h5"
+MODEL_SAVE = "train4.h5"
 
 # zoe_pointpillars='zoe_pp_yolo1.h5'
 # zoe_pointpillars='zoe_pp_yolo3.h5'
-zoe_pointpillars='zoe_pointpillars4.h5'
+zoe_pointpillars='zoe_pointpillars3.h5'
 
 
 def train_PillarNet():
@@ -91,7 +91,7 @@ def train_PillarNet():
                        epochs=int(params.total_training_epochs),
                     #    epochs=1,
                        workers=6)
-        pillar_net.save('my_model9')
+        pillar_net.save('my_model8')
         pillar_net.save(zoe_pointpillars)
         print('save========================================================================================')
 
@@ -99,7 +99,7 @@ def train_PillarNet():
         model_str = "interrupted_%s.h5" % time.strftime("%Y%m%d-%H%M%S")
         # pillar_net.save(os.path.join(log_dir, model_str))
         pillar_net.save(zoe_pointpillars)
-        pillar_net.save('my_model9')
+        pillar_net.save('my_model8')
         # print("Interrupt. Saving output to %s" % os.path.join(os.getcwd(), log_dir[1:], model_str))
         print('<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
         print(model_str)
