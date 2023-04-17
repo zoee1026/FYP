@@ -70,14 +70,14 @@ OutPutVehecleClasees = {
 
 class GridParameters:
 
-    # zoe_pointpillars2,4
-    # x_min = -50.4
-    # x_max = 23.52
-    # x_step = 0.28
+    # zoe_pointpillars1,4
+    x_min = -50.4
+    x_max = 23.52
+    x_step = 0.28
 
-    # y_min = -43.68
-    # y_max = 70.56
-    # y_step = 0.28
+    y_min = -43.68
+    y_max = 70.56
+    y_step = 0.28
 
     # zoe_pp_yolo3
     # x_min = -53.76
@@ -89,15 +89,15 @@ class GridParameters:
     # y_step = 0.24
 
     # zoe_pp_yolo1,2,3
-    x_min = -56.32
-    x_max = 25.6
-    x_step = 0.16
+    # x_min = -56.32
+    # x_max = 25.6
+    # x_step = 0.16
 
-    y_min = -46.08
-    y_max = 56.32
-    y_step = 0.16
+    # y_min = -46.08
+    # y_max = 56.32
+    # y_step = 0.16
 
-    z_min = 1.2
+    z_min = 0
     z_max = 6.4
 
     # derived parameters
@@ -140,7 +140,7 @@ class NetworkParameters:
     positive_iou_threshold = 0.7
     negative_iou_threshold = 0.35
 
-    batch_size = 2
+    batch_size = 4
     total_training_epochs = 20
     # total_training_epochs = 20
 
