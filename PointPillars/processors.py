@@ -220,6 +220,9 @@ class SimpleDataGenerator(DataProcessor, Sequence):
         classification = []
 
         for i in file_ids:
+
+            assert self.lidar_files[i].split("/")[-1] == self.label_files[i].split("/")[-1].split('.')[0]
+
             lidar = self.data_reader.read_lidar(self.lidar_files[i])
             # For each file, dividing the space into a x-y grid to create pillars
             # Voxels are the pillar ids
