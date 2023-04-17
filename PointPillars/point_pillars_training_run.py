@@ -37,12 +37,12 @@ def train_PillarNet():
     pillar_net = build_point_pillar_graph(params)
 
     pretrained= os.path.join(MODEL_ROOT,MODEL_SAVE)
-    if os.path.exists(pretrained):
+    if os.path.exists(zoe_pointpillars):
         # with h5py.File('zoe_pointpillars3', 'r') as f:
         #     pillar_net.load_weights(f)
-        pillar_net.load_weights(pretrained)
+        pillar_net.load_weights(zoe_pointpillars)
         
-        logging.info("Using pre-trained weights found at path: {}".format(pretrained))
+        logging.info("Using pre-trained weights found at path: {}".format(zoe_pointpillars))
         
         print("load")
     else:
