@@ -9,9 +9,9 @@ from easydict import EasyDict as edict
 
 from config import Parameters
 from loss import PointPillarNetworkLoss
-# from nets.network import build_point_pillar_graph
+from nets.network import build_point_pillar_graph
 # from nets.network_yolo import build_point_pillar_graph
-from nets.network_yolo_basechannel import build_point_pillar_graph
+# from nets.network_yolo_basechannel import build_point_pillar_graph
 # from nets.network_yolo_concat import build_point_pillar_graph
 from processors import SimpleDataGenerator
 from readers import KittiDataReader
@@ -21,13 +21,13 @@ from read_file_location import GetMatchedDatafile, TestModel
 tf.get_logger().setLevel("ERROR")
 
 # DATA_ROOT = '..folder_root//MatchFile.csv'
-DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/All.csv'
+DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
 MODEL_ROOT = "./log"
-MODEL_SAVE = "train3.h5"
+MODEL_SAVE = "train4.h5"
 
 # zoe_pointpillars='zoe_pp_yolo1.h5'
-zoe_pointpillars='zoe_pp_yolo3.h5'
-# zoe_pointpillars='zoe_pointpillars4.h5'
+# zoe_pointpillars='zoe_pp_yolo3.h5'
+zoe_pointpillars='zoe_pointpillars3.h5'
 
 
 def train_PillarNet():
@@ -100,7 +100,7 @@ def train_PillarNet():
         model_str = "interrupted_%s.h5" % time.strftime("%Y%m%d-%H%M%S")
         # pillar_net.save(os.path.join(log_dir, model_str))
         pillar_net.save(zoe_pointpillars)
-        pillar_net.save('my_model7')
+        pillar_net.save('my_model8')
         # print("Interrupt. Saving output to %s" % os.path.join(os.getcwd(), log_dir[1:], model_str))
         print('<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
         print(model_str)
