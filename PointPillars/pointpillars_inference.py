@@ -80,9 +80,7 @@ def load_model_and_run_inference(configs):
     pillar_net = build_point_pillar_graph(params, batch_size=1)
 
     logging.info("Loading model from path: {}".format(configs.model_path))
-    # model = tf.saved_model.load('model_directory')
-    # with h5py.File(configs.model_path, 'r') as f:
-    #     pillar_net.load_weights(f)
+
     pillar_net.load_weights(configs.model_path)
 
     logging.info("Model loaded.=================================================")
