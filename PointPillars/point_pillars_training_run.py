@@ -91,7 +91,7 @@ def train_PillarNet():
                        epochs=int(params.total_training_epochs),
                     #    epochs=1,
                        workers=6)
-        pillar_net.save('my_model7')
+        pillar_net.save('my_model8')
         pillar_net.save(zoe_pointpillars)
         print('save========================================================================================')
 
