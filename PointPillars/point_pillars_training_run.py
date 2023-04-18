@@ -69,9 +69,9 @@ def train_PillarNet():
     assert len(lidar_val) == len(label_val)
 
     training_gen = SimpleDataGenerator(
-        data_reader, params.batch_size, lidar_train, label_train)
+        data_reader, params.batch_size, lidar_train, label_train).batch(params.batch_size)
     validation_gen = SimpleDataGenerator(
-        data_reader, params.batch_size, lidar_val, label_val)
+        data_reader, params.batch_size, lidar_val, label_val).batch(params.batch_size)
 
 
     with strategy.scope():
