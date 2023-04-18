@@ -43,7 +43,7 @@ def train_PillarNet():
 
     with strategy.scope():
 
-        pillar_net = build_point_pillar_graph(params)
+        pillar_net = build_point_pillar_graph(params,batch_size=BATCH_SIZE)
         pretrained = os.path.join(MODEL_ROOT, MODEL_SAVE)
         if os.path.exists(zoe_pointpillars):
             # with h5py.File('zoe_pointpillars3', 'r') as f:
