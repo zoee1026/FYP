@@ -32,26 +32,9 @@ MODEL_SAVE = "train4.h5"
 # zoe_pointpillars='zoe_pp_yolo3.h5'
 zoe_pointpillars = 'zoe_pointpillars3.h5'
 
-
 def train_PillarNet():
 
     params = Parameters()
-
-    pillar_net = build_point_pillar_graph(params)
-
-    pretrained = os.path.join(MODEL_ROOT, MODEL_SAVE)
-    if os.path.exists(zoe_pointpillars):
-        # with h5py.File('zoe_pointpillars3', 'r') as f:
-        #     pillar_net.load_weights(f)
-        pillar_net.load_weights(zoe_pointpillars)
-
-        logging.info(
-            "Using pre-trained weights found at path: {}".format(zoe_pointpillars))
-
-        print("load")
-    else:
-        logging.info(
-            "No pre-trained weights found. Initializing weights and training model.")
 
     data_reader = KittiDataReader()
 
@@ -71,26 +54,45 @@ def train_PillarNet():
     validation_gen = SimpleDataGenerator(
         data_reader, params.batch_size, lidar_val, label_val)
 
-    log_dir = MODEL_ROOT
+
+    with strategy.scope():
+
+        pillar_net = build_point_pillar_graph(params)
+        pretrained = os.path.join(MODEL_ROOT, MODEL_SAVE)
+        if os.path.exists(zoe_pointpillars):
+            # with h5py.File('zoe_pointpillars3', 'r') as f:
+            #     pillar_net.load_weights(f)
+            pillar_net.load_weights(zoe_pointpillars)
+
+            logging.info(
+                "Using pre-trained weights found at path: {}".format(zoe_pointpillars))
+
+            print("load")
+        else:
+            logging.info(
+                "No pre-trained weights found. Initializing weights and training model.")
+
+    with strategy.scope():
+        loss = PointPillarNetworkLoss(params)
+
+        optimizer = tf.keras.optimizers.Adam(learning_rate=params.learning_rate)
+
+        pillar_net.compile(optimizer, loss=loss.losses())
+        epoch_to_decay = int(np.round(params.iters_to_decay / params.batch_size * int(
+            np.ceil(float(len(label_train)+len(label_val)) / params.batch_size))))
+        
+        log_dir = MODEL_ROOT
+        callbacks = [
+            tf.keras.callbacks.TensorBoard(log_dir=log_dir, update_freq=10),
+            tf.keras.callbacks.ModelCheckpoint(filepath=os.path.join(log_dir, MODEL_SAVE),
+                                            monitor='val_loss', save_best_only=True),
+            tf.keras.callbacks.LearningRateScheduler(
+                lambda epoch, lr: lr * 0.8 if ((epoch % epoch_to_decay == 0) and (epoch != 0)) else lr, verbose=True),
+            tf.keras.callbacks.EarlyStopping(patience=5, monitor='val_loss'),
+        ]
 
     try:
-        with strategy.scope():
-            loss = PointPillarNetworkLoss(params)
-
-            optimizer = tf.keras.optimizers.Adam(learning_rate=params.learning_rate)
-
-            pillar_net.compile(optimizer, loss=loss.losses())
-            epoch_to_decay = int(np.round(params.iters_to_decay / params.batch_size * int(
-                np.ceil(float(len(label_train)+len(label_val)) / params.batch_size))))
-
-            callbacks = [
-                tf.keras.callbacks.TensorBoard(log_dir=log_dir, update_freq=10),
-                tf.keras.callbacks.ModelCheckpoint(filepath=os.path.join(log_dir, MODEL_SAVE),
-                                                monitor='val_loss', save_best_only=True),
-                tf.keras.callbacks.LearningRateScheduler(
-                    lambda epoch, lr: lr * 0.8 if ((epoch % epoch_to_decay == 0) and (epoch != 0)) else lr, verbose=True),
-                tf.keras.callbacks.EarlyStopping(patience=5, monitor='val_loss'),
-            ]
+         with strategy.scope():
             pillar_net.fit(training_gen,
                         validation_data=validation_gen,
                         steps_per_epoch=len(training_gen),
