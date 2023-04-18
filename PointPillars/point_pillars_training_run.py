@@ -68,10 +68,12 @@ def train_PillarNet():
     assert len(lidar_train) == len(label_train)
     assert len(lidar_val) == len(label_val)
 
-    training_gen = SimpleDataGenerator(
-        data_reader, params.batch_size, lidar_train, label_train)
-    validation_gen = SimpleDataGenerator(
-        data_reader, params.batch_size, lidar_val, label_val)
+    with strategy.scope():
+
+        training_gen = SimpleDataGenerator(
+            data_reader, params.batch_size, lidar_train, label_train)
+        validation_gen = SimpleDataGenerator(
+            data_reader, params.batch_size, lidar_val, label_val)
 
 
     with strategy.scope():
@@ -94,17 +96,18 @@ def train_PillarNet():
         ]
 
     try:
-        pillar_net.fit(training_gen,
-                    validation_data=validation_gen,
-                    steps_per_epoch=len(training_gen),
-                    callbacks=callbacks,
-                    use_multiprocessing=True,
-                    epochs=int(params.total_training_epochs),
-                    #    epochs=1,
-                    workers=6)
-        pillar_net.save('my_model9')
-        pillar_net.save(zoe_pointpillars)
-        print('save========================================================================================')
+        with strategy.scope():
+            pillar_net.fit(training_gen,
+                        validation_data=validation_gen,
+                        steps_per_epoch=len(training_gen),
+                        callbacks=callbacks,
+                        use_multiprocessing=True,
+                        epochs=int(params.total_training_epochs),
+                        #    epochs=1,
+                        workers=6)
+            pillar_net.save('my_model9')
+            pillar_net.save(zoe_pointpillars)
+            print('save========================================================================================')
 
     except KeyboardInterrupt:
         model_str = "interrupted_%s.h5" % time.strftime("%Y%m%d-%H%M%S")
