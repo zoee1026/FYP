@@ -41,7 +41,6 @@ def train_PillarNet():
 
     BATCH_SIZE_PER_REPLICA = params.batch_size
     BATCH_SIZE = BATCH_SIZE_PER_REPLICA * strategy.num_replicas_in_sync
-    print(strategy.num_replicas_in_sync)
 
     with strategy.scope():
 
