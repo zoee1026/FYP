@@ -36,23 +36,23 @@ def train_PillarNet():
     
     strategy = tf.distribute.MirroredStrategy()
 
-    with strategy.scope():
-        params = Parameters()   
+    # with strategy.scope():
+    params = Parameters()   
 
-        pillar_net = build_point_pillar_graph(params)
-        pretrained = os.path.join(MODEL_ROOT, MODEL_SAVE)
-        if os.path.exists(zoe_pointpillars):
-            # with h5py.File('zoe_pointpillars3', 'r') as f:
-            #     pillar_net.load_weights(f)
-            pillar_net.load_weights(zoe_pointpillars)
+    pillar_net = build_point_pillar_graph(params)
+    pretrained = os.path.join(MODEL_ROOT, MODEL_SAVE)
+    if os.path.exists(zoe_pointpillars):
+        # with h5py.File('zoe_pointpillars3', 'r') as f:
+        #     pillar_net.load_weights(f)
+        pillar_net.load_weights(zoe_pointpillars)
 
-            logging.info(
-                "Using pre-trained weights found at path: {}".format(zoe_pointpillars))
+        logging.info(
+            "Using pre-trained weights found at path: {}".format(zoe_pointpillars))
 
-            print("load")
-        else:
-            logging.info(
-                "No pre-trained weights found. Initializing weights and training model.")
+        print("load")
+    else:
+        logging.info(
+            "No pre-trained weights found. Initializing weights and training model.")
 
 
     data_reader = KittiDataReader()
