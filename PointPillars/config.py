@@ -158,7 +158,7 @@ class NetworkParameters:
     size_weight = 2.0       # 2.0
     angle_weight = 2      # 2.0
     heading_weight = 0.2    # 0.2
-    class_weight = 1      # 0.2
+    class_weight = 0.5     # 0.2
 
     def __init__(self):
         super(NetworkParameters, self).__init__()
