@@ -17,7 +17,9 @@ from processors import SimpleDataGenerator
 from readers import KittiDataReader
 import h5py
 from read_file_location import GetMatchedDatafile, TestModel
+
 import wandb
+wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True)
 
 tf.get_logger().setLevel("ERROR")
 
