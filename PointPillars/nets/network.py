@@ -38,8 +38,6 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
             corrected_indices = tf.keras.layers.Lambda(lambda t: correct_batch_indices(t,batch_size))(input_indices)
     else:
         corrected_indices = input_indices
-    print(input_pillars.shape)
-
 
     # pillars
     x = tf.keras.layers.Conv2D(nb_channels, (1, 1), activation='linear', use_bias=False, name="pillars/conv2d")(input_pillars)
