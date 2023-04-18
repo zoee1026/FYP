@@ -19,7 +19,7 @@ import h5py
 from read_file_location import GetMatchedDatafile, TestModel
 
 import wandb
-wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True)
+wandb.init(config=tf.compat.v1.flags.FLAGS, sync_tensorboard=True)
 
 tf.get_logger().setLevel("ERROR")
 
