@@ -21,6 +21,7 @@ from read_file_location import GetMatchedDatafile, TestModel
 import wandb
 
 tf.get_logger().setLevel("ERROR")
+wandb.init(config=tf.compat.v1.flags.FLAGS, sync_tensorboard=True)
 
 # DATA_ROOT = '..folder_root//MatchFile.csv'
 DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
@@ -125,7 +126,6 @@ def train_PillarNet():
 
 if __name__ == '__main__':
 
-    wandb.init(config=tf.compat.v1.flags.FLAGS, sync_tensorboard=True)
 
     logging.basicConfig(level=logging.INFO,
                         format="%(asctime)s - [%(levelname)s]: %(message)s")
