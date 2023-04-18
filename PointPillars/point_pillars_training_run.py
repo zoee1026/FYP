@@ -70,9 +70,9 @@ def train_PillarNet():
 
 
     training_gen = SimpleDataGenerator(
-        data_reader, params.batch_size*2, lidar_train, label_train)
+        data_reader, params.batch_size, lidar_train, label_train)
     validation_gen = SimpleDataGenerator(
-        data_reader, params.batch_size*2, lidar_val, label_val)
+        data_reader, params.batch_size, lidar_val, label_val)
 
 
     with strategy.scope():
