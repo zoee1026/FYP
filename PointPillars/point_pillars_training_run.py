@@ -17,6 +17,7 @@ from processors import SimpleDataGenerator
 from readers import KittiDataReader
 import h5py
 from read_file_location import GetMatchedDatafile, TestModel
+import wandb
 
 tf.get_logger().setLevel("ERROR")
 
