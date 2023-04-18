@@ -33,7 +33,8 @@ MODEL_SAVE = "train5.h5"
 zoe_pointpillars = 'zoe_pointpillars4.h5'
 
 def train_PillarNet():
-
+    
+    strategy = tf.distribute.MirroredStrategy()
 
     with strategy.scope():
         params = Parameters()   
@@ -121,7 +122,7 @@ if __name__ == '__main__':
                         format="%(asctime)s - [%(levelname)s]: %(message)s")
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = '0,1'
-    strategy = tf.distribute.MirroredStrategy()
+    
     # os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
 
     # CUDA_VISIBLE_DEVICES=0,1
