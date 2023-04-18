@@ -20,8 +20,8 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     else:
         input_shape = (max_pillars, max_points, nb_features)
 
-    input_pillars = tf.keras.layers.Input(input_shape, name="pillars/input")
-    input_indices = tf.keras.layers.Input((max_pillars, 3), name="pillars/indices",
+    input_pillars = tf.keras.layers.Input(input_shape, batch_size=batch_size, name="pillars/input")
+    input_indices = tf.keras.layers.Input((max_pillars, 3), batch_size=batch_size, name="pillars/indices",
                                           dtype=tf.int32)
     
     print (input_pillars.shape,input_indices.shape)
