@@ -11,7 +11,7 @@ from config import Parameters
 from loss import PointPillarNetworkLoss
 from nets.network import build_point_pillar_graph
 # from nets.network_yolo import build_point_pillar_graph
-# from nets.network_yolo_basechannel import build_point_pillar_graph
+from nets.network_yolo_basechannel import build_point_pillar_graph
 # from nets.network_yolo_concat import build_point_pillar_graph
 from processors import SimpleDataGenerator
 from readers import KittiDataReader
@@ -24,14 +24,14 @@ tf.get_logger().setLevel("ERROR")
 wandb.init(config=tf.compat.v1.flags.FLAGS, sync_tensorboard=True)
 
 # DATA_ROOT = '..folder_root//MatchFile.csv'
-DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
+DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/All.csv'
 MODEL_ROOT = "./log"
-MODEL_SAVE = "train3.h5"
-pb_MODEL='my_model8'
+MODEL_SAVE = "train6.h5"
+pb_MODEL='my_model10'
 
-# zoe_pointpillars='zoe_pp_yolo1.h5'
+zoe_pointpillars='zoe_pp_yolo4.h5'
 # zoe_pointpillars='zoe_pp_yolo3.h5'
-zoe_pointpillars = 'zoe_pointpillars3.h5'
+# zoe_pointpillars = 'zoe_pointpillars4.h5'
 
 def train_PillarNet():
     
