@@ -86,17 +86,18 @@ def train_PillarNet():
     ]
 
     try:
-        pillar_net.fit(training_gen,
-                       validation_data = validation_gen,
-                       steps_per_epoch=len(training_gen),
-                       callbacks=callbacks,
-                       use_multiprocessing=True,
-                       epochs=int(params.total_training_epochs),
-                    #    epochs=1,
-                       workers=6)
-        pillar_net.save('my_model8')
-        pillar_net.save(zoe_pointpillars)
-        print('save========================================================================================')
+        with strategy.scope():
+            pillar_net.fit(training_gen,
+                        validation_data = validation_gen,
+                        steps_per_epoch=len(training_gen),
+                        callbacks=callbacks,
+                        use_multiprocessing=True,
+                        epochs=int(params.total_training_epochs),
+                        #    epochs=1,
+                        workers=6)
+            pillar_net.save('my_model8')
+            pillar_net.save(zoe_pointpillars)
+            print('save========================================================================================')
 
     except KeyboardInterrupt:
         model_str = "interrupted_%s.h5" % time.strftime("%Y%m%d-%H%M%S")
@@ -112,6 +113,7 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - [%(levelname)s]: %(message)s")
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = '0,1,3'
+    strategy = tf.distribute.MirroredStrategy()
     # os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
 
     # CUDA_VISIBLE_DEVICES=0,1
