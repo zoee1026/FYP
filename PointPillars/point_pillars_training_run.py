@@ -110,7 +110,7 @@ def train_PillarNet():
                     epochs=int(params.total_training_epochs),
                     #    epochs=1,
                     workers=6)
-        pillar_net.save(pb_Model)
+        pillar_net.save(pb_MODEL)
         pillar_net.save(zoe_pointpillars)
         print('save========================================================================================')
 
@@ -118,7 +118,7 @@ def train_PillarNet():
         model_str = "interrupted_%s.h5" % time.strftime("%Y%m%d-%H%M%S")
         # pillar_net.save(os.path.join(log_dir, model_str))
         pillar_net.save(zoe_pointpillars)
-        pillar_net.save(pb_Model)
+        pillar_net.save(pb_MODEL)
         # print("Interrupt. Saving output to %s" % os.path.join(os.getcwd(), log_dir[1:], model_str))
         print('<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
         print(model_str)
