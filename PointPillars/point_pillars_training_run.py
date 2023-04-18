@@ -35,8 +35,12 @@ zoe_pointpillars = 'zoe_pointpillars4.h5'
 def train_PillarNet():
     
     strategy = tf.distribute.MirroredStrategy()
-
     params = Parameters()   
+
+
+    BATCH_SIZE_PER_REPLICA = params.batch_size
+    BATCH_SIZE = BATCH_SIZE_PER_REPLICA * strategy.num_replicas_in_sync
+
     with strategy.scope():
 
         pillar_net = build_point_pillar_graph(params)
@@ -70,9 +74,9 @@ def train_PillarNet():
 
 
     training_gen = SimpleDataGenerator(
-        data_reader, params.batch_size, lidar_train, label_train)
+        data_reader, BATCH_SIZE, lidar_train, label_train)
     validation_gen = SimpleDataGenerator(
-        data_reader, params.batch_size, lidar_val, label_val)
+        data_reader, BATCH_SIZE, lidar_val, label_val)
 
 
     with strategy.scope():
@@ -81,8 +85,8 @@ def train_PillarNet():
         optimizer = tf.keras.optimizers.Adam(learning_rate=params.learning_rate)
 
         pillar_net.compile(optimizer, loss=loss.losses())
-        epoch_to_decay = int(np.round(params.iters_to_decay / params.batch_size * int(
-            np.ceil(float(len(label_train)+len(label_val)) / params.batch_size))))
+        epoch_to_decay = int(np.round(params.iters_to_decay / BATCH_SIZE * int(
+            np.ceil(float(len(label_train)+len(label_val)) / BATCH_SIZE))))
         
         log_dir = MODEL_ROOT
         callbacks = [
@@ -95,18 +99,18 @@ def train_PillarNet():
         ]
 
     try:
-        with strategy.scope():
-            pillar_net.fit(training_gen,
-                        validation_data=validation_gen,
-                        steps_per_epoch=len(training_gen),
-                        callbacks=callbacks,
-                        use_multiprocessing=True,
-                        epochs=int(params.total_training_epochs),
-                        #    epochs=1,
-                        workers=6)
-            pillar_net.save('my_model9')
-            pillar_net.save(zoe_pointpillars)
-            print('save========================================================================================')
+        # with strategy.scope():
+        pillar_net.fit(training_gen,
+                    validation_data=validation_gen,
+                    steps_per_epoch=len(training_gen),
+                    callbacks=callbacks,
+                    use_multiprocessing=True,
+                    epochs=int(params.total_training_epochs),
+                    #    epochs=1,
+                    workers=6)
+        pillar_net.save('my_model9')
+        pillar_net.save(zoe_pointpillars)
+        print('save========================================================================================')
 
     except KeyboardInterrupt:
         model_str = "interrupted_%s.h5" % time.strftime("%Y%m%d-%H%M%S")
