@@ -140,7 +140,7 @@ class NetworkParameters:
     positive_iou_threshold = 0.7
     negative_iou_threshold = 0.35
 
-    batch_size = 4
+    batch_size = 6
     total_training_epochs = 20
     # total_training_epochs = 20
 
