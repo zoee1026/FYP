@@ -19,7 +19,7 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
         raise NotImplementedError
     else:
         input_shape = (max_pillars, max_points, nb_features)
-    print(params.batch_size)
+    print(params.batch_size,'-------------------')
 
     input_pillars = tf.keras.layers.Input(input_shape, batch_size=params.batch_size, name="pillars/input")
     input_indices = tf.keras.layers.Input((max_pillars, 3), batch_size=params.batch_size, name="pillars/indices",
