@@ -24,10 +24,12 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     input_indices = tf.keras.layers.Input((max_pillars, 3), batch_size=params.batch_size, name="pillars/indices",
                                           dtype=tf.int32)
     
-    print (input_pillars.shape)
+    print (input_pillars.shape,input_indices.shape)
 
     def correct_batch_indices(tensor, batch_size):
+        print(batch_size)
         array = np.zeros((batch_size, max_pillars, 3), dtype=np.float32)
+        print(array.shape)
         for i in range(batch_size):
             array[i, :, 0] = i
         return tensor + tf.constant(array, dtype=tf.int32)
@@ -36,6 +38,7 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
             corrected_indices = tf.keras.layers.Lambda(lambda t: correct_batch_indices(t, params.batch_size))(input_indices)
     else:
         corrected_indices = input_indices
+    print(input_pillars.shape)
 
 
     # pillars
