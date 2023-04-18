@@ -19,7 +19,7 @@ import h5py
 from read_file_location import GetMatchedDatafile, TestModel
 
 import wandb
-wandb.init(config=tf.compat.v1.flags.FLAGS, sync_tensorboard=True)
+# wandb.init(config=tf.compat.v1.flags.FLAGS, sync_tensorboard=True)
 
 tf.get_logger().setLevel("ERROR")
 
@@ -120,7 +120,7 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO,
                         format="%(asctime)s - [%(levelname)s]: %(message)s")
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"] = '0,1,3'
+    os.environ["CUDA_VISIBLE_DEVICES"] = '0,1'
     strategy = tf.distribute.MirroredStrategy()
     # os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
 
