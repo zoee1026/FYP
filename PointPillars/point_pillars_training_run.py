@@ -43,7 +43,7 @@ def train_PillarNet():
 
     with strategy.scope():
 
-        pillar_net = build_point_pillar_graph(params,batch_size=BATCH_SIZE_PER_REPLICA)
+        pillar_net = build_point_pillar_graph(params,batch_size=BATCH_SIZE_PER_REPLICA, gpu=strategy.num_replicas_in_sync)
         pretrained = os.path.join(MODEL_ROOT, MODEL_SAVE)
         if os.path.exists(zoe_pointpillars):
             # with h5py.File('zoe_pointpillars3', 'r') as f:
@@ -124,7 +124,7 @@ def train_PillarNet():
 
 if __name__ == '__main__':
 
-    # wandb.init(config=tf.compat.v1.flags.FLAGS, sync_tensorboard=True)
+    wandb.init(config=tf.compat.v1.flags.FLAGS, sync_tensorboard=True)
 
     logging.basicConfig(level=logging.INFO,
                         format="%(asctime)s - [%(levelname)s]: %(message)s")
