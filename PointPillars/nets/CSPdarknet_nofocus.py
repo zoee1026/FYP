@@ -139,7 +139,7 @@ def darknet_body(x, base_channels, base_depth):
     x = DarknetConv2D_BN_SiLU(base_channels, (3, 3), name = 'backbone.stem.conv')(x)
     
     # 320, 320, 64 => 160, 160, 128
-    # x = resblock_body(x, base_channels * 2, base_depth, name = 'backbone.dark2')
+    x = resblock_body(x, base_channels * 2, base_depth, name = 'backbone.dark2')
     
     # 160, 160, 128 => 80, 80, 256
     x = resblock_body(x, base_channels * 4, base_depth * 3, name = 'backbone.dark3')
