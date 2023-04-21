@@ -14,9 +14,6 @@ import sys
 def select_best_anchors(arr):
     # arr -> [num_GT_BB, grid_x, grid_y, num_anchors, 10]
     dims = np.indices(arr.shape[1:])
-    # 10 -> [occupancy, x_encoded, y_encoded, z_encoded, l_w.r.t._anchor, w_w.r.t_anchor, h_w.r.t._anchor, sin(GT_yaw - anchor_yaw), yaw_class, box_class_id]
-    # arr[..., 0:1] gets the occupancy value from occ in {-1, 0, 1}, i.e. {bad match, neg box, pos box}
-    # mask on the basis of occupancy == 1 -> [occupancy, grid_x, grid_y, num_anchors, 10]
     ind = (np.argmax(arr[..., 0:1], axis=0),) + tuple(dims)
     return arr[ind]
 
@@ -31,80 +28,6 @@ class DataProcessor(Parameters):
         self.anchor_yaw = anchor_dims[:, 4]  # yaw-angle
         # Counts may be used to make statistic about how well the anchor boxes fit the objects
         self.pos_cnt, self.neg_cnt = 0, 0
-
-    @staticmethod
-    def transform_labels_into_lidar_coordinates(labels: List[Label3D], R: np.ndarray, t: np.ndarray):
-        transformed = []  # Creating transformes list but returning labels
-        for label in labels:
-            # @ -> Matrix multiplication
-            # Why transposing the inversed orthogonal matrix? Where is Camera rotation handling?
-            label.centroid = label.centroid @ np.linalg.inv(R).T - t
-            label.dimension = label.dimension[[2, 1, 0]]  # h, w, l -> w, l, h
-            label.yaw -= np.pi / 2
-            while label.yaw < -np.pi:
-                label.yaw += (np.pi * 2)
-            while label.yaw > np.pi:
-                label.yaw -= (np.pi * 2)
-            transformed.append(label)
-        return labels
-
-    def camera_to_lidar(self, labels: List[Label3D], P: np.ndarray, R: np.ndarray, V2C: np.ndarray):
-        """ Transforms all the box parameters from camera coordinate frame to LiDAR coordinate frame """
-        for label in labels:
-            # In camera coordinate frame: length (or depth) will be along z-axis, width will be along x-axis, height will be along y-axis
-            # In lidar coordinate frame: length (or depth) will be along x-axis, width will be along y-axis, height will be along z-axis
-            # h, w, l -> l, w, h, now they are alinged to the LiDAR coordinate frame
-            label.dimension = label.dimension[[2, 1, 0]]
-
-            # (x, y, z) of BB in camera coordinates (in meters)
-            label_centroid = label.centroid
-            label_centroid_rectified = np.array(
-                [label_centroid[0], label_centroid[1], label_centroid[2], 1])
-
-            # Transforming 3x3 reference camera rotation matrix into 4x4 rotation matrix
-            R_rectification = np.zeros((4, 4))
-            R_rectification[:3, :3] = R
-            R_rectification[3, 3] = 1
-            # inversing the rotation, so now, rotation w.r.t. camera is gone
-            label_centroid_rectified = np.matmul(
-                np.linalg.inv(R_rectification), label_centroid_rectified)
-            # Projecting from camera to LiDAR
-            label_centroid_rectified = np.matmul(
-                DataProcessor.inverse_rigid_trans(V2C), label_centroid_rectified)
-            label_centroid_rectified = label_centroid_rectified[:3]
-            label.centroid = label_centroid_rectified
-            label.centroid[2] += label.dimension[2]
-            # Getting z-center of the 3D BB
-
-            # # Adding an offset to the length and width values
-            # label.dimension[0] = label.dimension[0] + 0.3 # Adding some constant factor as GT values are very small
-            # label.dimension[1] = label.dimension[1] + 0.3 # Adding some constant factor as GT values are very small
-
-            # # Normalizing box dimensions
-            # label.dimension[0] = label.dimension[0] / (self.x_max - self.x_min)
-            # label.dimension[1] = label.dimension[1] / (self.y_max - self.y_min)
-            # label.dimension[2] = label.dimension[2] / (self.z_max - self.z_min)
-
-            # yaw angle has been provided w.r.t y-axis in the camera coordinate
-            # label.yaw = -(label.yaw + np.pi/2) # Rotation w.r.t z-axis of LiDAR coordinate frame
-            label.yaw = - label.yaw - np.pi/2
-            # while label.yaw < -np.pi:
-            #     label.yaw += (np.pi * 2)
-            # while label.yaw > np.pi:
-            #     label.yaw -= (np.pi * 2)
-        return labels
-
-    @staticmethod
-    def inverse_rigid_trans(Tr):
-        ''' Inverse a rigid body transform matrix (3x4 as [R|t])
-            [R'|-R't; 0|1]
-        '''
-        inv_Tr = np.zeros_like(Tr)  # 3x4
-        inv_Tr[0:3, 0:3] = np.transpose(
-            Tr[0:3, 0:3])  # Inverse rotation matrix
-        # Inverse translation, takes into account the rotation
-        inv_Tr[0:3, 3] = np.dot(-np.transpose(Tr[0:3, 0:3]), Tr[0:3, 3])
-        return inv_Tr
 
     def make_point_pillars(self, points: np.ndarray, print_flag: bool = False):
 

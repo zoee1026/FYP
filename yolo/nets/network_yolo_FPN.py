@@ -72,6 +72,9 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
                                      name="pillars/scatter_nd")([corrected_indices, x])
 
     # 2d cnn backbone
+
+# 640,64 => 640,64=> 320,128 => 160=>160, 256 =>80,512
+
     feat1, feat2, feat3 = darknet_body(pillars, base_channels, base_depth)
     # 20, 20, 1024 -> 20, 20, 512
     P5          = DarknetConv2D_BN_SiLU(int(base_channels * 8), (1, 1), name = 'conv_for_feat3')(feat3)  
@@ -106,14 +109,6 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     # P4_downsample   = Concatenate(axis = -1)([P4_downsample, P5])
     # # 20, 20, 1024 -> 20, 20, 1024
     # P5_out          = C3(P4_downsample, int(base_channels * 16), base_depth, shortcut = False, name = 'conv3_for_downsample2')
-
-    # UpSample back 
-    # output = DarknetConv2D_BN_SiLU(int(base_channels * 2), (1, 1), name = 'upsampling_channel')(P3_out)  
-    
-    output = tf.keras.layers.Conv2DTranspose(2 * base_channels, (1, 1), strides=(1, 1), padding="same", activation="linear",
-                                          use_bias=False, name="cnn/up3/conv2dt")(output)
-    output = tf.keras.layers.BatchNormalization(name="cnn/up3/bn", fused=True)(output)
-    output = tf.keras.layers.Activation("relu", name="cnn/up3/relu")(output)
 
     # len(anchors_mask[2]) = 3
     # 5 + num_classes -> 4 + 1 + num_classes

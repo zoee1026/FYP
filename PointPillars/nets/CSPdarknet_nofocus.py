@@ -135,6 +135,7 @@ def darknet_body(x, base_channels, base_depth):
     #---------------------------------------------------#
     # 640, 640, 3 => 320, 320, 12
     # x = Focus()(x)
+    
     # 320, 320, 12 => 320, 320, 64
     x = DarknetConv2D_BN_SiLU(base_channels, (3, 3), name = 'backbone.stem.conv')(x)
     

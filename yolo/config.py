@@ -70,25 +70,6 @@ OutPutVehecleClasees = {
 
 class GridParameters:
 
-    # zoe_pointpillars1,4
-    # x_min = -50.4
-    # x_max = 23.52
-    # x_step = 0.28
-
-    # y_min = -43.68
-    # y_max = 70.56
-    # y_step = 0.28
-
-    # zoe_pp_yolo3
-    # x_min = -53.76
-    # x_max = 23.04
-    # x_step = 0.24
-
-    # y_min = -38.4
-    # y_max = 46.08
-    # y_step = 0.24
-
-    # zoe_pp_yolo1,2,3
     x_min = -56.32
     x_max = 25.6
     x_step = 0.16
@@ -128,7 +109,7 @@ class NetworkParameters:
     max_pillars = 10000
 
     nb_features = 9
-    nb_channels = 128
+    nb_channels = 64
     downscaling_factor = 2
 
     # anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).iloc[1:,:].values, dtype=np.float32).tolist(),3)

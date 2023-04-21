@@ -9,10 +9,7 @@ from easydict import EasyDict as edict
 
 from config import Parameters
 from loss import PointPillarNetworkLoss
-from nets.network import build_point_pillar_graph
-# from nets.network_yolo import build_point_pillar_graph
-# from nets.network_yolo_basechannel import build_point_pillar_graph
-# from nets.network_yolo_concat import build_point_pillar_graph
+from nets.network_yolo_FPN import build_point_pillar_graph
 from processors import SimpleDataGenerator
 from readers import KittiDataReader
 import h5py
@@ -26,12 +23,10 @@ import wandb
 # DATA_ROOT = '..folder_root//MatchFile.csv'
 DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/All.csv'
 MODEL_ROOT = "./log"
-MODEL_SAVE = "train4.h5"
-pb_MODEL='my_model8'
+MODEL_SAVE = "train6.h5"
+pb_MODEL='my_model11'
 
-# zoe_pointpillars='zoe_pp_yolo4.h5'
-# zoe_pointpillars='zoe_pp_yolo3.h5'
-zoe_pointpillars = 'zoe_pointpillars4.h5'
+zoe_pointpillars='zoe_pp_yolo5.h5'
 
 def train_PillarNet():
     
@@ -115,10 +110,8 @@ def train_PillarNet():
 
     except KeyboardInterrupt:
         model_str = "interrupted_%s.h5" % time.strftime("%Y%m%d-%H%M%S")
-        # pillar_net.save(os.path.join(log_dir, model_str))
         pillar_net.save(zoe_pointpillars)
         pillar_net.save(pb_MODEL)
-        # print("Interrupt. Saving output to %s" % os.path.join(os.getcwd(), log_dir[1:], model_str))
         print('<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
         print(model_str)
 
@@ -131,8 +124,5 @@ if __name__ == '__main__':
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = '3'
     
-    # os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
 
-    # CUDA_VISIBLE_DEVICES=0,1
-    # tf.get_logger().setLevel("ERROR")
     train_PillarNet()

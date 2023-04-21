@@ -109,19 +109,11 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     # UpSample back 
     output = DarknetConv2D_BN_SiLU(int(base_channels * 2), (1, 1), name = 'upsampling_channel')(P3_out)  
     
-    output = tf.keras.layers.Conv2DTranspose(2 * base_channels, (3, 3), strides=(2, 2), padding="same", activation="linear",
+    output = tf.keras.layers.Conv2DTranspose(int(base_channels * 2), (3, 3), strides=(2, 2), padding="same", activation="linear",
                                           use_bias=False, name="cnn/up3/conv2dt")(output)
     output = tf.keras.layers.BatchNormalization(name="cnn/up3/bn", fused=True)(output)
     output = tf.keras.layers.Activation("relu", name="cnn/up3/relu")(output)
-
-    # len(anchors_mask[2]) = 3
-    # 5 + num_classes -> 4 + 1 + num_classes
-    # 4是先验框的回归系数，1是sigmoid将值固定到0-1，num_classes用于判断先验框是什么类别的物体
-    # bs, 20, 20, 3 * (4 + 1 + num_classes)
-    # out2 = DarknetConv2D(len(anchors_mask[2]) * (5 + num_classes), (1, 1), strides = (1, 1), name = 'yolo_head_P3')(P3_out)
-    # out1 = DarknetConv2D(len(anchors_mask[1]) * (5 + num_classes), (1, 1), strides = (1, 1), name = 'yolo_head_P4')(P4_out)
-    # out0 = DarknetConv2D(len(anchors_mask[0]) * (5 + num_classes), (1, 1), strides = (1, 1), name = 'yolo_head_P5')(P5_out)
-   
+  
     # Detection head
     occ = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="occupancy", activation="sigmoid")(output)
 
