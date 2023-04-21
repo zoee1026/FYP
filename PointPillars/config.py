@@ -154,8 +154,8 @@ class NetworkParameters:
     alpha = 0.25
     gamma = 2.0
     # original pillars paper values
-    focal_weight = 3.0      # 1.0
-    loc_weight = 2.0        # 2.0
+    focal_weight = 5.0      # 1.0
+    loc_weight = 5.0        # 2.0
     size_weight = 2.0       # 2.0
     angle_weight = 2      # 2.0
     heading_weight = 0.2    # 0.2
