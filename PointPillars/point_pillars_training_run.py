@@ -129,7 +129,7 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO,
                         format="%(asctime)s - [%(levelname)s]: %(message)s")
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"] = '2,3'
+    os.environ["CUDA_VISIBLE_DEVICES"] = '3'
     
     # os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
 
