@@ -186,6 +186,8 @@ def rotational_nms(set_boxes, confidences, occ_threshold=0.3, nms_iou_thr=0.5):
     else:
         if confidences[0]>0.2:
             return [0]
+        else:
+            return []
 
 
 def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_threshold=0.5):
