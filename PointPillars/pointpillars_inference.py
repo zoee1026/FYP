@@ -21,7 +21,7 @@ import logging
 from easydict import EasyDict as edict
 import time
 from tqdm import tqdm
-from read_file_location import ReadFileFromPath
+from read_file_location import ReadFileFromPath,TestModel
 import h5py
 
 
@@ -85,7 +85,9 @@ def load_model_and_run_inference(configs):
 
     logging.info("Model loaded.=================================================")
 
-    lidar_files, label_files = ReadFileFromPath(configs.data_root)
+    # lidar_files, label_files = ReadFileFromPath(configs.data_root)
+    lidar_files, label_files = TestModel('/media/sdb1/zoe/FYP/folder_root/All.csv')
+
 
     data_reader = KittiDataReader()
     point_cloud_processor = DataProcessor()
