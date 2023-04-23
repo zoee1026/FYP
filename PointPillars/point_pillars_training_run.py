@@ -26,12 +26,12 @@ import wandb
 # DATA_ROOT = '..folder_root//MatchFile.csv'
 DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/All.csv'
 MODEL_ROOT = "./log"
-MODEL_SAVE = "train4.h5"
-pb_MODEL='my_model8'
+MODEL_SAVE = "train5.h5"
+pb_MODEL='my_model9'
 
 # zoe_pointpillars='zoe_pp_yolo4.h5'
 # zoe_pointpillars='zoe_pp_yolo3.h5'
-zoe_pointpillars = 'zoe_pointpillars4.h5'
+zoe_pointpillars = 'zoe_pointpillars5.h5'
 
 def train_PillarNet():
     

@@ -3,7 +3,7 @@ import pandas as pd
 
 # Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchor.csv'
 # Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans.csv'
-Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans_yaw.csv'
+Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans6_yaw.csv'
 
 
 # Anchor_file=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\AnchorKmeans.csv'
@@ -137,7 +137,7 @@ class NetworkParameters:
 
     # positive_iou_threshold = 0.5
     # negative_iou_threshold = 0.35
-    positive_iou_threshold = 0.7
+    positive_iou_threshold = 0.6
     negative_iou_threshold = 0.35
 
     batch_size = 2
