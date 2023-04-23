@@ -109,8 +109,8 @@ def load_model_and_run_inference(configs):
         occupancy, position, size, angle, heading, classification = pillar_net_predict_server(
             [pillars, voxels], pillar_net)
         stop = time.time()
-        print(
-            "Single frame PointPillars inference time using predict server: {}".format(stop-start))
+        # print(
+        #     "Single frame PointPillars inference time using predict server: {}".format(stop-start))
         model_exec_time.append(stop-start)
 
         logging.debug("occupancy shape: {}".format(occupancy.shape))
@@ -141,10 +141,10 @@ def load_model_and_run_inference(configs):
         nms_indices = rotational_nms(
             boxes, confidences, occ_threshold=configs.occ_thresh, nms_iou_thr=configs.nms_thresh)
         stop = time.time()
-        logging.debug(
-            "Single frame rotational NMS time: {}".format(stop-start))
+        # logging.debug(
+        #     "Single frame rotational NMS time: {}".format(stop-start))
 
-        logging.debug("Number of boxes post-nms: {}".format(len(nms_indices)))
+        # logging.debug("Number of boxes post-nms: {}".format(len(nms_indices)))
 
         # Print out prediction
         print(len(boxes))
