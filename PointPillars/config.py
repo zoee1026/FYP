@@ -142,7 +142,7 @@ class NetworkParameters:
 
     batch_size = 2
 
-    total_training_epochs = 80
+    total_training_epochs = 100
     # total_training_epochs = 20
 
     # 101040.    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
