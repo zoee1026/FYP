@@ -96,7 +96,8 @@ def train_PillarNet():
 
     try:
         # with strategy.scope():
-        pillar_net.fit(training_gen,
+        pillar_net.fit_generator(
+                    generator    = training_gen,
                     validation_data=validation_gen,
                     steps_per_epoch=len(training_gen),
                     callbacks=callbacks,

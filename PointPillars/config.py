@@ -1,8 +1,7 @@
 import numpy as np
 import pandas as pd
 
-# Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchor.csv'
-# Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans.csv'
+
 Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans6_yaw.csv'
 
 
@@ -131,7 +130,6 @@ class NetworkParameters:
     nb_channels = 128
     downscaling_factor = 2
 
-    # anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).iloc[1:,:].values, dtype=np.float32).tolist(),3)
     anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).values, dtype=np.float32).tolist(),3)
     nb_dims = 3
 

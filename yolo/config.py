@@ -3,7 +3,7 @@ import pandas as pd
 
 # Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchor.csv'
 # Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans.csv'
-Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans_yaw.csv'
+Anchor_file = '/media/sdb1/zoe/FYP/folder_root/AnchorKmeans6_yaw.csv'
 
 
 # Anchor_file=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\AnchorKmeans.csv'
@@ -82,10 +82,12 @@ class GridParameters:
     z_max = 6.4
 
     # derived parameters
-    Xn_f = float(x_max - x_min) / x_step 
-    Yn_f = float(y_max - y_min) / y_step 
+    Xn_f = float(x_max - x_min) / x_step
+    Yn_f = float(y_max - y_min) / y_step
     Xn = int(Xn_f)
     Yn = int(Yn_f)
+
+    input_shape =[Xn,Yn]
 
     def __init__(self):
         super(GridParameters, self).__init__()
@@ -94,7 +96,10 @@ class GridParameters:
 class DataParameters:
 
     classes = VehicaleClasses
+    class_names=list(np.unique(list(VehicaleClasses.values())))
+
     nb_classes = len(np.unique(list(classes.values())))
+
     assert nb_classes == np.max(
         np.unique(list(classes.values()))) + 1, 'Starting class indexing at zero.'
 
@@ -113,7 +118,10 @@ class NetworkParameters:
     downscaling_factor = 2
 
     # anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).iloc[1:,:].values, dtype=np.float32).tolist(),3)
-    anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).values, dtype=np.float32).tolist(),3)
+    anchor_dims = np.round(np.array(pd.read_csv(
+        Anchor_file, index_col=0).values, dtype=np.float32).tolist(), 3)
+    anchors_mask = [[8, 9, 10, 11],  [4, 5, 6, 7], [0, 1, 2, 3]]
+    num_anchors=12
     nb_dims = 3
 
     # positive_iou_threshold = 0.5
@@ -122,13 +130,18 @@ class NetworkParameters:
     negative_iou_threshold = 0.35
 
     batch_size = 2
+    # epoch_step          = num_train // batch_size
+    # epoch_step_val      = num_val // batch_size
+
 
     total_training_epochs = 80
     # total_training_epochs = 20
 
     # 101040.    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
     iters_to_decay = 70140
-    learning_rate = 2e-4
+    Init_lr             = 1e-2
+    Min_lr              = Init_lr * 0.01
+    lr_decay_type       = 'cos'
     decay_rate = 1e-8
     L1 = 0
     L2 = 0
