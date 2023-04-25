@@ -127,7 +127,7 @@ class NetworkParameters:
     max_pillars = 10000
 
     nb_features = 9
-    nb_channels = 128
+    nb_channels = 64
     downscaling_factor = 2
 
     anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).values, dtype=np.float32).tolist(),3)
