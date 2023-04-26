@@ -7,7 +7,8 @@
 #include <algorithm>
 #include <cmath>
 #include <tuple>
-#include <scikit-learn.h>
+#include <sklearn/base.h>
+#include <sklearn/neighbors/kneighbors_classifier.h>
 namespace py = pybind11;
 
 struct IntPairHash {
