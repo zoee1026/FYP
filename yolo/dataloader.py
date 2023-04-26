@@ -23,7 +23,7 @@ def preprocess_true_boxes(
                 objectDimensions,
                 objectYaws,
                 objectClassIds,
-                anchorDimensions,
+                anchors,
                 anchorZHeights,
                 anchorYaws,
                 positiveThreshold,
@@ -46,11 +46,12 @@ def preprocess_true_boxes(
             return [math.floor((xMax - xMin) / (xStep * downscalingFactor)),math.floor((yMax - yMin) / (yStep * downscalingFactor))]
         
         grid_shapes = np.array([input_shape_layers(i) for i in scaled_mask], dtype='int32')
-        nbAnchors = anchorDimensions.shape()[0]
-        nbObjects = objectDimensions.shape()[0]
+        input_shape=[math.floor((xMax - xMin)/ xStep ) ,math.floor((yMax - yMin)/yStep)]
+
+        nbAnchors = anchors.shape[0]
+        nbObjects = objectDimensions.shape[0]
         m=nbObjects
         # centroid*3, loc*3 ,yaw, occu
-        box_data = np.zeros((len(nbObjects),8))
 
         
         #-----------------------------------------------------------#
@@ -88,13 +89,13 @@ def preprocess_true_boxes(
         #-----------------------------------------------------------#
         #   将真实框归一化到小数形式
         #-----------------------------------------------------------#
-        true_boxes[..., 0:2] = boxes_xy / input_shape[::-1]
-        true_boxes[..., 2:4] = boxes_wh / input_shape[::-1]
-
+        # true_boxes[..., 0:2] = boxes_xy / input_shape[::-1]
+        # true_boxes[..., 2:4] = boxes_wh / input_shape[::-1]
+        print(input_shape[::-1],input_shape)
         #-----------------------------------------------------------#
         #   [9,2] -> [9,2]
         #-----------------------------------------------------------#
-        anchors   = np.array(anchorDimensions, np.float32)
+        anchors   = np.array(anchors, np.float32)
 
         #-----------------------------------------------------------#
         #   长宽要大于0才有效

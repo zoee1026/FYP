@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cmath>
 #include <tuple>
+#include <scikit-learn.h>
 namespace py = pybind11;
 
 struct IntPairHash {
@@ -42,6 +43,8 @@ pybind11::tuple createPillars(pybind11::array_t<float> points,
                               bool printTime = true)
 {
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+    
+
 
     if (points.ndim() != 2 || points.shape()[1] != 4)
     {
@@ -407,6 +410,10 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
     const auto ySize = static_cast<int>(std::floor((yMax - yMin) / (yStep * downscalingFactor)));
 //     py::print("ySize", ySize);
 
+    sk::KNeighborsClassifier clf;
+    clf.load("knn_model.joblib");
+
+
     const int nbAnchors = anchorDimensions.shape()[0]; //4 Number of anchors
 //     py::print("nbAnchors", nbAnchors);
 //     Anchor length
@@ -528,6 +535,7 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
                 {
                     anchorBox.x = x; // Assign the real world x and y coordinate to the anchor box
                     anchorBox.y = y; // Note that anchor boxes originally didn't have Xs and Ys.
+                    anchorBox.yaw=clf.predict([x,y])
                     // This is because we need to check them along the X-Y grid.
                     // However, they did have a z value attached to them. 
 
