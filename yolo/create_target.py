@@ -103,7 +103,7 @@ def createTarget(labels: List[Label3D]):
                 # For every anchor box (4 in our case)
                 # Note that we are checking every anchor box for every label in the file
                 for anchorBox in AnchorBoxList:
-                    anchorBox.set_xyyaw(x,y,knn.predict(x,y))
+                    anchorBox.set_xyyaw(x,y,knn.predict([x,y]))
 
                     iouOverlap = iouraw(anchorBox.get_label(), labelBox.get_label()) # Get IOU between two 3D boxes.
 
