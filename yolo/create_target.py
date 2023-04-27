@@ -21,7 +21,7 @@ class BBox:
         self.yaw=box.yaw
 
     def get_label(self):
-        return [self.x,self.y,self.z,self.l,self.w,self.h,self.yaw,self.classification]
+        return np.array([self.x,self.y,self.z,self.l,self.w,self.h,self.yaw],dtype=np.float32)
     
 class AnchorBBox:
     def __init__(self, box: List):
@@ -172,5 +172,5 @@ def createTarget(labels: List[Label3D]):
 
         objectCount += 1
     
-    return [target,posCnt,negCnt]
+    return [target.astype(np.float32),posCnt,negCnt]
 
