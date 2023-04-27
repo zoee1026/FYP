@@ -392,7 +392,6 @@ float iouraw(
     labelBox.width = labelBoxList.at(4);
     labelBox.height = labelBoxList.at(5);
     labelBox.yaw = labelBoxList.at(6);
-    labelBox.classId = labelBoxList.at(7);
 
     BoundingBox3D anchorBox = {};
     anchorBox.x = anchorBoxList.at(0);
@@ -402,7 +401,6 @@ float iouraw(
     anchorBox.width = anchorBoxList.at(4);
     anchorBox.height = anchorBoxList.at(5);
     anchorBox.yaw = anchorBoxList.at(6);
-    anchorBox.classId = anchorBoxList.at(7);
 
     return iou(labelBox,anchorBox);
 
