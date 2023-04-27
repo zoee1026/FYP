@@ -121,7 +121,7 @@ def createTarget(labels: List[Label3D]):
                         diag = anchorBox.diag
                         target[objectCount, xId, yId, anchorCount, 1] = (labelBox.x - anchorBox.x) / diag # delta x,y,z
                         target[objectCount, xId, yId, anchorCount, 2] = (labelBox.y - anchorBox.y) / diag
-                        target[objectCount, xId, yId, anchorCount, 3] = (labelBox.z - anchorBox.z) / anchorBox.height
+                        target[objectCount, xId, yId, anchorCount, 3] = (labelBox.z - anchorBox.z) / anchorBox.h
 
                         target[objectCount, xId, yId, anchorCount, 4] = math.log(labelBox.l / anchorBox.l) # delta l,w,h
                         target[objectCount, xId, yId, anchorCount, 5] = math.log(labelBox.w / anchorBox.w)
@@ -148,7 +148,7 @@ def createTarget(labels: List[Label3D]):
             negCnt += 1
             xId = bestAnchor_xId
             yId = bestAnchor_yId
-            diag = np.sqrt(np.power(bestAnchor.width, 2) + np.power(bestAnchor.length, 2))
+            diag = bestAnchor.diag
 
             target[objectCount, xId, yId, bestAnchorId, 0] = 1
             target[objectCount, xId, yId, bestAnchorId, 1] = (labelBox.x - bestAnchor.x) / diag
