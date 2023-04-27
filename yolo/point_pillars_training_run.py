@@ -10,7 +10,7 @@ from easydict import EasyDict as edict
 from config import Parameters
 from loss import PointPillarNetworkLoss
 # from nets.network_yolo_FPN import build_point_pillar_graph
-from nets.network_yolo_basechannel import build_point_pillar_graph
+from nets.network_yolo_3feature import build_point_pillar_graph
 from processors import SimpleDataGenerator
 from readers import KittiDataReader
 import h5py
