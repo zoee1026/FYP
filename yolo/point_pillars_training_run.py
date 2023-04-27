@@ -102,7 +102,7 @@ def train_PillarNet():
                     validation_data=validation_gen,
                     steps_per_epoch=len(training_gen),
                     callbacks=callbacks,
-                    use_multiprocessing=True,
+                    use_multiprocessing=False,
                     epochs=int(params.total_training_epochs),
                     #    epochs=1,
                     workers=6)
