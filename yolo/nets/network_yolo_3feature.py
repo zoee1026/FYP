@@ -73,22 +73,22 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     # 2d cnn backbone
     feat1, feat2, feat3 = darknet_body(pillars, base_channels, base_depth)
     # 20, 20, 1024 -> 20, 20, 512
-    P5          = DarknetConv2D_BN_SiLU(int(base_channels * 8), (1, 1), name = 'conv_for_feat3')(feat3)  
+    P5          = DarknetConv2D_BN_SiLU(int(base_channels * 4), (1, 1), name = 'conv_for_feat3')(feat3)  
     # 20, 20, 512 -> 40, 40, 512
     P5_upsample = UpSampling2D()(P5) 
     # 40, 40, 512 cat 40, 40, 512 -> 40, 40, 1024
     P5_upsample = Concatenate(axis = -1)([P5_upsample, feat2])
     # 40, 40, 1024 -> 40, 40, 512
-    P5_upsample = C3(P5_upsample, int(base_channels * 8), base_depth, shortcut = False, name = 'conv3_for_upsample1')
+    P5_upsample = C3(P5_upsample, int(base_channels * 4), base_depth, shortcut = False, name = 'conv3_for_upsample1')
 
     # 40, 40, 512 -> 40, 40, 256
-    P4          = DarknetConv2D_BN_SiLU(int(base_channels * 4), (1, 1), name = 'conv_for_feat2')(P5_upsample)
+    P4          = DarknetConv2D_BN_SiLU(int(base_channels * 2), (1, 1), name = 'conv_for_feat2')(P5_upsample)
     # 40, 40, 256 -> 80, 80, 256
     P4_upsample = UpSampling2D()(P4)
     # 80, 80, 256 cat 80, 80, 256 -> 80, 80, 512
     P4_upsample = Concatenate(axis = -1)([P4_upsample, feat1])
     # 80, 80, 512 -> 80, 80, 256
-    P3_out      = C3(P4_upsample, int(base_channels * 4), base_depth, shortcut = False, name = 'conv3_for_upsample2')
+    P3_out      = C3(P4_upsample, int(base_channels * 2), base_depth, shortcut = False, name = 'conv3_for_upsample2')
   
     # Detection head
     occ = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="occupancy", activation="sigmoid")(P3_out)
