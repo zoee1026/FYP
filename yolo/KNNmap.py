@@ -2,6 +2,7 @@ from sklearn.neighbors import KNeighborsRegressor
 import pandas as pd
 import pickle
 import joblib
+import numpy as np
 
 def KNN():
     # path='/media/sdb1/zoe/FYP/folder_root/LabelSummary.csv'
@@ -10,8 +11,8 @@ def KNN():
     knn = KNeighborsRegressor(n_neighbors=5,weights='distance')
     vector=df.sample(frac=.2, replace=True, random_state=1)
 
-    X = vector[['x', 'y']]
-    y = vector['angle']
+    X = vector[['x', 'y']].values
+    y = vector['angle'].values
     knn.fit(X, y)
 
     filename = 'knn.sav'
@@ -19,3 +20,5 @@ def KNN():
 
 if __name__ == '__main__':
     KNN()
+    knn=pickle.load(open('knn.sav', 'rb'))
+    print(knn.predict(np.array([[-10,10]]))[0])
