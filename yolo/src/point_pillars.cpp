@@ -404,7 +404,7 @@ float iouraw(
     anchorBox.yaw = anchorBoxList.at(6);
     anchorBox.classId = anchorBoxList.at(7);
 
-    return iou(labelBox,anchorBox)
+    return iou(labelBox,anchorBox);
 
 }
 std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind11::array_t<float>& objectPositions,
