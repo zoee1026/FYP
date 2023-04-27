@@ -407,6 +407,7 @@ float iouraw(
     return iou(labelBox,anchorBox);
 
 }
+
 std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind11::array_t<float>& objectPositions,
                                              const pybind11::array_t<float>& objectDimensions,
                                              const pybind11::array_t<float>& objectYaws,
@@ -690,6 +691,6 @@ PYBIND11_MODULE(point_pillars, m)
 {
     m.def("createPillars", &createPillars, "Runs function to create point pillars input tensors");
     m.def("createPillarsTarget", &createPillarsTarget, "Runs function to create point pillars output ground truth");
-    m.def("calculateIOU", &iouraw, "Runs function to calculate IOU");
+    m.def("iouraw", &iouraw, "Runs function to calculate IOU");
 
 }
