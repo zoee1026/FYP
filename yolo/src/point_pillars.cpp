@@ -7,8 +7,8 @@
 #include <algorithm>
 #include <cmath>
 #include <tuple>
-#include <sklearn/base.h>
-#include <sklearn/neighbors/kneighbors_classifier.h>
+// #include <sklearn/base.h>
+// #include <sklearn/neighbors/kneighbors_classifier.h>
 namespace py = pybind11;
 
 struct IntPairHash {
@@ -380,7 +380,33 @@ float align_iou(const BoundingBox3D& box1,
     return iou;
 }
 
+float iouraw(
+    const pybind11::array_t<float>& labelBoxList,
+    const pybind11::array_t<float>& anchorBoxList,
+){
+    BoundingBox3D labelBox = {};
+    labelBox.x = labelBoxList.at(0);
+    labelBox.y = labelBoxList.at(1);
+    labelBox.z = labelBoxList.at(2);
+    labelBox.length = labelBoxList.at(3);
+    labelBox.width = labelBoxList.at(4);
+    labelBox.height = labelBoxList.at(5);
+    labelBox.yaw = labelBoxList.at(6);
+    labelBox.classId = labelBoxList.at(7);
 
+    BoundingBox3D anchorBox = {};
+    anchorBox.x = anchorBoxList.at(0);
+    anchorBox.y = anchorBoxList.at(1);
+    anchorBox.z = anchorBoxList.at(2);
+    anchorBox.length = anchorBoxList.at(3);
+    anchorBox.width = anchorBoxList.at(4);
+    anchorBox.height = anchorBoxList.at(5);
+    anchorBox.yaw = anchorBoxList.at(6);
+    anchorBox.classId = anchorBoxList.at(7);
+
+    return iou(labelBox,anchorBox)
+
+}
 std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind11::array_t<float>& objectPositions,
                                              const pybind11::array_t<float>& objectDimensions,
                                              const pybind11::array_t<float>& objectYaws,
@@ -411,8 +437,8 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
     const auto ySize = static_cast<int>(std::floor((yMax - yMin) / (yStep * downscalingFactor)));
 //     py::print("ySize", ySize);
 
-    sk::KNeighborsClassifier clf;
-    clf.load("knn_model.joblib");
+    // sk::KNeighborsClassifier clf;
+    // clf.load("knn_model.joblib");
 
 
     const int nbAnchors = anchorDimensions.shape()[0]; //4 Number of anchors
@@ -536,7 +562,7 @@ std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind1
                 {
                     anchorBox.x = x; // Assign the real world x and y coordinate to the anchor box
                     anchorBox.y = y; // Note that anchor boxes originally didn't have Xs and Ys.
-                    anchorBox.yaw=clf.predict([x,y])
+                    // anchorBox.yaw=clf.predict([x,y])
                     // This is because we need to check them along the X-Y grid.
                     // However, they did have a z value attached to them. 
 

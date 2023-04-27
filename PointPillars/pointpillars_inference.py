@@ -46,7 +46,7 @@ precisions = {
     15: [],
 }
 RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val2.csv'
-MODEL='zoe_pointpillars5.h5'
+MODEL='zoe_pp_yolo4.h5'
 # EVAL_PATH='test.csv'
 MODEL_ROOT = "./log"
 MODEL_SAVE = "train4.h5"

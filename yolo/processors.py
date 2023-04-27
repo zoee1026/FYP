@@ -5,7 +5,8 @@ import tensorflow as tf
 from tensorflow.keras.utils import Sequence
 
 from config import Parameters
-from point_pillars import createPillars, createPillarsTarget
+from point_pillars import createPillars
+from create_target import createTarget
 from readers import DataReader, Label3D
 from sklearn.utils import shuffle
 import sys
@@ -47,7 +48,6 @@ class DataProcessor(Parameters):
                                          self.z_min,
                                          self.z_max,
                                          print_flag)
-        # print(np.array(np.where(np.array(indices)>0)).shape,'----------------------------------------')
 
         return pillars, indices
 
@@ -59,51 +59,7 @@ class DataProcessor(Parameters):
         labels = list(
             filter(lambda x: x.classification in self.classes, labels))
 
-        if len(labels) == 0:
-            pX, pY = int(
-                self.Xn / self.downscaling_factor), int(self.Yn / self.downscaling_factor)
-            a = int(self.anchor_dims.shape[0])
-            return np.zeros((pX, pY, a), dtype='float32'), np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), \
-                np.zeros((pX, pY, a, self.nb_dims), dtype='float32'), np.zeros((pX, pY, a), dtype='float32'), \
-                np.zeros((pX, pY, a), dtype='float64'), np.zeros( (pX, pY, a, self.nb_classes), dtype='float64')
-                   
-
-        # For each label file, generate these properties except for the Don't care class
-        target_positions = np.array(
-            [label.centroid for label in labels], dtype=np.float32)
-        target_dimension = np.array(
-            [label.dimension for label in labels], dtype=np.float32)
-        target_yaw = np.array(
-            [label.yaw for label in labels], dtype=np.float32)
-        
-        ## change from str to int representing classes label
-        target_class = np.array([self.classes[label.classification]
-                                for label in labels], dtype=np.int32)
-
-        # assert np.all(target_yaw >= -np.pi) & np.all(target_yaw <= np.pi)
-        assert len(target_positions) == len(
-            target_dimension) == len(target_yaw) == len(target_class)
-
-        target, pos, neg = createPillarsTarget(target_positions,
-                                               target_dimension,
-                                               target_yaw,
-                                               target_class,
-                                               self.anchor_dims,
-                                               self.anchor_z,
-                                               self.anchor_yaw,
-                                               self.positive_iou_threshold,
-                                               self.negative_iou_threshold,
-                                               self.nb_classes,
-                                               self.downscaling_factor,
-                                               self.x_step,
-                                               self.y_step,
-                                               self.x_min,
-                                               self.x_max,
-                                               self.y_min,
-                                               self.y_max,
-                                               self.z_min,
-                                               self.z_max,
-                                               False)
+        target, pos, neg = createTarget(labels)
         self.pos_cnt += pos
         self.neg_cnt += neg
 
@@ -171,7 +127,6 @@ class SimpleDataGenerator(DataProcessor, Sequence):
 
         if self.label_files is not None:
             occupancy = np.array(occupancy)
-            # print(np.array(np.where(occupancy==1)).shape,np.array(np.where(occupancy==0)).shape)
             position = np.array(position)
             size = np.array(size)
             angle = np.array(angle)
