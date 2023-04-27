@@ -43,9 +43,8 @@ class AnchorBBox:
         self.y=y
         self.yaw=yaw
 
-def createTarget(labels: List[Label3D]):
+def createTarget(labels: List[Label3D],knn):
 
-    knn=pickle.load(open('knn.sav', 'rb'))
 
     params = Parameters()
     xSize = (params.x_max - params.x_min) / (params.x_step * params.downscaling_factor)

@@ -3,6 +3,7 @@ import sys
 import time
 import logging
 import argparse
+import pickle
 import numpy as np
 import tensorflow as tf
 from easydict import EasyDict as edict
@@ -34,6 +35,7 @@ def train_PillarNet():
     strategy = tf.distribute.MirroredStrategy()
     params = Parameters()   
 
+    knn=pickle.load(open('knn.sav', 'rb'))
 
     BATCH_SIZE_PER_REPLICA = params.batch_size
     BATCH_SIZE = BATCH_SIZE_PER_REPLICA * strategy.num_replicas_in_sync
@@ -71,9 +73,9 @@ def train_PillarNet():
 
 
     training_gen = SimpleDataGenerator(
-        data_reader, BATCH_SIZE, lidar_train, label_train)
+        data_reader, BATCH_SIZE, lidar_train,knn, label_train)
     validation_gen = SimpleDataGenerator(
-        data_reader, BATCH_SIZE, lidar_val, label_val)
+        data_reader, BATCH_SIZE, lidar_val,knn, label_val)
 
 
     with strategy.scope():
