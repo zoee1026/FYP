@@ -53,7 +53,7 @@ def createTarget(labels: List[Label3D]):
     nbAnchors=params.anchor_dims.shape[0]
     nbObjects=len(labels)
 
-    target=np.zeros((nbObjects,xSize,ySize,nbAnchors,10))
+    target=np.zeros((nbObjects,int(xSize),int(ySize),int(nbAnchors),10))
 
     posCnt = 0
     negCnt = 0
