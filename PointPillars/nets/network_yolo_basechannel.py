@@ -19,7 +19,7 @@ import numpy as np
 from config import Parameters
 
 
-def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.batch_size, gpu: int=2 ):
+def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.batch_size, gpu: int=1 ):
 
     # extract required parameters
     max_pillars = int(params.max_pillars)
