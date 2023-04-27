@@ -70,21 +70,21 @@ OutPutVehecleClasees = {
 
 class GridParameters:
 
-    # x_min = -56.32
-    # x_max = 25.6
-    # x_step = 0.16
+    x_min = -56.32
+    x_max = 25.6
+    x_step = 0.16
 
-    # y_min = -46.08
-    # y_max = 56.32
-    # y_step = 0.16
+    y_min = -46.08
+    y_max = 56.32
+    y_step = 0.16
 
-    x_min = -53.76
-    x_max = 17.92
-    x_step = 0.28
+    # x_min = -53.76
+    # x_max = 17.92
+    # x_step = 0.28
 
-    y_min = -35.84
-    y_max = 53.76
-    y_step = 0.28
+    # y_min = -35.84
+    # y_max = 53.76
+    # y_step = 0.28
 
     z_min = 0
     z_max = 6.4
