@@ -382,8 +382,8 @@ float align_iou(const BoundingBox3D& box1,
 
 float iouraw(
     const pybind11::array_t<float>& labelBoxList,
-    const pybind11::array_t<float>& anchorBoxList,
-){
+    const pybind11::array_t<float>& anchorBoxList)
+{
     BoundingBox3D labelBox = {};
     labelBox.x = labelBoxList.at(0);
     labelBox.y = labelBoxList.at(1);
