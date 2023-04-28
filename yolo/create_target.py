@@ -48,7 +48,7 @@ def get_yaw(kdt, y, test):
     y_pred = np.mean(y[indices], axis=1)[0]
     return y_pred
 
-def createTarget(labels: List[Label3D],knn,y):
+def createTarget(labels: List[Label3D],knn,kdt_y):
 
 
     params = Parameters()
@@ -107,7 +107,7 @@ def createTarget(labels: List[Label3D],knn,y):
                 # For every anchor box (4 in our case)
                 # Note that we are checking every anchor box for every label in the file
                 for anchorBox in AnchorBoxList:
-                    anchorBox.set_xyyaw(x,y,get_yaw(np.array([[x,y]])))
+                    anchorBox.set_xyyaw(x,y,get_yaw(knn,kdt_y,np.array([[x,y]])))
 
                     iouOverlap = iouraw(anchorBox.get_label(), labelBox.get_label()) # Get IOU between two 3D boxes.
 
