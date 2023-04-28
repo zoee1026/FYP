@@ -44,7 +44,7 @@ class AnchorBBox:
         self.yaw=yaw
 
 def get_yaw(kdt, y, test):
-    print(test)
+    print(len(y))
     _, indices = kdt.query( test, k=5)
     y_pred = np.mean(y[indices], axis=1)[0]
     return y_pred
