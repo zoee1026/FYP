@@ -1,10 +1,13 @@
-import math
-from random import shuffle, sample
-
-import cv2
-import keras
 import numpy as np
-from PIL import Image
+import pandas as pd
+from typing import List
+import math
+import pickle
+
+from readers import DataReader, Label3D
+from config import Parameters
+from create_target import BBox, AnchorBBox
+
 
 def get_near_points(self, x, y, i, j):
     sub_x = x - i
@@ -18,39 +21,22 @@ def get_near_points(self, x, y, i, j):
     else:
         return [[0, 0], [1, 0], [0, -1]]
 
-def preprocess_true_boxes(
-                objectPositions,
-                objectDimensions,
-                objectYaws,
-                objectClassIds,
-                anchors,
-                anchorZHeights,
-                anchorYaws,
-                positiveThreshold,
-                negativeThreshold,
-                xStep,
-                yStep,
-                xMin,
-                xMax,
-                yMin,
-                yMax,
-                zMin,
-                zMax,      
-                anchors_mask,
-                num_classes=16,
-    ):
+def preprocess_true_boxes(labels: List[Label3D],knn ):
+                
+   
+        params = Parameters()   
 
         scaled_mask=[8,4,2]
 
         def input_shape_layers(downscalingFactor):
-            return [math.floor((xMax - xMin) / (xStep * downscalingFactor)),math.floor((yMax - yMin) / (yStep * downscalingFactor))]
+            return [math.floor( (params.x_max - params.x_min) / (params.x_step *downscalingFactor)),math.floor((params.y_max - params.y_min) / (params.y_step *downscalingFactor))]
         
         grid_shapes = np.array([input_shape_layers(i) for i in scaled_mask], dtype='int32')
-        input_shape=[math.floor((xMax - xMin)/ xStep ) ,math.floor((yMax - yMin)/yStep)]
-
-        nbAnchors = anchors.shape[0]
-        nbObjects = objectDimensions.shape[0]
+        input_shape=[params.Xn_f,params.Yn_f]
+        nbAnchors=params.anchor_dims.shape[0]
+        nbObjects=len(labels)
         m=nbObjects
+
         # centroid*3, loc*3 ,yaw, occu
 
         
@@ -72,12 +58,12 @@ def preprocess_true_boxes(
         #   m,40,40,3,5+num_classses
         #   m,80,80,3,5+num_classses
         #-----------------------------------------------------------#
-        y_true = [np.zeros((nbObjects, grid_shapes[l][0], grid_shapes[l][1], len(anchors_mask[l]), 8 + num_classes),
+        y_true = [np.zeros((nbObjects, grid_shapes[l][0], grid_shapes[l][1], len(params.anchors_mask[l]), 8 + params.nb_classes),
                     dtype='float32') for l in range(num_layers)]
         #-----------------------------------------------------#
         #   用于帮助先验框找到最对应的真实框
         #-----------------------------------------------------#
-        box_best_ratios = [np.zeros((m, grid_shapes[l][0], grid_shapes[l][1], len(anchors_mask[l])),
+        box_best_ratios = [np.zeros((m, grid_shapes[l][0], grid_shapes[l][1], len(params.anchors_mask[l])),
                     dtype='float32') for l in range(num_layers)]
 
         #-----------------------------------------------------------#

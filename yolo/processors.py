@@ -51,7 +51,7 @@ class DataProcessor(Parameters):
 
         return pillars, indices
 
-    def make_ground_truth(self, labels: List[Label3D],knn):
+    def make_ground_truth(self, labels: List[Label3D],kdt,y):
 
         # filter labels by classes (cars, pedestrians and Trams)
         # Label has 4 properties (Classification (0th index of labels file),
@@ -59,7 +59,7 @@ class DataProcessor(Parameters):
         labels = list(
             filter(lambda x: x.classification in self.classes, labels))
 
-        target, pos, neg = createTarget(labels,knn)
+        target, pos, neg = createTarget(labels,kdt,y)
         self.pos_cnt += pos
         self.neg_cnt += neg
 
@@ -74,14 +74,15 @@ class DataProcessor(Parameters):
 class SimpleDataGenerator(DataProcessor, Sequence):
     """ Multiprocessing-safe data generator for training, validation or testing, without fancy augmentation """
 
-    def __init__(self, data_reader: DataReader, batch_size: int, lidar_files: List[str], knn, label_files: List[str] = None,):
+    def __init__(self, data_reader: DataReader, batch_size: int, lidar_files: List[str], kdt,y, label_files: List[str] = None,):
         #  calibration_files: List[str] = None):
         super(SimpleDataGenerator, self).__init__()
         self.data_reader = data_reader
         self.batch_size = batch_size
         self.lidar_files = lidar_files
         self.label_files = label_files
-        self.model=knn
+        self.model=kdt
+        self.yaw_map=y
 
     def __len__(self):
         return len(self.lidar_files) // self.batch_size
@@ -114,7 +115,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
             if self.label_files is not None:
                 label = self.data_reader.read_label(self.label_files[i])
                 occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(
-                    label, self.model)
+                    label, self.model, self.yaw_map)
                 occupancy.append(occupancy_)
                 position.append(position_)
                 size.append(size_)
