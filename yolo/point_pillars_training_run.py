@@ -38,7 +38,7 @@ def train_PillarNet():
     params = Parameters()
 
     kdt = pickle.load(open('kdt.sav', 'rb'))
-    y=pd.read_csv('knn_y_map.csv')['angle'].values
+    y=list(pd.read_csv('knn_y_map.csv')['angle'].values)
 
     BATCH_SIZE_PER_REPLICA = params.batch_size
     BATCH_SIZE = BATCH_SIZE_PER_REPLICA * strategy.num_replicas_in_sync
@@ -75,9 +75,9 @@ def train_PillarNet():
     assert len(lidar_val) == len(label_val)
 
     training_gen = SimpleDataGenerator(
-        data_reader, BATCH_SIZE, lidar_train, kdt, label_train)
+        data_reader, BATCH_SIZE, lidar_train, kdt,y, label_train)
     validation_gen = SimpleDataGenerator(
-        data_reader, BATCH_SIZE, lidar_val, kdt, label_val)
+        data_reader, BATCH_SIZE, lidar_val, kdt,y, label_val)
 
     with strategy.scope():
         loss = PointPillarNetworkLoss(params)
