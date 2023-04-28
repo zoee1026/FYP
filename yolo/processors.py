@@ -74,7 +74,7 @@ class DataProcessor(Parameters):
 class SimpleDataGenerator(DataProcessor, Sequence):
     """ Multiprocessing-safe data generator for training, validation or testing, without fancy augmentation """
 
-    def __init__(self, data_reader: DataReader, batch_size: int, lidar_files: List[str], kdt,y, label_files: List[str] = None,):
+    def __init__(self, data_reader: DataReader, batch_size: int, lidar_files: List[str], kdt,y_map, label_files: List[str] = None,):
         #  calibration_files: List[str] = None):
         super(SimpleDataGenerator, self).__init__()
         self.data_reader = data_reader
@@ -82,7 +82,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
         self.lidar_files = lidar_files
         self.label_files = label_files
         self.model=kdt
-        self.yaw_map=y
+        self.yaw_map=y_map
 
     def __len__(self):
         return len(self.lidar_files) // self.batch_size
