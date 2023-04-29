@@ -30,9 +30,10 @@ MODEL_ROOT = "./log"
 MODEL_SAVE = "train7.h5"
 pb_MODEL='my_model11'
 
-zoe_pointpillars='zoe_pp_yolo5.h5'
+zoe_pointpillars='zoe_pp_yolo6.h5'
 # zoe_pointpillars='zoe_pp_yolo3.h5'
 # zoe_pointpillars = 'zoe_pointpillars5.h5'
+pretrained= '/media/sdb1/zoe/FYP/yolo/zoe_pp_yolo10.h5'
 
 def train_PillarNet():
     
@@ -47,13 +48,13 @@ def train_PillarNet():
 
         pillar_net = build_point_pillar_graph(params,batch_size=BATCH_SIZE_PER_REPLICA, gpu=strategy.num_replicas_in_sync)
         pretrained = os.path.join(MODEL_ROOT, MODEL_SAVE)
-        if os.path.exists(zoe_pointpillars):
+        if os.path.exists(pretrained):
             # with h5py.File('zoe_pointpillars3', 'r') as f:
             #     pillar_net.load_weights(f)
-            pillar_net.load_weights(zoe_pointpillars)
+            pillar_net.load_weights(pretrained)
 
             logging.info(
-                "Using pre-trained weights found at path: {}".format(zoe_pointpillars))
+                "Using pre-trained weights found at path: {}".format(pretrained))
 
             print("load")
         else:
