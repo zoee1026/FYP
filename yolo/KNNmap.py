@@ -21,11 +21,11 @@ def KNN():
     pickle.dump(kdt, open(filename, 'wb'))
 
 if __name__ == '__main__':
-    KNN()
+    # KNN()
     kdt=pickle.load(open('kdt.sav', 'rb'))
 
     y=pd.read_csv('knn_y_map.csv')['angle'].values
     _, indices = kdt.query( [[-1.471259,10.611051]], k=5)
     y_pred = np.mean(y[indices], axis=1)[0]
-    print(y_pred)
+    print(type(y_pred))
  
