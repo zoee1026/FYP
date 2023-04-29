@@ -19,7 +19,7 @@ import logging
 from easydict import EasyDict as edict
 import time
 from tqdm import tqdm
-from read_file_location import ReadFileFromPath
+from read_file_location import ReadFileFromPath,TestModel
 import h5py
 import pickle
 
@@ -64,7 +64,7 @@ def generate_config_from_cmd_args():
                         help='Path to the model weights to be used for inference')
     parser.add_argument('--occ_thresh', default=0.4, type=float, required=False,
                         help='Occlusion threshold for predicted boxes')
-    parser.add_argument('--nms_thresh', default=0.5, type=float, required=False,
+    parser.add_argument('--nms_thresh', default=0.3, type=float, required=False,
                         help='IoU threshold for NMS')
 
     configs = edict(vars(parser.parse_args()))
@@ -84,7 +84,9 @@ def load_model_and_run_inference(configs):
 
     logging.info("Model loaded.=================================================")
 
-    lidar_files, label_files = ReadFileFromPath(configs.data_root)
+    # lidar_files, label_files = ReadFileFromPath(configs.data_root)
+    lidar_files, label_files = TestModel('/media/sdb1/zoe/FYP/folder_root/All.csv')
+
 
     data_reader = KittiDataReader()
     point_cloud_processor = DataProcessor()
