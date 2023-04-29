@@ -303,6 +303,7 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims,  kdt,y_
         bb_x = pos[value][0] * real_diag + real_x
         bb_y = pos[value][1] * real_diag + real_y
         bb_z = pos[value][2] * real_anchors[i][2] + real_anchors[i][3]
+        print(len(bb_x))
         # print(position[value], real_x, real_y, real_diag)
         bb_length = np.exp(siz[value][0]) * real_anchors[i][0]
         bb_width = np.exp(siz[value][1]) * real_anchors[i][1]
