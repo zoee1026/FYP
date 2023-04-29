@@ -80,9 +80,9 @@ def load_model_and_run_inference(configs):
     csv =pd.DataFrame()
     pillar_net = build_point_pillar_graph(params, batch_size=1)
 
-    logging.info("Loading model from path: {}".format(configs.model_path))
+    logging.info("Loading model from path: {}".format(MODEL))
 
-    pillar_net.load_weights(configs.model_path)
+    pillar_net.load_weights(MODEL)
 
     logging.info("Model loaded.=================================================")
 
