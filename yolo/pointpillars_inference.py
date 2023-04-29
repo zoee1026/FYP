@@ -23,6 +23,7 @@ import time
 from tqdm import tqdm
 from read_file_location import ReadFileFromPath
 import h5py
+import pickle
 
 
 precisions = {
@@ -46,7 +47,7 @@ precisions = {
     15: [],
 }
 RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val2.csv'
-MODEL='zoe_pointpillars3.h5'
+MODEL='zoe_pp_yolo10.h5'
 EVAL_PATH='test.csv'
 MODEL_ROOT = "./log"
 MODEL_SAVE = "train4.h5"
@@ -100,6 +101,9 @@ def load_model_and_run_inference(configs):
         logging.debug("Running for file: {}".format(file_name))
         lidar_data = data_reader.read_lidar(lidar_files[idx])
 
+        kdt = pickle.load(open('kdt.sav', 'rb'))
+        y_map=pd.read_csv('knn_y_map.csv')['angle'].values
+
         pillars, voxels = point_cloud_processor.make_point_pillars(
             points=lidar_data, print_flag=False)
 
@@ -129,8 +133,8 @@ def load_model_and_run_inference(configs):
             classification = np.squeeze(classification, axis=0)
 
         start = time.time()
-        boxes = generate_bboxes_from_pred(occupancy, position, size, angle, heading, classification,
-                                          params.anchor_dims, occ_threshold=configs.occ_thresh)
+        boxes = generate_bboxes_from_pred(occupancy, position, size, angle, heading, classification, kdt,y_map,
+                                          params.anchor_dims, occ_threshold=configs.occ_thresh,)
         stop = time.time()
         confidences = [float(box.conf) for box in boxes]
         print(len(confidences))

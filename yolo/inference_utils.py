@@ -12,6 +12,7 @@ from config import VehicaleClasses, OutPutVehecleClasees
 import glob
 import os
 import pandas as pd
+from create_target import get_yaw
 
 
 class BBox(Parameters, tuple):
@@ -273,7 +274,7 @@ def rotational_nms(set_boxes, confidences, occ_threshold=0.3, nms_iou_thr=0.5):
         return [0]
 
 
-def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_threshold=0.5):
+def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims,  kdt,y_map,occ_threshold=0.5):
     """ Generating the bounding boxes based on the regression targets """
 
     # Get only the boxes where occupancy is greater or equal threshold.
@@ -307,7 +308,8 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims, occ_thr
         bb_length = np.exp(siz[value][0]) * real_anchors[i][0]
         bb_width = np.exp(siz[value][1]) * real_anchors[i][1]
         bb_height = np.exp(siz[value][2]) * real_anchors[i][2]
-        bb_yaw = ang[value] + real_anchors[i][4]
+        # bb_yaw = ang[value] + real_anchors[i][4]
+        bb_yaw = ang[value] + get_yaw(kdt,y_map,np.array([[bb_x,bb_y]]))
         # bb_yaw = ang[value]
         bb_heading = np.round(hdg[value])
         if bb_heading == 0:
