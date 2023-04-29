@@ -11,7 +11,8 @@ from config import Parameters
 from loss import PointPillarNetworkLoss
 # from nets.network import build_point_pillar_graph
 # from nets.network_yolo import build_point_pillar_graph
-from nets.network_yolo_basechannel import build_point_pillar_graph
+# from nets.network_yolo_basechannel import build_point_pillar_graph
+from  nets.network_yolo_4feature import build_point_pillar_graph
 # from nets.network_yolo_concat import build_point_pillar_graph
 from processors import SimpleDataGenerator
 from readers import KittiDataReader
@@ -26,10 +27,10 @@ import wandb
 # DATA_ROOT = '..folder_root//MatchFile.csv'
 DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/All.csv'
 MODEL_ROOT = "./log"
-MODEL_SAVE = "train6.h5"
-pb_MODEL='my_model10'
+MODEL_SAVE = "train7.h5"
+pb_MODEL='my_model11'
 
-zoe_pointpillars='zoe_pp_yolo4.h5'
+zoe_pointpillars='zoe_pp_yolo5.h5'
 # zoe_pointpillars='zoe_pp_yolo3.h5'
 # zoe_pointpillars = 'zoe_pointpillars5.h5'
 
