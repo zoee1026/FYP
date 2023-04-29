@@ -281,14 +281,12 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims,  kdt,y_
     real_boxes = np.where(occ >= occ_threshold)
     if np.array(real_boxes).shape[1] == 0:
         real_boxes = np.where(occ == np.amax(occ))
-    print(np.array(real_boxes).shape,'++++++++++++++++++')
 
     # Get the indices of the occupancy array
     coordinates = list(zip(real_boxes[0], real_boxes[1], real_boxes[2]))
     # Assign anchor dimensions as original bounding box coordinates which will eventually be changed
     # according to the predicted regression targets
     anchor_dims = anchor_dims
-    print(anchor_dims)
     real_anchors = np.random.rand(len(coordinates), len(anchor_dims[0]))
     for i, value in enumerate(real_boxes[2]):
         real_anchors[i, ...] = anchor_dims[value]
@@ -296,7 +294,6 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims,  kdt,y_
     # createPillarTargets function (src/PointPillars.cpp)
     predicted_boxes = []
     for i, value in enumerate(coordinates):
-        print(len(value))
         real_diag = np.sqrt(
             np.square(real_anchors[i][0]) + np.square(real_anchors[i][1]))
         real_x = value[0] * Parameters.x_step * \
