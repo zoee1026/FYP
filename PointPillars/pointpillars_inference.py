@@ -14,7 +14,8 @@ from readers import KittiDataReader
 from config import Parameters, OutPutVehecleClasees
 # from nets.network import build_point_pillar_graph
 # from nets.network_yolo import build_point_pillar_graph
-from nets.network_yolo_basechannel import build_point_pillar_graph
+# from nets.network_yolo_basechannel import build_point_pillar_graph
+from nets.network_yolo_4feature import build_point_pillar_graph
 # from nets.network_yolo_concat import build_point_pillar_graph
 import argparse
 import logging
@@ -46,7 +47,7 @@ precisions = {
     15: [],
 }
 RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val2.csv'
-MODEL='zoe_pp_yolo4.h5'
+MODEL='zoe_pp_yolo6.h5'
 # EVAL_PATH='test.csv'
 MODEL_ROOT = "./log"
 MODEL_SAVE = "train4.h5"
