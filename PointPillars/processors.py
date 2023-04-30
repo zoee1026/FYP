@@ -235,7 +235,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
                 label = self.data_reader.read_label(self.label_files[i])
                 occupancy_, position_, size_, angle_, heading_, classification_ = self.make_ground_truth(
                     label)
-                print(np.array(occupancy_.shape))
+                # print(np.array(occupancy_.shape))
                 occupancy.append(occupancy_)
                 position.append(position_)
                 size.append(size_)
