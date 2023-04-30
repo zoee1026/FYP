@@ -110,17 +110,17 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     occ = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="occupancy", activation="sigmoid")(P4_out)
 
     loc = tf.keras.layers.Conv2D(nb_anchors * 3, (1, 1), name="loc", kernel_initializer=tf.keras.initializers.TruncatedNormal(0, 0.001))(P4_out)
-    loc = tf.keras.layers.Reshape(tuple(i//2 for i in image_size) + (nb_anchors, 3), name="loc/reshape")(loc)
+    loc = tf.keras.layers.Reshape(tuple(i//4 for i in image_size) + (nb_anchors, 3), name="loc/reshape")(loc)
 
     size = tf.keras.layers.Conv2D(nb_anchors * 3, (1, 1), name="size", kernel_initializer=tf.keras.initializers.TruncatedNormal(0, 0.001))(P4_out)
-    size = tf.keras.layers.Reshape(tuple(i//2 for i in image_size) + (nb_anchors, 3), name="size/reshape")(size)
+    size = tf.keras.layers.Reshape(tuple(i//4 for i in image_size) + (nb_anchors, 3), name="size/reshape")(size)
 
     angle = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="angle")(P4_out)
 
     heading = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="heading", activation="sigmoid")(P4_out)
 
     clf = tf.keras.layers.Conv2D(nb_anchors * nb_classes, (1, 1), name="clf", activation="linear")(P4_out)
-    clf = tf.keras.layers.Reshape(tuple(i // 2 for i in image_size) + (nb_anchors, nb_classes), name="clf/reshape")(clf)
+    clf = tf.keras.layers.Reshape(tuple(i // 4 for i in image_size) + (nb_anchors, nb_classes), name="clf/reshape")(clf)
 
     pillar_net = tf.keras.models.Model([input_pillars, input_indices], [occ, loc, size, angle, heading, clf])
     print(pillar_net.summary())
