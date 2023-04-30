@@ -128,7 +128,7 @@ class NetworkParameters:
 
     nb_features = 9
     nb_channels = 64
-    downscaling_factor = 0
+    downscaling_factor = 4
 
     anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).values, dtype=np.float32).tolist(),3)
     nb_dims = 3
