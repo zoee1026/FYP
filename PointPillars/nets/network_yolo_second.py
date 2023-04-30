@@ -73,37 +73,53 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     # 2d cnn backbone
     feat1, feat2, feat3 = darknet_body(pillars, base_channels, base_depth)
     # 20, 20, 1024 -> 20, 20, 512
-    P5          = DarknetConv2D_BN_SiLU(int(base_channels * 4), (1, 1), name = 'conv_for_feat3')(feat3)  
+    P5          = DarknetConv2D_BN_SiLU(int(base_channels * 8), (1, 1), name = 'conv_for_feat3')(feat3)  
     # 20, 20, 512 -> 40, 40, 512
     P5_upsample = UpSampling2D()(P5) 
     # 40, 40, 512 cat 40, 40, 512 -> 40, 40, 1024
     P5_upsample = Concatenate(axis = -1)([P5_upsample, feat2])
     # 40, 40, 1024 -> 40, 40, 512
-    P5_upsample = C3(P5_upsample, int(base_channels * 4), base_depth, shortcut = False, name = 'conv3_for_upsample1')
+    P5_upsample = C3(P5_upsample, int(base_channels * 8), base_depth, shortcut = False, name = 'conv3_for_upsample1')
 
     # 40, 40, 512 -> 40, 40, 256
-    P4          = DarknetConv2D_BN_SiLU(int(base_channels * 2), (1, 1), name = 'conv_for_feat2')(P5_upsample)
+    P4          = DarknetConv2D_BN_SiLU(int(base_channels * 4), (1, 1), name = 'conv_for_feat2')(P5_upsample)
     # 40, 40, 256 -> 80, 80, 256
     P4_upsample = UpSampling2D()(P4)
     # 80, 80, 256 cat 80, 80, 256 -> 80, 80, 512
     P4_upsample = Concatenate(axis = -1)([P4_upsample, feat1])
     # 80, 80, 512 -> 80, 80, 256
-    P3_out      = C3(P4_upsample, int(base_channels * 2), base_depth, shortcut = False, name = 'conv3_for_upsample2')
-  
-    # Detection head
-    occ = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="occupancy", activation="sigmoid")(P3_out)
+    P3_out      = C3(P4_upsample, int(base_channels * 4), base_depth, shortcut = False, name = 'conv3_for_upsample2')
 
-    loc = tf.keras.layers.Conv2D(nb_anchors * 3, (1, 1), name="loc", kernel_initializer=tf.keras.initializers.TruncatedNormal(0, 0.001))(P3_out)
+    # 80, 80, 256 -> 40, 40, 256
+    P3_downsample   = ZeroPadding2D(((1, 0),(1, 0)))(P3_out)
+    P3_downsample   = DarknetConv2D_BN_SiLU(int(base_channels * 4), (3, 3), strides = (2, 2), name = 'down_sample1')(P3_downsample)
+    # 40, 40, 256 cat 40, 40, 256 -> 40, 40, 512
+    P3_downsample   = Concatenate(axis = -1)([P3_downsample, P4])
+    # 40, 40, 512 -> 40, 40, 512
+    P4_out          = C3(P3_downsample, int(base_channels * 8), base_depth, shortcut = False, name = 'conv3_for_downsample1') 
+
+    # # 40, 40, 512 -> 20, 20, 512
+    # P4_downsample   = ZeroPadding2D(((1, 0),(1, 0)))(P4_out)
+    # P4_downsample   = DarknetConv2D_BN_SiLU(int(base_channels * 8), (3, 3), strides = (2, 2), name = 'down_sample2')(P4_downsample)
+    # # 20, 20, 512 cat 20, 20, 512 -> 20, 20, 1024
+    # P4_downsample   = Concatenate(axis = -1)([P4_downsample, P5])
+    # # 20, 20, 1024 -> 20, 20, 1024
+    # P5_out          = C3(P4_downsample, int(base_channels * 16), base_depth, shortcut = False, name = 'conv3_for_downsample2')
+
+    # Detection head
+    occ = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="occupancy", activation="sigmoid")(P4_out)
+
+    loc = tf.keras.layers.Conv2D(nb_anchors * 3, (1, 1), name="loc", kernel_initializer=tf.keras.initializers.TruncatedNormal(0, 0.001))(P4_out)
     loc = tf.keras.layers.Reshape(tuple(i//2 for i in image_size) + (nb_anchors, 3), name="loc/reshape")(loc)
 
-    size = tf.keras.layers.Conv2D(nb_anchors * 3, (1, 1), name="size", kernel_initializer=tf.keras.initializers.TruncatedNormal(0, 0.001))(P3_out)
+    size = tf.keras.layers.Conv2D(nb_anchors * 3, (1, 1), name="size", kernel_initializer=tf.keras.initializers.TruncatedNormal(0, 0.001))(P4_out)
     size = tf.keras.layers.Reshape(tuple(i//2 for i in image_size) + (nb_anchors, 3), name="size/reshape")(size)
 
-    angle = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="angle")(P3_out)
+    angle = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="angle")(P4_out)
 
-    heading = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="heading", activation="sigmoid")(P3_out)
+    heading = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="heading", activation="sigmoid")(P4_out)
 
-    clf = tf.keras.layers.Conv2D(nb_anchors * nb_classes, (1, 1), name="clf", activation="linear")(P3_out)
+    clf = tf.keras.layers.Conv2D(nb_anchors * nb_classes, (1, 1), name="clf", activation="linear")(P4_out)
     clf = tf.keras.layers.Reshape(tuple(i // 2 for i in image_size) + (nb_anchors, nb_classes), name="clf/reshape")(clf)
 
     pillar_net = tf.keras.models.Model([input_pillars, input_indices], [occ, loc, size, angle, heading, clf])
