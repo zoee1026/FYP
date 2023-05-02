@@ -129,8 +129,9 @@ class NetworkParameters:
     nb_features = 9
     nb_channels = 128
     downscaling_factor = 2
+    anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).iloc[1:,:].values, dtype=np.float32).tolist(),3)
 
-    anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).values, dtype=np.float32).tolist(),3)
+    # anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).values, dtype=np.float32).tolist(),3)
     nb_dims = 3
 
     # positive_iou_threshold = 0.5
