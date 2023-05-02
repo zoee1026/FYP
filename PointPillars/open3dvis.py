@@ -5,7 +5,7 @@ import matplotlib
 import numpy as np
 import pandas as pd
 import os
-from config import OutPutVehecleClasees
+from config import OutPutVehecleClasees, Parameters
 import matplotlib.path as mpltPath
 
 
@@ -148,6 +148,7 @@ def draw_scenes(PointPath, transform=False, gt_boxes=None, ref_boxes=None, ref_l
     pts.points = open3d.utility.Vector3dVector(points[:, :3])
 
     vis.add_geometry('Points', pts)
+    draw_boundary(vis)
     # vis.update_renderer()
     object_list.append(pts)
 
@@ -174,6 +175,38 @@ def draw_scenes(PointPath, transform=False, gt_boxes=None, ref_boxes=None, ref_l
     app.add_window(vis)
     app.run()
 
+def draw_boundary(vis, params=Parameters()):
+    # create LineSet geometry
+    boundary = open3d.geometry.LineSet()
+    boundary.points = open3d.utility.Vector3dVector(
+        np.array([[params.x_min, params.y_min, 0], [params.x_min, params.y_max, 0], [params.x_max, params.y_max, 0], [params.x_max, params.y_min, 0], [params.x_min, params.y_min, 0]])
+    )
+    boundary.lines = open3d.utility.Vector2iVector(
+        np.array([[0, 1], [1, 2], [2, 3], [3, 4]])
+    )
+    boundary.colors = open3d.utility.Vector3dVector(np.array([[0, 1, 0]]))
+    vis.add_geometry('boundary',boundary)
+
+    # create the grid
+    grid_points = []
+    grid_lines = []
+    for i in np.arange(params.x_min, params.x_max + params.x_step, params.x_step):
+        grid_points.append([i, params.y_min, 0])
+        grid_points.append([i, params.y_max, 0])
+        grid_lines.append([len(grid_points)-2, len(grid_points)-1])
+    for i in np.arange(params.y_min, params.y_max + params.x_step, params.x_step):
+        grid_points.append([params.x_min, i, 0])
+        grid_points.append([params.x_max, i, 0])
+        grid_lines.append([len(grid_points)-2, len(grid_points)-1])
+    grid_colors = [[0.5, 0.5, 0.5] for i in range(len(grid_lines))]
+
+    grid = open3d.geometry.LineSet()
+    grid.points = open3d.utility.Vector3dVector(grid_points)
+    grid.lines = open3d.utility.Vector2iVector(grid_lines)
+    grid.colors = open3d.utility.Vector3dVector(grid_colors)
+
+    # add the grid to the visualizer
+    vis.add_geometry('grid',grid)
 
 def translate_boxes_to_open3d_instance(gt_boxes):
     """
