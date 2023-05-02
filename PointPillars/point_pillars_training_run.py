@@ -9,10 +9,10 @@ from easydict import EasyDict as edict
 
 from config import Parameters
 from loss import PointPillarNetworkLoss
-# from nets.network import build_point_pillar_graph
+from nets.network import build_point_pillar_graph
 # from nets.network_yolo import build_point_pillar_graph
 # from nets.network_yolo_basechannel import build_point_pillar_graph
-from  nets.network_yolo_second import build_point_pillar_graph
+# from  nets.network_yolo_second import build_point_pillar_graph
 # from nets.network_yolo_concat import build_point_pillar_graph
 from processors import SimpleDataGenerator
 from readers import KittiDataReader
@@ -27,13 +27,13 @@ import wandb
 # DATA_ROOT = '..folder_root//MatchFile.csv'
 DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/All.csv'
 MODEL_ROOT = "./log"
-MODEL_SAVE = "train8.h5"
-pb_MODEL='my_model12'
+MODEL_SAVE = "train9.h5"
+pb_MODEL='my_model13'
 
-zoe_pointpillars='zoe_pp_yolo7.h5'
+# zoe_pointpillars='zoe_pp_yolo7.h5'
 # zoe_pointpillars='zoe_pp_yolo3.h5'
-# zoe_pointpillars = 'zoe_pointpillars5.h5'
-pretrained= '/media/sdb1/zoe/FYP/yolo/zoe_pp_yolo10.h5'
+zoe_pointpillars = 'zoe_pointpillars6.h5'
+# pretrained= '/media/sdb1/zoe/FYP/yolo/zoe_pp_yolo10.h5'
 
 def train_PillarNet():
     
