@@ -44,12 +44,12 @@ if __name__ == '__main__':
     resultPath=''
     # PointPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\train_files\2020_12_03=00_03_32_387.bin'
     # LabelPath=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_label\2020_12_03=00_03_35_387.bin.json"
-    PointPath = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_lidar\2020_12_02=09_06_42_832.bin'
-    LabelPath = r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_label\2020_12_02=09_06_42_832.bin.json"
-    resultPath = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_result\2020_12_02=09_06_42_832.txt'
+    PointPath = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_lidar\2020_12_02=09_32_44_426.bin'
+    LabelPath = r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_label\2020_12_02=09_32_44_426.bin.json"
+    resultPath = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_result\2020_12_02=09_32_44_426.txt'
 
     label_elements = ReadLabelInOneFile(LabelPath)
-    labels=[VehicaleClasses[x] for x in list(label_elements[:,-1])]
+    # labels=[VehicaleClasses[x] for x in list(label_elements[:,-1])]
 
 
     if resultPath:
@@ -58,7 +58,7 @@ if __name__ == '__main__':
         draw_scenes(PointPath=PointPath, transform=False, gt_boxes=label_elements,
                     ref_boxes=result_elements, ref_labels=result_elements[:, -1])
     else:
-        draw_scenes(PointPath=PointPath,transform=False,gt_boxes=label_elements, ref_labels=labels)
+        draw_scenes(PointPath=PointPath,transform=False,gt_boxes=label_elements)
 
 
     # CountNumPoint(pointpath=PointPath, vertices=np.array(

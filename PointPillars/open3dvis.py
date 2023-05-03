@@ -14,7 +14,7 @@ PolygonPath = [os.path.join(CutPath, x) for x in os.listdir(CutPath)]
 Valid = r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\tune_lidar\valid_polygon1.csv"
 
 box_colormap = [
-    [0.5, 0.5, 0.5],
+    [0.2, 0.2, 0.5],
     [1, 0, 0],
     [0, 1, 0],
     [0, 0, 1],
@@ -142,7 +142,7 @@ def draw_scenes(PointPath, transform=False, gt_boxes=None, ref_boxes=None, ref_l
     else:
         points = np.fromfile(PointPath, dtype=np.float32).reshape((-1, 4))
 
-    print(points.shape)
+    # print(points.shape)
 
     pts = open3d.geometry.PointCloud()
     pts.points = open3d.utility.Vector3dVector(points[:, :3])
@@ -153,13 +153,12 @@ def draw_scenes(PointPath, transform=False, gt_boxes=None, ref_boxes=None, ref_l
     object_list.append(pts)
 
     if gt_boxes is not None:
-        vis = draw_box(vis, object_list, gt_boxes, (1, 0, 0))
+        vis = draw_box(vis, object_list, gt_boxes)
         # vis.update_renderer()
-
     if ref_boxes is not None:
-        print('------------------------------')
+        print(ref_boxes,'------------------------------')
         vis = draw_box(vis, object_list, ref_boxes,
-                       (0, 1, 0), ref_labels, ref_scores)
+                       (0, 1, 0), ref_labels=ref_labels, gtlist=gt_boxes[:,-1], score=ref_boxes[:,-2])
         # vis.update_renderer()
 
     # open3d.visualization.draw_geometries([pts,axis_pcd], window_name='Open3D2')
@@ -175,17 +174,19 @@ def draw_scenes(PointPath, transform=False, gt_boxes=None, ref_boxes=None, ref_l
     app.add_window(vis)
     app.run()
 
+
 def draw_boundary(vis, params=Parameters()):
     # create LineSet geometry
     boundary = open3d.geometry.LineSet()
     boundary.points = open3d.utility.Vector3dVector(
-        np.array([[params.x_min, params.y_min, 0], [params.x_min, params.y_max, 0], [params.x_max, params.y_max, 0], [params.x_max, params.y_min, 0], [params.x_min, params.y_min, 0]])
+        np.array([[params.x_min, params.y_min, 0], [params.x_min, params.y_max, 0], [
+                 params.x_max, params.y_max, 0], [params.x_max, params.y_min, 0], [params.x_min, params.y_min, 0]])
     )
     boundary.lines = open3d.utility.Vector2iVector(
         np.array([[0, 1], [1, 2], [2, 3], [3, 4]])
     )
     boundary.colors = open3d.utility.Vector3dVector(np.array([[0, 1, 0]]))
-    vis.add_geometry('boundary',boundary)
+    vis.add_geometry('boundary', boundary)
 
     # # create the grid
     # grid_points = []
@@ -207,6 +208,7 @@ def draw_boundary(vis, params=Parameters()):
 
     # # add the grid to the visualizer
     # vis.add_geometry('grid',grid)
+
 
 def translate_boxes_to_open3d_instance(gt_boxes):
     """
@@ -237,32 +239,38 @@ def translate_boxes_to_open3d_instance(gt_boxes):
     return line_set, box3d
 
 
-def draw_box(vis, object_list, boxes, color=(1, 0, 0), ref_labels=None, score=None):
+def draw_box(vis, object_list, boxes, color=(0.8, 0.8, 0.8), ref_labels=[], gtlist=[], score=[]):
+
     for i in range(boxes.shape[0]):
+
+        # if len(ref_labels) :
+        #     if ref_labels[i] not in gtlist:
+        #         continue    
+
         line_set, box3d = translate_boxes_to_open3d_instance(boxes[i])
         corners = box3d.get_box_points()
-        if ref_labels is None:
+        if len(ref_labels) == 0:
             line_set.paint_uniform_color(color)
         else:
-            if ref_labels:
-                color=box_colormap[int(list(OutPutVehecleClasees.values()).index(ref_labels[i]))]
-            else: color=[]
-                
+            if len(ref_labels):
+                color = box_colormap[int(
+                    list(OutPutVehecleClasees.values()).index(ref_labels[i]))]
+                line_set.paint_uniform_color(color)
+            else:
+                color = []
+
             print(ref_labels[i], '======================')
-            # line_set.paint_uniform_color(box_colormap[int(ref_labels[i])])
-            # label = open3d.visualization.Text_3D()
-            # label.text = OutPutVehecleClasees[ref_labels[i]]
-            # label.position = corners[3]
-            # vis.add_geometry(label)
+
             vis.add_3d_label(np.reshape(
                 corners[3], (-1, 1)), ref_labels[i])
-        id='RefBoundingBox'+str(i) if ref_labels else 'GTBoundingBox'+str(i)
+        id = 'RefBoundingBox' + \
+            str(i) if len(ref_labels) > 0 else 'GTBoundingBox'+str(i)
         vis.add_geometry(id, line_set)
         object_list.append(line_set)
         object_list.append(box3d)
 
-        if score is not None:
+        if len(score):
             vis.add_3d_label(np.reshape(
-                corners[5], (-1, 1)), '%.2f' % score[i])
+                corners[5], (-1, 1)), '%.2f' % float(score[i]))
 
     return vis
