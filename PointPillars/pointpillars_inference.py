@@ -47,12 +47,12 @@ precisions = {
     15: [],
 }
 RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val2.csv'
-MODEL='zoe_pointpillars6.h5'
+MODEL='zoe_pointpillars4.h5'
 # EVAL_PATH='test.csv'
 MODEL_ROOT = "./log"
 MODEL_SAVE = "train4.h5"
 pretrained= os.path.join(MODEL_ROOT,MODEL_SAVE)
-EVAL_PATH='/media/sdb1/zoe/FYP/folder_root/Eval_CleanFiles.csv'
+EVAL_PATH='/media/sdb1/zoe/FYP/folder_root/big_flatted_truck.csv'
 SAVE=False
 
 def generate_config_from_cmd_args():
