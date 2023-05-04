@@ -14,7 +14,7 @@ from readers import KittiDataReader
 from config import Parameters, OutPutVehecleClasees
 from nets.network import build_point_pillar_graph
 # from nets.network_yolo import build_point_pillar_graph
-# from nets.network_yolo_basechannel import build_point_pillar_graph
+from nets.network_yolo_basechannel import build_point_pillar_graph
 # from nets.network_yolo_second import build_point_pillar_graph
 # from nets.network_yolo_concat import build_point_pillar_graph
 import argparse
