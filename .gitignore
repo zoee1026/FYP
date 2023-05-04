@@ -6,22 +6,28 @@ PointPillars/zoe_pointpillars.h5
 PointPillars/zoe_pointpillars2.h5
 PointPillars/zoe_pointpillars3.h5
 PointPillars/zoe_pointpillars4.h5
+PointPillars/zoe_pointpillars5.h5
+
 PointPillars/my_model/
 PointPillars/my_model2/
 PointPillars/my_model3/
 PointPillars/my_model5/
 PointPillars/my_model7/
 PointPillars/my_model8/
+PointPillars/my_model9/
 PointPillars/my_model12/
 PointPillars/my_model10/
 PointPillars/my_model11/
-
 PointPillars/zoe_pp_yolo1.h5
 PointPillars/zoe_pp_yolo2.h5
 PointPillars/zoe_pp_yolo3.h5
 PointPillars/zoe_pp_yolo4.h5
 PointPillars/zoe_pp_yolo6.h5
 PointPillars/zoe_pp_yolo7.h5
+yolo/my_model20/
+yolo/test.csv
+yolo/train.csv
+yolo/zoe_pp_yolo10.h5
 
 wandb/
 
