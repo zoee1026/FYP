@@ -14,7 +14,7 @@
 2020_12_02=09_32_44_426
 2020_12_02=09_32_10_426
 
-
+mediasdb1dettrain_20220711/south_gate_2Dec2020Label_202210082020_12_02=09_28_19_427_dir2020_12_02=09_32_10_426
 value537 = idgrp.get_group((537, 'mediasdb1dettrain_20220711south_gate_1680_8Feb2022Label_202209082020_12_03=08_13_41_197_dir'))
 value327 = idgrp.get_group((327, 'mediasdb1dettrain_20220711south_gate_1680_8Feb2022Label_202209082020_12_03=08_13_41_197_dir'))
 value219 = idgrp.get_group((219, 'mediasdb1dettrain_20220711south_gate_1680_8Feb2022Label_202209082020_12_03=08_18_45_598_dir'))
