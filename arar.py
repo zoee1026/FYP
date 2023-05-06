@@ -56,7 +56,18 @@ RF.fit(X_train, y_train)
 Bag1= BaggingClassifier(base_estimator=DecisionTreeClassifier(),max_samples=0.5, n_estimators=51)
 Bag1.fit(X_train, y_train)
 
-Bag2= BaggingClassifier(base_estimator=LogisticRegression(), n_estimators=71)
+param_grid = {
+    
+    'n_estimators' : list(range(1,100,10))
+}
+
+grid_search = GridSearchCV(BaggingClassifier(LogisticRegression()),param_grid, n_jobs=-1)
+                   
+grid_search.fit(X_train, y_train)         
+                   
+print(grid_search.best_params_)
+print("Best score:", grid_search.best_score_)
+Bag2= BaggingClassifier(**grid_search.best_params_)
 Bag2.fit(X_train, y_train)
 
 Boost=AdaBoostClassifier(base_estimator=DecisionTreeClassifier(max_depth=1),algorithm='SAMME', learning_rate=0.0001, n_estimators=1)
