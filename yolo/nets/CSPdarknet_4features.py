@@ -118,7 +118,7 @@ def resblock_body(x, num_filters, num_blocks, expansion=0.5, shortcut=True, last
     #----------------------------------------------------------------#
 
     # 320, 320, 64 => 160, 160, 128
-    x = ZeroPadding2D(((1, 1),(1, 1)))(x)
+    x = ZeroPadding2D(((1, 0),(1, 0)))(x)
     x = DarknetConv2D_BN_SiLU(num_filters, (3, 3), strides = (2, 2), name = name + '.0')(x)
     if last:
         x = SPPBottleneck(x, num_filters, name = name + '.1')

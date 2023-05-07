@@ -92,8 +92,8 @@ class GridParameters:
     # derived parameters
     Xn_f = float(x_max - x_min) / x_step
     Yn_f = float(y_max - y_min) / y_step
-    Xn = int(Xn_f)
-    Yn = int(Yn_f)
+    Xn = 256
+    Yn = 320
 
     input_shape =[Xn,Yn]
 
