@@ -109,7 +109,7 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     output = tf.keras.layers.BatchNormalization(name="convTransup/bn", fused=True)(output)
     output = tf.keras.layers.Activation("relu", name="convTransup/relu")(output)
 
-    print(output.shape)
+    # print(output.shape)
   
     # Detection head
     occ = tf.keras.layers.Conv2D(nb_anchors, (1, 1), name="occupancy", activation="sigmoid")(output)
