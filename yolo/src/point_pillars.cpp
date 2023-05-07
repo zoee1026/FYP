@@ -85,7 +85,7 @@ pybind11::tuple createPillars(pybind11::array_t<float> points,
     pybind11::array_t<float> tensor;
     pybind11::array_t<int> indices;
 
-    tensor.resize({1, maxPillars, maxPointsPerPillar, 9});
+    tensor.resize({1, maxPillars, maxPointsPerPillar, 7});
     indices.resize({1, maxPillars, 3}); // Will hold the discretized indices of the pillar
 
     int pillarId = 0;

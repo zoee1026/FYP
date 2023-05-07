@@ -154,6 +154,6 @@ def darknet_body(x, base_channels, base_depth):
     # 40, 40, 512 => 20, 20, 1024
     x = resblock_body(x, base_channels * 16, base_depth, shortcut=False, last=True, name = 'backbone.dark5')
     feat4 = x
-    print(feat1.shape,feat2.shape,feat3.shape,feat4.shape)
+    # print(feat1.shape,feat2.shape,feat3.shape,feat4.shape)
     return feat1, feat2, feat3, feat4
 

@@ -33,7 +33,7 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     nb_anchors  = len(params.anchor_dims)
     base_depth  = 3
 
-    print(image_size)
+    # print(image_size)
 
     if tf.keras.backend.image_data_format() == "channels_first":
         raise NotImplementedError
