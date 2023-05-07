@@ -121,7 +121,7 @@ class NetworkParameters:
     # max_pillars = 8000
     max_pillars = 10000
 
-    nb_features = 9
+    nb_features = 7
     nb_channels = 64
     downscaling_factor = 2
 
@@ -129,7 +129,7 @@ class NetworkParameters:
     anchor_dims = np.round(np.array(pd.read_csv(
         Anchor_file, index_col=0).values, dtype=np.float32).tolist(), 3)
     anchors_mask = [[8, 9, 10, 11],  [4, 5, 6, 7], [0, 1, 2, 3]]
-    num_anchors=12
+    num_anchors=6
     nb_dims = 3
 
     # positive_iou_threshold = 0.5

@@ -141,17 +141,17 @@ pybind11::tuple createPillars(pybind11::array_t<float> points,
             }
 
             // Raw LiDAR point data
-            tensor.mutable_at(0, pillarId, pointId, 0) = p.x;
-            tensor.mutable_at(0, pillarId, pointId, 1) = p.y;
-            tensor.mutable_at(0, pillarId, pointId, 2) = p.z;
-            tensor.mutable_at(0, pillarId, pointId, 3) = p.intensity;
+            // tensor.mutable_at(0, pillarId, pointId, 0) = p.x;
+            // tensor.mutable_at(0, pillarId, pointId, 1) = p.y;
+            tensor.mutable_at(0, pillarId, pointId, 0) = p.z;
+            tensor.mutable_at(0, pillarId, pointId, 1) = p.intensity;
             // Distance from the aithrmetic mean
-            tensor.mutable_at(0, pillarId, pointId, 4) = p.xc;
-            tensor.mutable_at(0, pillarId, pointId, 5) = p.yc;
-            tensor.mutable_at(0, pillarId, pointId, 6) = p.zc;
+            tensor.mutable_at(0, pillarId, pointId, 2) = p.xc;
+            tensor.mutable_at(0, pillarId, pointId, 3) = p.yc;
+            tensor.mutable_at(0, pillarId, pointId, 4) = p.zc;
             // Offset from the pillar center
-            tensor.mutable_at(0, pillarId, pointId, 7) = ((p.x - xMin) / xStep) - xIndex;
-            tensor.mutable_at(0, pillarId, pointId, 8) = ((p.y - yMin) / yStep) - yIndex;
+            tensor.mutable_at(0, pillarId, pointId, 5) = ((p.x - xMin) / xStep) - xIndex;
+            tensor.mutable_at(0, pillarId, pointId, 6) = ((p.y - yMin) / yStep) - yIndex;
 
             pointId++;
         }

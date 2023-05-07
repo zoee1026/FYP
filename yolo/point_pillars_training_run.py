@@ -26,10 +26,10 @@ import wandb
 # DATA_ROOT = '..folder_root//MatchFile.csv'
 DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/All.csv'
 MODEL_ROOT = "./log"
-MODEL_SAVE = "train20.h5"
-pb_MODEL = 'my_model20'
+MODEL_SAVE = "train21.h5"
+pb_MODEL = 'my_model21'
 
-zoe_pointpillars = 'zoe_pp_yolo10.h5'
+zoe_pointpillars = 'zoe_pp_yolo11.h5'
 
 
 def train_PillarNet():
@@ -96,7 +96,7 @@ def train_PillarNet():
                                                monitor='val_loss', save_best_only=True),
             tf.keras.callbacks.LearningRateScheduler(
                 lambda epoch, lr: lr * 0.8 if ((epoch % epoch_to_decay == 0) and (epoch != 0)) else lr, verbose=True),
-            tf.keras.callbacks.EarlyStopping(patience=5, monitor='val_loss'),
+            tf.keras.callbacks.EarlyStopping(patience=20, monitor='val_loss'),
         ]
 
     try:
