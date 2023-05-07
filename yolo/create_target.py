@@ -176,5 +176,6 @@ def createTarget(labels: List[Label3D],knn,kdt_y):
 
         objectCount += 1
     
+    print(target.shape)
     return [target.astype(np.float32),posCnt,negCnt]
 
