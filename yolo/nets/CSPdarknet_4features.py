@@ -118,7 +118,7 @@ def resblock_body(x, num_filters, num_blocks, expansion=0.5, shortcut=True, last
     #----------------------------------------------------------------#
 
     # 320, 320, 64 => 160, 160, 128
-    x = ZeroPadding2D(((1, 0),(1, 0)))(x)
+    # x = ZeroPadding2D(((1, 0),(1, 0)))(x)
     x = DarknetConv2D_BN_SiLU(num_filters, (3, 3), strides = (2, 2), name = name + '.0')(x)
     if last:
         x = SPPBottleneck(x, num_filters, name = name + '.1')
@@ -154,5 +154,6 @@ def darknet_body(x, base_channels, base_depth):
     # 40, 40, 512 => 20, 20, 1024
     x = resblock_body(x, base_channels * 16, base_depth, shortcut=False, last=True, name = 'backbone.dark5')
     feat4 = x
+    print(feat4.output_shape)
     return feat1, feat2, feat3, feat4
 
