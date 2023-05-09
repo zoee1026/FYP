@@ -1,5 +1,7 @@
 DATASET: 'MyDataset'
-DATA_PATH: '/media/sdb1/zoe/FYP/OpenPCDet/a_data/kitti/'
+# DATA_PATH: '/media/sdb1/zoe/FYP/OpenPCDet/a_data/kitti/'
+DATA_PATH: '/media/sdb1/zoe/FYP/folder_root/All.csv'
+
 
 # POINT_CLOUD_RANGE: [-51.2,-35.84,1.2,25.6,50.2,6.4]
 POINT_CLOUD_RANGE: [-70.4, -40, 1.2, 40, 70.4, 6.4]
