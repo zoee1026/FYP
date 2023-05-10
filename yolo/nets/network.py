@@ -84,19 +84,19 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     x3 = x
 
     # Up1 (S, S, 2C)
-    up1 = tf.keras.layers.Conv2DTranspose(2 * nb_channels, (3, 3), strides=(1, 1), padding="same", activation="linear",
+    up1 = tf.keras.layers.Conv2DTranspose(2 * nb_channels, (3, 3), strides=(2, 2), padding="same", activation="linear",
                                           use_bias=False, name="cnn/up1/conv2dt")(x1)
     up1 = tf.keras.layers.BatchNormalization(name="cnn/up1/bn", fused=True)(up1)
     up1 = tf.keras.layers.Activation("relu", name="cnn/up1/relu")(up1)
 
     # Up2 (2S, S, 2C)
-    up2 = tf.keras.layers.Conv2DTranspose(2 * nb_channels, (3, 3), strides=(2, 2), padding="same", activation="linear",
+    up2 = tf.keras.layers.Conv2DTranspose(2 * nb_channels, (3, 3), strides=(4, 4), padding="same", activation="linear",
                                           use_bias=False, name="cnn/up2/conv2dt")(x2)
     up2 = tf.keras.layers.BatchNormalization(name="cnn/up2/bn", fused=True)(up2)
     up2 = tf.keras.layers.Activation("relu", name="cnn/up2/relu")(up2)
 
     # Up3 (4S, S, 2C)
-    up3 = tf.keras.layers.Conv2DTranspose(2 * nb_channels, (3, 3), strides=(4, 4), padding="same", activation="linear",
+    up3 = tf.keras.layers.Conv2DTranspose(2 * nb_channels, (3, 3), strides=(8, 8), padding="same", activation="linear",
                                           use_bias=False, name="cnn/up3/conv2dt")(x3)
     up3 = tf.keras.layers.BatchNormalization(name="cnn/up3/bn", fused=True)(up3)
     up3 = tf.keras.layers.Activation("relu", name="cnn/up3/relu")(up3)
