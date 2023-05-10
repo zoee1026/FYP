@@ -40,7 +40,7 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
     x = tf.keras.layers.Conv2D(nb_channels, (1, 1), activation='linear', use_bias=False, name="pillars/conv2d")(input_pillars)
     x = tf.keras.layers.BatchNormalization(name="pillars/batchnorm", fused=True, epsilon=1e-3, momentum=0.99)(x)
     x = tf.keras.layers.Activation("relu", name="pillars/relu")(x)
-    x = tf.keras.layers.Conv2D(nb_channels, (3, 3), activation='linear', use_bias=False, name="pillars/conv2d")(input_pillars)
+    x = tf.keras.layers.Conv2D(nb_channels, (3, 3), activation='linear', use_bias=False, name="pillars/conv2d")(x)
     x = tf.keras.layers.BatchNormalization(name="pillars/batchnorm", fused=True, epsilon=1e-3, momentum=0.99)(x)
     x = tf.keras.layers.Activation("relu", name="pillars/relu")(x)
     x = tf.keras.layers.MaxPool2D((1, max_points), name="pillars/maxpooling2d")(x)
