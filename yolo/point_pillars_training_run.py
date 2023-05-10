@@ -26,7 +26,7 @@ import wandb
 # wandb.init(config=tf.compat.v1.flags.FLAGS, sync_tensorboard=True)
 
 # DATA_ROOT = '..folder_root//MatchFile.csv'
-DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/All.csv'
+DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
 MODEL_ROOT = "./log"
 MODEL_SAVE = "train22.h5"
 pb_MODEL = 'my_model22'
