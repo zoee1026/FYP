@@ -156,6 +156,8 @@ pybind11::tuple createPillars(pybind11::array_t<float> points,
             pointId++;
         }
 
+        // point size? point correlation 
+
         pillarId++;
     }
 

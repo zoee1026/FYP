@@ -12,7 +12,9 @@ from inference_utils import generate_bboxes_from_pred, rotational_nms, \
 
 from readers import KittiDataReader
 from config import Parameters, OutPutVehecleClasees
-from nets.network_yolo_3feature import build_point_pillar_graph
+# from nets.network_yolo_3feature import build_point_pillar_graph
+from nets.network_yolo_4features import build_point_pillar_graph
+
 
 import argparse
 import logging
@@ -45,7 +47,7 @@ precisions = {
     15: [],
 }
 RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val2.csv'
-MODEL='zoe_pp_yolo10.h5'
+MODEL='zoe_pp_yolo11.h5'
 EVAL_PATH='test.csv'
 MODEL_ROOT = "./log"
 MODEL_SAVE = "train4.h5"
@@ -179,7 +181,7 @@ if __name__ == '__main__':
                         format="%(asctime)s - [%(levelname)s]: %(message)s")
     pred_config = generate_config_from_cmd_args()
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"] = '3'
+    os.environ["CUDA_VISIBLE_DEVICES"] = '2,3'
     # os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
     logging.info("Results will be saved at path: {}".format(
         pred_config.result_dir))
