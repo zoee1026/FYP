@@ -122,7 +122,7 @@ class NetworkParameters:
     max_pillars = 10000
 
     nb_features = 7
-    nb_channels = 128
+    nb_channels = 64
     downscaling_factor = 1
 
     # anchor_dims=np.round(np.array(pd.read_csv(Anchor_file,index_col=0).iloc[1:,:].values, dtype=np.float32).tolist(),3)
@@ -142,7 +142,7 @@ class NetworkParameters:
     # epoch_step_val      = num_val // batch_size
 
 
-    total_training_epochs = 80
+    total_training_epochs = 120
     # total_training_epochs = 20
 
     # 101040.    # 15 * 4 * ceil(6733. / 4) --> every 15 epochs on 6733 kitti samples, cf. pillar paper
