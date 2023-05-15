@@ -12,8 +12,8 @@ from config import Parameters
 from loss import PointPillarNetworkLoss
 # from nets.network_yolo_FPN import build_point_pillar_graph
 # from nets.network_yolo_3feature import build_point_pillar_graph
-from nets.network_yolo_4features import build_point_pillar_graph
-# from nets.network import build_point_pillar_graph
+# from nets.network_yolo_4features import build_point_pillar_graph
+from nets.network import build_point_pillar_graph
 from processors import SimpleDataGenerator
 # from processors_map import SimpleDataGenerator
 from readers import KittiDataReader
