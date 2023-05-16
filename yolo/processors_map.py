@@ -53,7 +53,7 @@ class DataProcessor(Parameters):
 
         return pillars, indices
 
-    def make_ground_truth(self, labels: List[Label3D],kdt,y):
+    def make_ground_truth(self, labels: List[Label3D],mapp):
 
         # filter labels by classes (cars, pedestrians and Trams)
         # Label has 4 properties (Classification (0th index of labels file),
@@ -61,7 +61,7 @@ class DataProcessor(Parameters):
         labels = list(
             filter(lambda x: x.classification in self.classes, labels))
 
-        target, pos, neg = createTarget(labels,y)
+        target, pos, neg = createTarget(labels,mapp)
         self.pos_cnt += pos
         self.neg_cnt += neg
 
