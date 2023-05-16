@@ -12,10 +12,10 @@ from config import Parameters
 from loss import PointPillarNetworkLoss
 # from nets.network_yolo_FPN import build_point_pillar_graph
 # from nets.network_yolo_3feature import build_point_pillar_graph
-# from nets.network_yolo_4features import build_point_pillar_graph
-from nets.network import build_point_pillar_graph
-from processors import SimpleDataGenerator
-# from processors_map import SimpleDataGenerator
+from nets.network_yolo_4features import build_point_pillar_graph
+# from nets.network import build_point_pillar_graph
+# from processors import SimpleDataGenerator
+from processors_map import SimpleDataGenerator
 from readers import KittiDataReader
 import h5py
 from read_file_location import GetMatchedDatafile, TestModel
@@ -29,10 +29,10 @@ import wandb
 # DATA_ROOT = '..folder_root//MatchFile.csv'
 DATA_ROOT = '/media/sdb1/zoe/FYP/folder_root/CleanFiles.csv'
 MODEL_ROOT = "./log"
-MODEL_SAVE = "train21.h5"
-pb_MODEL = 'my_model21'
+MODEL_SAVE = "train23.h5"
+pb_MODEL = 'my_model23'
 
-zoe_pointpillars = 'zoe_pp_yolo11.h5'
+zoe_pointpillars = 'zoe_pp_yolo13.h5'
 
 
 def train_PillarNet():
@@ -40,10 +40,10 @@ def train_PillarNet():
     strategy = tf.distribute.MirroredStrategy()
     params = Parameters()
 
-    kdt = pickle.load(open('kdt.sav', 'rb'))
-    y_map=pd.read_csv('knn_y_map.csv')['angle'].values
+    # kdt = pickle.load(open('kdt.sav', 'rb'))
+    # y_map=pd.read_csv('knn_y_map.csv')['angle'].values
 
-    # y_map=np.loadtxt("map.csv", delimiter=",")
+    y_map=np.loadtxt("map.csv", delimiter=",")
 
     BATCH_SIZE_PER_REPLICA = params.batch_size
     BATCH_SIZE = BATCH_SIZE_PER_REPLICA * strategy.num_replicas_in_sync
@@ -79,15 +79,15 @@ def train_PillarNet():
     assert len(lidar_train) == len(label_train)
     assert len(lidar_val) == len(label_val)
 
-    training_gen = SimpleDataGenerator(
-        data_reader, BATCH_SIZE, lidar_train, kdt,y_map, label_train)
-    validation_gen = SimpleDataGenerator(
-        data_reader, BATCH_SIZE, lidar_val, kdt,y_map, label_val)
-    
     # training_gen = SimpleDataGenerator(
-    #     data_reader, BATCH_SIZE, lidar_train,y_map, label_train)
+    #     data_reader, BATCH_SIZE, lidar_train, kdt,y_map, label_train)
     # validation_gen = SimpleDataGenerator(
-    #     data_reader, BATCH_SIZE, lidar_val,y_map, label_val)
+    #     data_reader, BATCH_SIZE, lidar_val, kdt,y_map, label_val)
+    
+    training_gen = SimpleDataGenerator(
+        data_reader, BATCH_SIZE, lidar_train,y_map, label_train)
+    validation_gen = SimpleDataGenerator(
+        data_reader, BATCH_SIZE, lidar_val,y_map, label_val)
 
     with strategy.scope():
         loss = PointPillarNetworkLoss(params)
