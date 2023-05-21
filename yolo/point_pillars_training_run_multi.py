@@ -91,7 +91,7 @@ def train_PillarNet():
         optimizer = tf.keras.optimizers.Adam(
             learning_rate=params.learning_rate)
 
-        pillar_net.compile(optimizer, loss=loss.losses())
+        pillar_net.compile(optimizer, loss=loss.losses(),run_eagerly=True)
         epoch_to_decay = int(np.round(params.iters_to_decay / BATCH_SIZE * int(
             np.ceil(float(len(label_train)+len(label_val)) / BATCH_SIZE))))
 
