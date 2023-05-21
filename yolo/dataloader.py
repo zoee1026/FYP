@@ -95,5 +95,5 @@ def preprocess_true_boxes(labels: List[Label3D]):
                 # y_true[l][local_j, local_i, n, 7] = label.yaw-mapp[yaw_i,yaw_j]
                 y_true[l][local_j, local_i, n, 8+params.classes[label.classification]] = 1
 
-    print(y_true.shape)
+    print([i.shape for i in y_true]) 
     return y_true
