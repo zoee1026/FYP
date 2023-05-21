@@ -10,8 +10,9 @@ from box_utili import get_anchors_and_decode
 
 def ciou_cal(y_true, y_pre):
     # conf, x, y, z, l, w, h, yaw, [classes]
-    iou = np.vectorize(ciouraw)(y_true, y_pre)
-    return iou
+    iou = np.vectorize(ciouraw)(K.eval(y_true), K.eval(y_pre))
+    print(iou.shape)
+    return K.variable(iou)
 
 
 class PointPillarNetworkLoss:
