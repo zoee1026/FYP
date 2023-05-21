@@ -99,7 +99,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
                 label = self.data_reader.read_label(self.label_files[i])
                 y = self.make_ground_truth(
                     label)
-                y_true.append(y_true)
+                y_true.append(y)
 
         pillars = np.concatenate(pillars, axis=0)
         voxels = np.concatenate(voxels, axis=0)
