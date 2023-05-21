@@ -20,10 +20,11 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, calc_
     grid_y = K.tile(K.reshape(K.arange(
         0, stop=grid_shape[0]), [-1, 1, 1, 1]), [1, grid_shape[1], num_anchors, 1])
     grid = K.cast(K.concatenate([grid_x, grid_y]), K.dtype(feats))
+    print('grid shape', grid.shape)
+    print('anchor',anchors)
 
-    anchors_tensor = K.reshape(K.constant(anchors), [1, 1, num_anchors, 2])
     anchors_tensor = K.tile(
-        anchors_tensor, [grid_shape[0], grid_shape[1], 1, 1])
+        anchors_tensor.reshape(1,1,*anchors.shape), [grid_shape[0], grid_shape[1], 1, 1])
     anchors_diag = K.sqrt(K.sum(K.square(anchors_tensor[..., 0:2]), axis=1))
     feats = K.reshape(
         feats, [grid_shape[0], grid_shape[1], num_anchors, num_classes + 8])
