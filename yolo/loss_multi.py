@@ -65,8 +65,11 @@ class PointPillarNetworkLoss:
         label_smoothing = K.constant(label_smoothing, dtype=K.floatx())
         return y_true * (1.0 - label_smoothing) + label_smoothing / num_classes
 
-    def losses(self, y_true: tf.Tensor, y_pred: tf.Tensor):
+    def losses(self):
+        return self.combine_loss
 
+    def combine_loss(self, y_true: tf.Tensor, y_pred: tf.Tensor):
+        print(y_pred.shape,y_true.shape)
         # y_true = args[self.num_layers:]
         # y_pred = args[:self.num_layers]
         loss = 0
