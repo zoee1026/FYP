@@ -27,10 +27,8 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
         feats, [grid_shape[0], grid_shape[1], num_anchors, num_classes + 8])
 
     map_tensor = mapp[::scale,::scale]
-    print('old map',map_tensor.shape)
     map_tensor = K.tile(map_tensor.reshape([grid.shape[0], grid.shape[1], 1, 1]), (1, 1, num_anchors, 1))
-    print('map_tensor shape', map_tensor.shape)
-
+    print('map_tensor type',type(map_tensor))
     box_x = (feats[..., 1]*anchors_diag+grid) * \
         K.constant(params.x_step)*scale+K.constant(params.x_min)
     box_y = (feats[..., 2]*anchors_diag+grid) * \
@@ -48,10 +46,11 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
     boxes = K.concatenate([box_confidence, box_x, box_y, box_z,
                           box_l, box_w, box_h, box_yaw,  box_class_probs], axis=-1)
 
+
     print('box', boxes.shape)
     if calc_loss == True:
-        return grid, boxes, box_confidence, feats
-    return boxes, box_confidence, box_class_probs
+        return grid, boxes.astype('float32'), box_confidence, feats
+    return boxes.astype('float32'), box_confidence, box_class_probs
 
 
 def DecodeBox(outputs, mapp,
