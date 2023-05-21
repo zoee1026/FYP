@@ -60,8 +60,8 @@ def preprocess_true_boxes(labels: List[Label3D]):
             yy = (label.centroid[1]-params.y_min)/params.y_step
             ii = xx/input_shape[0] * grid_shapes[l][1]
             jj = yy/input_shape[1] * grid_shapes[l][1]
-            i = math.floor(ii).astype('int32')
-            j = math.floor(jj).astype('int32')
+            i = int(math.floor(ii))
+            j = int(math.floor(jj))
             offsets = get_near_points(ii, jj, i, j)
 
             for offset in offsets:
