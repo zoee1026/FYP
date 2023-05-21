@@ -105,7 +105,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
         voxels = np.concatenate(voxels, axis=0)
 
         if self.label_files is not None:
-            y_true = np.array(y_true)
+            # y_true = np.array(y_true)
             return [pillars, voxels], [y_true]
         else:
             return [pillars, voxels]

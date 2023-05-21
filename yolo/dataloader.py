@@ -47,7 +47,7 @@ def preprocess_true_boxes(labels: List[Label3D]):
 
     y_true = [np.zeros((grid_shapes[l][0], grid_shapes[l][1], len(params.anchors_mask[l]), 8 + params.nb_classes),
                        dtype='float32') for l in range(num_layers)]
-    print('y_true shape',y_true.shape)
+    print('y_true shape',[i.shape for i in y_true)
 
     for label in labels:
         n = closest_anchor(label.centroid[0], anchor_l)
