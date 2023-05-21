@@ -106,6 +106,7 @@ class SimpleDataGenerator(DataProcessor, Sequence):
 
         if self.label_files is not None:
             # y_true = np.array(y_true)
+            print(np.array(y_true).shape)
             return [pillars, voxels], [y_true]
         else:
             return [pillars, voxels]
