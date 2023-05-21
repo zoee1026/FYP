@@ -36,18 +36,18 @@ def preprocess_true_boxes(labels: List[Label3D]):
     input_shape = np.array([params.Xn_f, params.Yn_f], dtype='int32')
     grid_shapes = np.array(
         [input_shape // {0: 2, 1: 1}[l] for l in range(num_layers)], dtype='int32')
-    print('grid shape',grid_shapes.shape)
+    print('grid shape', grid_shapes.shape)
     anchors_mask = params.anchors_mask
-    print('anchor mask',anchors_mask)
+    print('anchor mask', anchors_mask)
     anchor = params.anchor_dims
     anchor_l = list(anchor[..., 0])
-    print('anchor length',anchor_l)
+    print('anchor length', anchor_l)
 
     # centroid*3, loc*3 ,yaw, occu
 
     y_true = [np.zeros((grid_shapes[l][0], grid_shapes[l][1], len(params.anchors_mask[l]), 8 + params.nb_classes),
                        dtype='float32') for l in range(num_layers)]
-    print('y_true shape',[i.shape for i in y_true])
+    print('y_true shape', [i.shape for i in y_true])
 
     for label in labels:
         n = closest_anchor(label.centroid[0], anchor_l)
@@ -56,8 +56,8 @@ def preprocess_true_boxes(labels: List[Label3D]):
             if n not in anchors_mask[l]:
                 continue
 
-            xx = (label.x-params.x_min)/params.x_step
-            yy = (label.y-params.y_min)/params.y_step
+            xx = (label.centroid[0]-params.x_min)/params.x_step
+            yy = (label.centroid[1]-params.y_min)/params.y_step
             ii = xx/input_shape[0] * grid_shapes[l][1]
             jj = yy/input_shape[1] * grid_shapes[l][1]
             i = math.floor(ii).astype('int32')
@@ -82,12 +82,9 @@ def preprocess_true_boxes(labels: List[Label3D]):
                 y_true[l][local_j, local_i, n, 1] = label.centroid[0]
                 y_true[l][local_j, local_i, n, 2] = label.centroid[1]
                 y_true[l][local_j, local_i, n, 3] = label.centroid[2]
-                y_true[l][local_j, local_i, n,
-                          4] = label.dimension[0]-best_anchor.l
-                y_true[l][local_j, local_i, n,
-                          5] = label.dimension[1]-best_anchor.w
-                y_true[l][local_j, local_i, n,
-                          6] = label.dimension[2]-best_anchor.h
+                y_true[l][local_j, local_i, n, 4] = label.dimension[0]
+                y_true[l][local_j, local_i, n, 5] = label.dimension[1]
+                y_true[l][local_j, local_i, n, 6] = label.dimension[2]
                 y_true[l][local_j, local_i, n, 7] = label.yaw
                 # y_true[l][local_j, local_i, n, 1] = (label.centroid[0]-x)/best_anchor.diag
                 # y_true[l][local_j, local_i, n, 2] = (label.centroid[1]-y)/best_anchor.diag
