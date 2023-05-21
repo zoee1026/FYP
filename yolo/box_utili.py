@@ -34,23 +34,24 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
     map_tensor = K.cast(K.tile(map_tensor.reshape(
         [grid.shape[0], grid.shape[1], 1, 1]), (1, 1, num_anchors, 1)), K.dtype(feats))
 
-    box_x = (feats[..., 1]*anchors_tensor[..., -1]+grid[..., 0]) * \
-        K.constant(params.x_step)*scale+K.constant(params.x_min)
+    box_x = K.expand_dims((feats[..., 1]*anchors_tensor[..., -1]+grid[..., 0]) *
+                          K.constant(params.x_step)*scale+K.constant(params.x_min), axis=-1)
 
     print('x', box_x.shape)
-    box_y = (feats[..., 2]*anchors_tensor[..., -1]+grid[..., 1]) * \
-        K.constant(params.y_step)*scale+K.constant(params.y_min)
+    box_y = K.expand_dims((feats[..., 2]*anchors_tensor[..., -1]+grid[..., 1]) *
+                          K.constant(params.y_step)*scale+K.constant(params.y_min), axis=-1)
     print('y', box_y.shape)
 
-    box_z = feats[..., 3]*anchors[..., 2]+anchors_tensor[..., 3]
-    box_yaw = feats[..., 7]+map_tensor[...,0]
-    box_l = K.exp(feats[..., 4]*anchors_tensor[..., 0])
-    box_w = K.exp(feats[..., 5]*anchors_tensor[..., 1])
-    box_h = K.exp(feats[..., 6]*anchors_tensor[..., 2])
+    box_z = K.expand_dims(
+        feats[..., 3]*anchors[..., 2]+anchors_tensor[..., 3], axis=-1)
+    box_yaw = K.expand_dims(feats[..., 7]+map_tensor[..., 0], axis=-1)
+    box_l = K.expand_dims(K.exp(feats[..., 4]*anchors_tensor[..., 0]), axis=-1)
+    box_w = K.expand_dims(K.exp(feats[..., 5]*anchors_tensor[..., 1]), axis=-1)
+    box_h = K.expand_dims(K.exp(feats[..., 6]*anchors_tensor[..., 2]), axis=-1)
 
     # ------------------------------------------#
-    box_confidence = K.sigmoid(feats[..., 0])
-    box_class_probs = K.sigmoid(feats[..., 8:])
+    box_confidence = K.expand_dims(K.sigmoid(feats[..., 0]), axis=-1)
+    box_class_probs = K.expand_dims(K.sigmoid(feats[..., 8:]), axis=-1)
 
     boxes = K.concatenate([box_confidence, box_x, box_y, box_z,
                           box_l, box_w, box_h, box_yaw,  box_class_probs], axis=-1)

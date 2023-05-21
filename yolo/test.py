@@ -61,17 +61,14 @@ import tensorflow as tf
 # print(anchors_diag.shape)
 # print(K.eval(anchors_diag))
 
+tensor = K.variable(np.random.rand(2, 3, 3))
 
+# extract the last value along the second dimension
+# last_value = tensor[:, -1, :]
 
-# create two Keras tensors with shape (None, 3, 3)
-tensor1 = K.variable(np.random.rand(2, 3, 3))
-tensor2 = K.variable(np.random.rand(2, 3, 3))
+# add a new dimension with shape 1 to the last value
+last_value_with_one_dim = K.expand_dims(tensor, axis=-1)
 
-# concatenate the last two values of each tensor along the second dimension
-last_two_values1 = K.concatenate([tensor1[:, -2:, :], tensor2[:, -2:, :]], axis=1)
-
-# add up the last two values element-wise
-sum_tensor = K.sum(last_two_values1, axis=1)
-
-# print the resulting tensor
-print(K.eval(sum_tensor))
+# print the shapes of the original and modified tensors
+print("Original tensor shape:", K.int_shape(tensor))
+print("Modified tensor shape:", K.int_shape(last_value_with_one_dim))
