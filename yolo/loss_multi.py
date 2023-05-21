@@ -60,7 +60,7 @@ class PointPillarNetworkLoss:
 
         return self.focal_weight*tf.reduce_mean(masked_loss)
 
-    def _smooth_labels(y_true, label_smoothing):
+    def _smooth_labels(self, y_true, label_smoothing):
         num_classes = tf.cast(K.shape(y_true)[-1], dtype=K.floatx())
         label_smoothing = K.constant(label_smoothing, dtype=K.floatx())
         return y_true * (1.0 - label_smoothing) + label_smoothing / num_classes
@@ -69,7 +69,7 @@ class PointPillarNetworkLoss:
         return self.combine_loss
 
     def combine_loss(self, y_true: tf.Tensor, y_pred: tf.Tensor):
-        print(y_pred.shape,y_true.shape)
+        print(y_pred.shape,y_true)
         # y_true = args[self.num_layers:]
         # y_pred = args[:self.num_layers]
         loss = 0
