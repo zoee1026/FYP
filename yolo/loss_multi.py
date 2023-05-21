@@ -88,7 +88,7 @@ class PointPillarNetworkLoss:
         balance = [0.4, 1.0]
         object_mask = y_true[..., 0]
         print(object_mask.shape)
-        
+
         num_pos = tf.maximum(K.sum(K.cast(object_mask, tf.float32)), 1)
         true_class_probs = y_true[..., 8:]
         true_class_probs = self._smooth_labels(true_class_probs, 0.01)
@@ -109,7 +109,7 @@ class PointPillarNetworkLoss:
 
         class_loss = object_mask * \
             K.binary_crossentropy(
-                true_class_probs, feats[..., 5:], from_logits=True)
+                true_class_probs, feats[..., 8:], from_logits=True)
         class_loss = K.sum(class_loss) * 0.5 / num_pos / self.num_classes
 
         location_loss = K.sum(ciou_loss) * 0.05 / num_pos
