@@ -51,7 +51,7 @@ def preprocess_true_boxes(labels: List[Label3D]):
         for l in range(num_layers):
             if n not in anchors_mask[l]:
                 continue
-
+            print(n,'---------------------------------')
             xx = (label.centroid[0]-params.x_min)/params.x_step
             yy = (label.centroid[1]-params.y_min)/params.y_step
             ii = xx/input_shape[0] * grid_shapes[l][1]
