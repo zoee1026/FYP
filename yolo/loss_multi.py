@@ -71,41 +71,45 @@ class PointPillarNetworkLoss:
         return y_true * (1.0 - label_smoothing) + label_smoothing / num_classes
 
     def losses(self):
-        return self.combine_loss
+        return [self.loss_layer0,self.loss_layer1]
+    
+    def loss_layer0(self, y_true: tf.Tensor, y_pred: tf.Tensor):
+        return ciou_cal(y_true,y_pred,0)
+    
+    def loss_layer1(self, y_true: tf.Tensor, y_pred: tf.Tensor):
+        return ciou_cal(y_true,y_pred,1)
 
-    def combine_loss(self, y_true: tf.Tensor, y_pred: tf.Tensor):
+    def cal_loss(self, y_true: tf.Tensor, y_pred: tf.Tensor, l=0):
         print(y_pred.shape, y_true.shape)
         # y_true = args[self.num_layers:]
         # y_pred = args[:self.num_layers]
         loss = 0
         balance = [0.4, 1.0]
-        for l in range(self.num_layer):
-            object_mask = y_true[l][..., 0]
-            num_pos = tf.maximum(K.sum(K.cast(object_mask, tf.float32)), 1)
-            true_class_probs = y_true[l][..., 8:]
-            true_class_probs = self._smooth_labels(true_class_probs, 0.01)
-            grid, boxes, box_confidence, feats = get_anchors_and_decode(
-                y_pred[l], self.anchor[self.anchors_mask[l]], self.num_classes, self.input_shape, self.mapp, self.scale[l], True)
-            focal = self.focal_loss(y_true[..., 0], box_confidence)
-            ciou = ciou_cal(y_true[self.mask][..., 1:7],
-                            boxes[self.mask][..., 1:7])
-            ciou_loss = object_mask * (1 - ciou)
+        object_mask = y_true[l][..., 0]
+        num_pos = tf.maximum(K.sum(K.cast(object_mask, tf.float32)), 1)
+        true_class_probs = y_true[l][..., 8:]
+        true_class_probs = self._smooth_labels(true_class_probs, 0.01)
+        grid, boxes, box_confidence, feats = get_anchors_and_decode(
+            y_pred[l], self.anchor[self.anchors_mask[l]], self.num_classes, self.input_shape, self.mapp, self.scale[l], True)
+        focal = self.focal_loss(y_true[..., 0], box_confidence)
+        ciou = ciou_cal(y_true[self.mask][..., 1:7],
+                        boxes[self.mask][..., 1:7])
+        ciou_loss = object_mask * (1 - ciou)
 
-            tobj = tf.where(tf.equal(object_mask, 1), tf.maximum(
-                ciou, tf.zeros_like(ciou)), tf.zeros_like(ciou))
-            confidence_loss = K.binary_crossentropy(
-                tobj, feats[..., 0], from_logits=True)
+        tobj = tf.where(tf.equal(object_mask, 1), tf.maximum(
+            ciou, tf.zeros_like(ciou)), tf.zeros_like(ciou))
+        confidence_loss = K.binary_crossentropy(
+            tobj, feats[..., 0], from_logits=True)
 
-            class_loss = object_mask * \
-                K.binary_crossentropy(
-                    true_class_probs, feats[..., 5:], from_logits=True)
-            class_loss = K.sum(class_loss) * 0.5 / num_pos / self.num_classes
+        class_loss = object_mask * \
+            K.binary_crossentropy(
+                true_class_probs, feats[..., 5:], from_logits=True)
+        class_loss = K.sum(class_loss) * 0.5 / num_pos / self.num_classes
 
-            location_loss = K.sum(ciou_loss) * 0.05 / num_pos
-            confidence_loss = K.mean(confidence_loss) * balance[l] * 1
+        location_loss = K.sum(ciou_loss) * 0.05 / num_pos
+        confidence_loss = K.mean(confidence_loss) * balance[l] * 1
 
-            print(ciou)
-            loss += focal + location_loss + confidence_loss + class_loss
-            tf.Print(loss, [loss, location_loss,
-                     confidence_loss, class_loss], message='loss: ')
+        loss += focal + location_loss + confidence_loss + class_loss
+        tf.Print(loss, [loss, location_loss,
+                    confidence_loss, class_loss], message='loss: ')
         return loss
