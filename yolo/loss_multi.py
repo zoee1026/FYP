@@ -10,7 +10,7 @@ from box_utili import get_anchors_and_decode
 @tf.function
 def ciou_cal(y_true, y_pre):
     # conf, x, y, z, l, w, h, yaw, [classes]
-    t=y_true.eval()
+    t=y_true.eval(session=tf.compat.v1.Session())
     print(type(t))
     p=y_pre.numpy()
     print(type(p))

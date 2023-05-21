@@ -74,4 +74,6 @@ def last_dim_mean(tensor):
 result_tensor = K.map_fn(last_dim_mean, tensor)
 
 # print the resulting tensor
-print(K.eval(result_tensor))
+a=K.eval(result_tensor)
+print(a)
+print(type(a))
