@@ -8,14 +8,10 @@ import numpy as np
 import tensorflow as tf
 from easydict import EasyDict as edict
 
-from config import Parameters
+from config_multi import Parameters
 from loss_multi import PointPillarNetworkLoss
-# from nets.network_yolo_FPN import build_point_pillar_graph
-# from nets.network_yolo_3feature import build_point_pillar_graph
-from nets.network_yolo_4features import build_point_pillar_graph
-# from nets.network import build_point_pillar_graph
-# from processors import SimpleDataGenerator
-from processors_map import SimpleDataGenerator
+from nets.network_yolo_FPN import build_point_pillar_graph
+from processors_multi import SimpleDataGenerator
 from readers import KittiDataReader
 import h5py
 from read_file_location import GetMatchedDatafile, TestModel
