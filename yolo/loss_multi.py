@@ -70,6 +70,7 @@ class PointPillarNetworkLoss:
 
     def ciou_cal(self,y_true: tf.Tensor, y_pred: tf.Tensor):
         # conf, x, y, z, l, w, h, yaw, [classes]
+        if len(y_pred)==0: return 0
         t=y_true.numpy()
         print(t.shape)
         p=y_pred.numpy()
@@ -92,7 +93,8 @@ class PointPillarNetworkLoss:
             y_pred[0], self.anchor[self.anchors_mask[l]], self.num_classes, self.input_shape, self.mapp, self.scale[l], True)
         print(feats.shape)
         focal = self.focal_loss(y_true[0][..., 0], feats[..., 0])
-        print(self.mask.shape)
+        print(focal)
+        print(np.count_nonzero(self.mask))
         ciou = self.ciou_cal(y_true[0][self.mask][..., 1:7],
                         boxes[self.mask][..., 1:7])
         ciou_loss = object_mask * (1 - ciou)
