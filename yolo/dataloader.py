@@ -78,5 +78,4 @@ def preprocess_true_boxes(labels: List[Label3D]):
                 y_true[l][local_j, local_i, index, 7] = label.yaw
         
                 y_true[l][local_j, local_i, index, 8+params.classes[label.classification]] = 1
-    print([np.count_nonzero(i[...,0]) for i in y_true])
     return y_true

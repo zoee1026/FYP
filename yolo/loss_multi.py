@@ -70,7 +70,7 @@ class PointPillarNetworkLoss:
 
     def ciou_cal(self,y_true: tf.Tensor, y_pred: tf.Tensor):
         # conf, x, y, z, l, w, h, yaw, [classes]
-        print(y_pred.shape, y_true.shape)
+        print(y_pred.shape, y_true.shape,'=====')
 
         if len(y_pred)==0: return 0
         t=y_true.numpy()
