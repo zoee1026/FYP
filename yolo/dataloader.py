@@ -61,7 +61,7 @@ def preprocess_true_boxes(labels: List[Label3D]):
             i = int(math.floor(ii))
             j = int(math.floor(jj))
             offsets = get_near_points(ii, jj, i, j)
-            index=n//3
+            index=n-3 if n>=3 else 0
 
             for offset in offsets:
                 local_i = i + offset[0]
