@@ -345,13 +345,13 @@ float center_dist(const BoundingBox3D& box1,
     return dist;
 }
 
-float c_diag(const const Polyline2D & box1,
-          const const Polyline2D & box2)
+float c_diag(const  Polyline2D & box1,
+          const  Polyline2D & box2)
 {
-    std::vector<int> xmin_values = { box1[0].x,box1[3].x,box2[0].x,box2[3].x};
-    std::vector<int> xmax_values = { box1[1].x,box1[1].x,box2[1].x,box2[2].x};
-    std::vector<int> ymin_values = { box1[2].y,box1[3].y,box2[2].y,box2[3].y};
-    std::vector<int> ymax_values = { box1[1].y,box1[0].y,box2[1].y,box2[0].y};
+    std::vector<float> xmin_values = { box1[0].x,box1[3].x,box2[0].x,box2[3].x};
+    std::vector<float> xmax_values = { box1[1].x,box1[1].x,box2[1].x,box2[2].x};
+    std::vector<float> ymin_values = { box1[2].y,box1[3].y,box2[2].y,box2[3].y};
+    std::vector<float> ymax_values = { box1[1].y,box1[0].y,box2[1].y,box2[0].y};
 
     auto min_x_ele = std::min_element(xmin_values.begin(), xmin_values.end());
     int min_x = *min_x_ele;
