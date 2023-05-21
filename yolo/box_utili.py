@@ -26,7 +26,7 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
     # def cal_dig(row):
     #     return np.sqrt(np.sum([np.power(row[0],2),np.power(row[1],2)]))
     # anchors_diag = K.cast(np.apply_along_axis(cal_dig,1,anchors_tensor),K.dtype(feats))
-
+    print(feats.shape)
     feats = K.reshape(
         feats, [grid_shape[0], grid_shape[1], num_anchors, num_classes + 8])
 
