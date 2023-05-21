@@ -362,7 +362,7 @@ float c_diag(const const Polyline2D & box1,
     auto max_y_ele = std::max_element(ymax_values.begin(), ymax_values.end());
     int max_y = *max_y_ele;
 
-    float dist=std::pow(max_x- min_x, 2) + std::pow(max_y - min_y.y, 2);
+    float dist=std::pow(max_x- min_x, 2) + std::pow(max_y - min_y, 2);
     return dist;
 }
 
