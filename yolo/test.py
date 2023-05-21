@@ -61,14 +61,17 @@ import tensorflow as tf
 # print(anchors_diag.shape)
 # print(K.eval(anchors_diag))
 
-tensor = K.variable(np.random.rand(2, 3, 3))
 
-# extract the last value along the second dimension
-# last_value = tensor[:, -1, :]
 
-# add a new dimension with shape 1 to the last value
-last_value_with_one_dim = K.expand_dims(tensor, axis=-1)
+# create a Keras tensor with shape (None, 3, 3)
+tensor = K.variable(np.random.rand(2, 2,3, 3))
 
-# print the shapes of the original and modified tensors
-print("Original tensor shape:", K.int_shape(tensor))
-print("Modified tensor shape:", K.int_shape(last_value_with_one_dim))
+# define a function that takes a tensor and returns its mean along the last dimension
+def last_dim_mean(tensor):
+    return K.mean(tensor, axis=-1, keepdims=True)
+
+# apply the function to the last dimension of the tensor using K.map_fn
+result_tensor = K.map_fn(last_dim_mean, tensor)
+
+# print the resulting tensor
+print(K.eval(result_tensor))
