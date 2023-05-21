@@ -25,6 +25,7 @@ def get_near_points(x, y, i, j):
 def closest_anchor(target, l):
     ratios = np.abs(l / target)
     closest_index = np.argmin(ratios)
+    print(ratios)
     return closest_index
 
 
@@ -46,6 +47,7 @@ def preprocess_true_boxes(labels: List[Label3D]):
                        dtype='float32') for l in range(num_layers)]
 
     for label in labels:
+        print(label)
         n = closest_anchor(label.centroid[0], anchor_l)
         best_anchor = AnchorBBox(anchor[n])
         for l in range(num_layers):
