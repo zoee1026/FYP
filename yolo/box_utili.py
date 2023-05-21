@@ -28,7 +28,7 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
 
     map_tensor = mapp[::scale,::scale]
     map_tensor = K.tile(map_tensor.reshape([grid.shape[0], grid.shape[1], 1, 1]), (1, 1, num_anchors, 1))
-    print('map_tensor type',type(map_tensor))
+    print('map_tensor type',map_tensor.shape)
     box_x = (feats[..., 1]*anchors_diag+grid) * \
         K.constant(params.x_step)*scale+K.constant(params.x_min)
     box_y = (feats[..., 2]*anchors_diag+grid) * \
