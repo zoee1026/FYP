@@ -80,7 +80,8 @@ class SimpleDataGenerator(DataProcessor, Sequence):
         #         print("inside getitem")
         pillars = []
         voxels = []
-        y_true = []
+        layer0=[]
+        layer1=[]
 
         for i in file_ids:
 
@@ -98,14 +99,14 @@ class SimpleDataGenerator(DataProcessor, Sequence):
             if self.label_files is not None:
                 label = self.data_reader.read_label(self.label_files[i])
                 y = self.make_ground_truth(label)
-                y_true.append(y)
+                layer0.append(y[0])
+                layer1.append(y[1])
 
         pillars = np.concatenate(pillars, axis=0)
         voxels = np.concatenate(voxels, axis=0)
 
         if self.label_files is not None:
-            print(np.array(y_true).shape)
-            return [pillars, voxels], y_true
+            return [pillars, voxels], [layer0,layer1]
         else:
             return [pillars, voxels]
 
