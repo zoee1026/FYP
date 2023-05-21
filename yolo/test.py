@@ -45,18 +45,33 @@ import tensorflow as tf
 # # print the sum of squares
 # print("Sum of squares of last two values:", sum_of_squares)
 
-anchor_path=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\AnchorKmeans6.csv'
-anchors=np.round(np.array(pd.read_csv(
-        anchor_path, index_col=0).values, dtype=np.float32).tolist(), 3)[:3]
-anchors_tensor = K.tile(
-        anchors.reshape(1, 1, *anchors.shape), [3, 3, 1, 1])
-print(anchors_tensor)
+# anchor_path=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\AnchorKmeans6.csv'
+# anchors=np.round(np.array(pd.read_csv(
+#         anchor_path, index_col=0).values, dtype=np.float32).tolist(), 3)[:3]
+# anchors_tensor = K.tile(
+#         anchors.reshape(1, 1, *anchors.shape), [3, 3, 1, 1])
+# print(anchors_tensor)
 
-def cal_dig(row):
-    return np.sqrt(np.sum([np.power(row[0],2),np.power(row[1],2)]))
+# def cal_dig(row):
+#     return np.sqrt(np.sum([np.power(row[0],2),np.power(row[1],2)]))
 
-anchors_diag = K.cast(K.map_fn(cal_dig,anchors_tensor),K.dtype(anchors_tensor))
-# anchors_diag=anchors_diag.reshape(*anchors_diag.shape,1)
-# anchors_diag = K.cast(K.sqrt(K.sum(K.square(anchors_tensor[..., 0:2]), axis=1)), K.dtype(anchors_tensor))
-print(anchors_diag.shape)
-print(K.eval(anchors_diag))
+# anchors_diag = K.cast(K.map_fn(cal_dig,anchors_tensor),K.dtype(anchors_tensor))
+# # anchors_diag=anchors_diag.reshape(*anchors_diag.shape,1)
+# # anchors_diag = K.cast(K.sqrt(K.sum(K.square(anchors_tensor[..., 0:2]), axis=1)), K.dtype(anchors_tensor))
+# print(anchors_diag.shape)
+# print(K.eval(anchors_diag))
+
+
+
+# create two Keras tensors with shape (None, 3, 3)
+tensor1 = K.variable(np.random.rand(2, 3, 3))
+tensor2 = K.variable(np.random.rand(2, 3, 3))
+
+# concatenate the last two values of each tensor along the second dimension
+last_two_values1 = K.concatenate([tensor1[:, -2:, :], tensor2[:, -2:, :]], axis=1)
+
+# add up the last two values element-wise
+sum_tensor = K.sum(last_two_values1, axis=1)
+
+# print the resulting tensor
+print(K.eval(sum_tensor))

@@ -27,18 +27,15 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
     #     return np.sqrt(np.sum([np.power(row[0],2),np.power(row[1],2)]))
     # anchors_diag = K.cast(np.apply_along_axis(cal_dig,1,anchors_tensor),K.dtype(feats))
 
-    print('anchors_tensor',anchors_tensor.shape)
-
     feats = K.reshape(
         feats, [grid_shape[0], grid_shape[1], num_anchors, num_classes + 8])
 
     map_tensor = mapp[::scale, ::scale]
-    print('grid',grid.shape)
     map_tensor = K.cast(K.tile(map_tensor.reshape(
         [grid.shape[0], grid.shape[1], 1, 1]), (1, 1, num_anchors, 1)), K.dtype(feats))
     
-    box_x = (feats[..., 1]*anchors_tensor[...,-1]+grid[...,0])
-    # * \ K.constant(params.x_step)*scale+K.constant(params.x_min)
+    box_x = (feats[..., 1]*anchors_tensor[...,-1])
+    # * \ K.constant(params.x_step)*scale+K.constant(params.x_min)+grid[...,0]
        
     print('x',box_x.shape)
     box_y = (feats[..., 2]*anchors_tensor[...,-1]+grid[...,1]) * \
