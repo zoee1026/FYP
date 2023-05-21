@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 # Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchor.csv'
-Anchor_file = '/media/sdb1/zoe/FYP/folder_root/AnchorKmeans6.csv'
+Anchor_file = '/media/sdb1/zoe/FYP/folder_root/AnchorKmeans6_diag.csv'
 # Anchor_file = '/media/sdb1/zoe/FYP/folder_root/AnchorKmeans6_yaw.csv'
 
 

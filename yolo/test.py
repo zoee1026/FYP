@@ -50,13 +50,13 @@ anchors=np.round(np.array(pd.read_csv(
         anchor_path, index_col=0).values, dtype=np.float32).tolist(), 3)[:3]
 anchors_tensor = K.tile(
         anchors.reshape(1, 1, *anchors.shape), [3, 3, 1, 1])
-print(anchors_tensor.shape)
+print(anchors_tensor)
 
 def cal_dig(row):
     return np.sqrt(np.sum([np.power(row[0],2),np.power(row[1],2)]))
 
-anchors_diag = K.cast(np.apply_along_axis(cal_dig,1,anchors_tensor),K.dtype(anchors_tensor))
-anchors_diag=anchors_diag.reshape(*anchors_diag.shape,1)
+anchors_diag = K.cast(K.map_fn(cal_dig,anchors_tensor),K.dtype(anchors_tensor))
+# anchors_diag=anchors_diag.reshape(*anchors_diag.shape,1)
 # anchors_diag = K.cast(K.sqrt(K.sum(K.square(anchors_tensor[..., 0:2]), axis=1)), K.dtype(anchors_tensor))
 print(anchors_diag.shape)
-print(anchors_diag)
+print(K.eval(anchors_diag))
