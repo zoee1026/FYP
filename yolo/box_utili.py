@@ -29,12 +29,16 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
         feats, [grid_shape[0], grid_shape[1], num_anchors, num_classes + 8])
 
     map_tensor = mapp[::scale, ::scale]
+    print('grid',grid.shape)
     map_tensor = K.cast(K.tile(map_tensor.reshape(
         [grid.shape[0], grid.shape[1], 1, 1]), (1, 1, num_anchors, 1)), K.dtype(feats))
-    box_x = (feats[..., 1]*anchors_diag+grid) * \
+    box_x = (feats[..., 1]*anchors_diag+grid[...,0]) * \
         K.constant(params.x_step)*scale+K.constant(params.x_min)
-    box_y = (feats[..., 2]*anchors_diag+grid) * \
+    print('x',box_x.shape)
+    box_y = (feats[..., 2]*anchors_diag+grid[...,1]) * \
         K.constant(params.y_step)*scale+K.constant(params.y_min)
+    print('y',box_y.shape)
+    
     box_z = feats[..., 3]*anchors[..., 2]+anchors_tensor[..., 3]
     box_yaw = feats[..., 7]+map_tensor
     box_l = K.exp(feats[..., 4]*anchors_tensor[..., 0])
