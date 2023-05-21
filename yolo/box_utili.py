@@ -37,10 +37,8 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
     box_x = K.expand_dims((feats[..., 1]*anchors_tensor[..., -1]+grid[..., 0]) *
                           K.constant(params.x_step)*scale+K.constant(params.x_min), axis=-1)
 
-    print('x', box_x.shape)
     box_y = K.expand_dims((feats[..., 2]*anchors_tensor[..., -1]+grid[..., 1]) *
                           K.constant(params.y_step)*scale+K.constant(params.y_min), axis=-1)
-    print('y', box_y.shape)
 
     box_z = K.expand_dims(
         feats[..., 3]*anchors[..., 2]+anchors_tensor[..., 3], axis=-1)
@@ -56,7 +54,6 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
     boxes = K.concatenate([box_confidence, box_x, box_y, box_z,
                           box_l, box_w, box_h, box_yaw,  box_class_probs], axis=-1)
 
-    print('box', boxes.shape)
     if calc_loss == True:
         return grid, boxes, box_confidence, feats
     return boxes, box_confidence, box_class_probs
