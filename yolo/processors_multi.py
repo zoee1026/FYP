@@ -97,15 +97,14 @@ class SimpleDataGenerator(DataProcessor, Sequence):
 
             if self.label_files is not None:
                 label = self.data_reader.read_label(self.label_files[i])
-                y = self.make_ground_truth(
-                    label)
+                y = self.make_ground_truth(label)
                 y_true.append(y)
 
         pillars = np.concatenate(pillars, axis=0)
         voxels = np.concatenate(voxels, axis=0)
 
         if self.label_files is not None:
-            # y_true = np.array(y_true)
+            y_true = np.array(y_true)
             print(np.array(y_true).shape)
             return [pillars, voxels], [y_true]
         else:
