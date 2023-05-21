@@ -8,12 +8,12 @@ from box_class_utiliti import BBox, AnchorBBox
 from box_utili import get_anchors_and_decode
 
 @tf.function
-def ciou_cal(y_true, y_pre):
+def ciou_cal(y_true: tf.Tensor, y_pred: tf.Tensor):
     # conf, x, y, z, l, w, h, yaw, [classes]
     print(type(y_true))
-    t=np.array(tf.make_ndarray(tf.make_tensor_proto(y_true)))
+    t=np.array(y_true)
     print(type(t))
-    p=y_pre.numpy()
+    p=y_pred.numpy()
     print(type(p))
     # iou = np.vectorize(ciouraw)(t,p)
     iou = np.vectorize(ciouraw)(t,p)
