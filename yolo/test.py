@@ -28,10 +28,10 @@ from tensorflow.keras.backend import tile
 # create a 3x4 numpy array
 arr = np.array([[1, 2, 3, 4],
                 [5, 6, 7, 8],
-                [9, 10, 11, 12]])
+              ])
 
 # use tile to duplicate the array
-duplicated_arr = tile(arr.reshape(1, 1, *arr.shape), (2, 2, 1, 1))
+duplicated_arr = tile(arr.reshape(*arr.shape,1, 1), (1, 1, 2, 1))
 
 # check the shape of the duplicated array
 print(duplicated_arr.shape)  # output: (256, 320, 3, 4)
