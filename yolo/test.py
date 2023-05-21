@@ -24,7 +24,7 @@ import tensorflow as tf
 
 
 # create a 3x4 numpy array
-y_map=y_map[::2]
+y_map=y_map[::2,::2]
 print(y_map.shape)
 # use tile to duplicate the array
 duplicated_arr = tile(y_map.reshape(*y_map.shape,1, 1), (1, 1, 2, 1))
