@@ -7,19 +7,8 @@ from point_pillars import ciouraw
 from box_class_utiliti import BBox, AnchorBBox
 from box_utili import get_anchors_and_decode
 
-@tf.function
-def ciou_cal(y_true: tf.Tensor, y_pred: tf.Tensor):
-    # conf, x, y, z, l, w, h, yaw, [classes]
-    print(type(y_true))
-    t=np.array(y_true)
-    print(type(t))
-    p=y_pred.numpy()
-    print(type(p))
-    # iou = np.vectorize(ciouraw)(t,p)
-    iou = np.vectorize(ciouraw)(t,p)
-    # iou=  K.map_fn(ciouraw,(y_true,y_pre))
-    print('iou',iou.shape)
-    return K.variable(iou)
+# @tf.function
+
 
 
 class PointPillarNetworkLoss:
@@ -83,6 +72,19 @@ class PointPillarNetworkLoss:
     def loss_layer1(self, y_true: tf.Tensor, y_pred: tf.Tensor):
         return self.cal_loss(y_true,y_pred,1)
 
+    def ciou_cal(self,y_true: tf.Tensor, y_pred: tf.Tensor):
+        # conf, x, y, z, l, w, h, yaw, [classes]
+        print(type(y_true))
+        t=np.array(y_true)
+        print(type(t))
+        p=y_pred.numpy()
+        print(type(p))
+        # iou = np.vectorize(ciouraw)(t,p)
+        iou = np.vectorize(ciouraw)(t,p)
+        # iou=  K.map_fn(ciouraw,(y_true,y_pre))
+        print('iou',iou.shape)
+        return K.variable(iou)
+    
     def cal_loss(self, y_true: tf.Tensor, y_pred: tf.Tensor, l=0):
         print(y_pred.shape, y_true.shape)
         # y_true = args[self.num_layers:]
@@ -97,7 +99,7 @@ class PointPillarNetworkLoss:
             y_pred[0], self.anchor[self.anchors_mask[l]], self.num_classes, self.input_shape, self.mapp, self.scale[l], True)
         print(feats.shape)
         focal = self.focal_loss(y_true[0][..., 0], feats[..., 0])
-        ciou = ciou_cal(y_true[0][self.mask][..., 1:7],
+        ciou = self.ciou_cal(y_true[0][self.mask][..., 1:7],
                         boxes[self.mask][..., 1:7])
         ciou_loss = object_mask * (1 - ciou)
 
