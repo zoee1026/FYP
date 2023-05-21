@@ -121,7 +121,7 @@ def build_point_pillar_graph(params: Parameters, batch_size: int = Parameters.ba
 
 
     pillar_net = tf.keras.models.Model([input_pillars, input_indices], [out0,out1])
-    print(pillar_net.summary())
+    # print(pillar_net.summary())
 
     return pillar_net
 
