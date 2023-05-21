@@ -14,7 +14,7 @@ def ciou_cal(y_true, y_pre):
     p=y_pre.numpy()
     iou = np.vectorize(ciouraw)(t,p)
     # iou=  K.map_fn(ciouraw,(y_true,y_pre))
-    print(iou.shape)
+    print('iou',iou.shape)
     return K.variable(iou)
 
 
@@ -74,7 +74,7 @@ class PointPillarNetworkLoss:
         return self.combine_loss
 
     def combine_loss(self, y_true: tf.Tensor, y_pred: tf.Tensor):
-        print(y_pred.shape, y_true)
+        print(y_pred.shape, y_true.shape)
         # y_true = args[self.num_layers:]
         # y_pred = args[:self.num_layers]
         loss = 0
