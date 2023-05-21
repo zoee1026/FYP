@@ -13,21 +13,18 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, calc_
     params = Parameters()
     num_anchors = len(anchors)
     grid_shape = K.shape(feats)[:2]
-    scale = int((input_shape/grid_shape)[0])
+    scale = int((input_shape/grid_shape[:2])[0])
 
     grid_x = K.tile(K.reshape(K.arange(0, stop=grid_shape[1]), [
                     1, -1, 1, 1]), [grid_shape[0], 1, num_anchors, 1])
     grid_y = K.tile(K.reshape(K.arange(
         0, stop=grid_shape[0]), [-1, 1, 1, 1]), [1, grid_shape[1], num_anchors, 1])
     grid = K.cast(K.concatenate([grid_x, grid_y]), K.dtype(feats))
-    print('grid shape', grid.shape)
-    print('anchor',anchors)
 
     anchors_tensor = K.tile(
         anchors.reshape(1,1,*anchors.shape), [grid_shape[0], grid_shape[1], 1, 1])
     anchors_diag = K.sqrt(K.sum(K.square(anchors_tensor[..., 0:2]), axis=1))
-    print('anchor tensor',anchors_tensor.shape)
-    print('anchor diag shape',anchors_diag.shape)
+ 
     feats = K.reshape(
         feats, [grid_shape[0], grid_shape[1], num_anchors, num_classes + 8])
     print('scale',scale,'grid shape',grid_shape)
@@ -51,7 +48,7 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, calc_
 
     boxes= K.concatenate([box_confidence,box_x, box_y, box_z, box_l, box_w, box_h, box_yaw,  box_class_probs], axis=-1)
    
-
+    print('box',boxes.shape)
     if calc_loss == True:
         return grid, boxes, box_confidence
     return boxes, box_confidence, box_class_probs
@@ -74,7 +71,6 @@ def DecodeBox(outputs, mapp,
     box_class_probs = []
 
     for i in range(len(outputs)):
-        print(anchor[anchor_mask[i]])
         box, box_conf, sub_box_class_probs= get_anchors_and_decode(
                 outputs[i], anchor[anchor_mask[i]], num_classes, input_shape, mapp)
            
@@ -83,6 +79,7 @@ def DecodeBox(outputs, mapp,
         box_class_probs.append(
             K.reshape(sub_box_class_probs, [-1, num_classes]))
     boxes = K.concatenate(boxes, axis=0)
+    print('total box',boxes.shape)
     box_confidence = K.concatenate(box_confidence, axis=0)
     box_class_probs = K.concatenate(box_class_probs, axis=0)
     box_scores = box_confidence * box_class_probs
