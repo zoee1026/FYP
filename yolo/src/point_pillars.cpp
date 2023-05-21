@@ -762,5 +762,7 @@ PYBIND11_MODULE(point_pillars, m)
     m.def("createPillars", &createPillars, "Runs function to create point pillars input tensors");
     m.def("createPillarsTarget", &createPillarsTarget, "Runs function to create point pillars output ground truth");
     m.def("iouraw", &iouraw, "Runs function to calculate IOU");
+    m.def("ciouraw", &ciouraw, "Runs function to calculate CIOU");
+
 
 }
