@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cmath>
 #include <tuple>
+#include <vector>
 // #include <sklearn/base.h>
 // #include <sklearn/neighbors/kneighbors_classifier.h>
 namespace py = pybind11;
@@ -337,6 +338,34 @@ Polyline2D sutherlandHodgmanClip(const Polyline2D &poly_points_vector,
     return clipped_poly_points_vector;
 }
 
+float center_dist(const BoundingBox3D& box1,
+          const BoundingBox3D& box2)
+{
+    float dist=std::pow(box2.x - box1.x, 2) + std::pow(box1.y - box2.y, 2);
+    return dist;
+}
+
+float c_diag(const const Polyline2D & box1,
+          const const Polyline2D & box2)
+{
+    std::vector<int> xmin_values = { box1[0].x,box1[3].x,box2[0].x,box2[3].x};
+    std::vector<int> xmax_values = { box1[1].x,box1[1].x,box2[1].x,box2[2].x};
+    std::vector<int> ymin_values = { box1[2].y,box1[3].y,box2[2].y,box2[3].y};
+    std::vector<int> ymax_values = { box1[1].y,box1[0].y,box2[1].y,box2[0].y};
+
+    auto min_x_ele = std::min_element(xmin_values.begin(), xmin_values.end());
+    int min_x = *min_x_ele;
+    auto min_y_ele = std::min_element(ymin_values.begin(), ymin_values.end());
+    int min_y = *min_y_ele;
+    auto max_x_ele = std::max_element(xmax_values.begin(), xmax_values.end());
+    int max_x = *max_x_ele;
+    auto max_y_ele = std::max_element(ymax_values.begin(), ymax_values.end());
+    int max_y = *max_y_ele;
+
+    float dist=std::pow(max_x- min_x, 2) + std::pow(max_y - min_y.y, 2);
+    return dist;
+}
+
 // Calculates the IOU between two bounding boxes.
 float iou(const BoundingBox3D& box1,
           const BoundingBox3D& box2)
@@ -350,6 +379,22 @@ float iou(const BoundingBox3D& box1,
     float area_overlap = polygonArea(clipped_vector);
 
     return area_overlap / (area_poly1 + area_poly2 - area_overlap);
+}
+
+float ciou(const BoundingBox3D& box1,
+          const BoundingBox3D& box2)
+{
+    const auto& box_as_vector = boundingBox3DToTopDown(box1);
+    const auto& box_as_vector_2 = boundingBox3DToTopDown(box2);
+    const auto& clipped_vector = sutherlandHodgmanClip(box_as_vector, box_as_vector_2);
+    const auto& dist=center_dist(box1,box2);
+    const auto& c=c_diag(box_as_vector,box_as_vector_2);
+
+    float area_poly1 = polygonArea(box_as_vector);
+    float area_poly2 = polygonArea(box_as_vector_2);
+    float area_overlap = polygonArea(clipped_vector);
+
+    return (area_overlap / (area_poly1 + area_poly2 - area_overlap))-dist/c;
 }
 
 int clip(int n, int lower, int upper) {
@@ -408,6 +453,31 @@ float iouraw(
 
 }
 
+float ciouraw(
+    const pybind11::array_t<float>& labelBoxList,
+    const pybind11::array_t<float>& anchorBoxList)
+{
+    BoundingBox3D labelBox = {};
+    labelBox.x = labelBoxList.at(0);
+    labelBox.y = labelBoxList.at(1);
+    labelBox.z = labelBoxList.at(2);
+    labelBox.length = labelBoxList.at(3);
+    labelBox.width = labelBoxList.at(4);
+    labelBox.height = labelBoxList.at(5);
+    labelBox.yaw = labelBoxList.at(6);
+
+    BoundingBox3D anchorBox = {};
+    anchorBox.x = anchorBoxList.at(0);
+    anchorBox.y = anchorBoxList.at(1);
+    anchorBox.z = anchorBoxList.at(2);
+    anchorBox.length = anchorBoxList.at(3);
+    anchorBox.width = anchorBoxList.at(4);
+    anchorBox.height = anchorBoxList.at(5);
+    anchorBox.yaw = anchorBoxList.at(6);
+
+    return ciou(labelBox,anchorBox);
+
+}
 std::tuple<pybind11::array_t<float>, int, int> createPillarsTarget(const pybind11::array_t<float>& objectPositions,
                                              const pybind11::array_t<float>& objectDimensions,
                                              const pybind11::array_t<float>& objectYaws,

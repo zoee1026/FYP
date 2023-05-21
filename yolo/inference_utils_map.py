@@ -76,6 +76,122 @@ class BBox(Parameters, tuple):
         return [self.class_dict[self.cls],
                 self.x, self.y, self.z,   self.length,  self.width, self.height, self.yaw, self.conf]
 
+    def get_2D_BBox(self, P: np.ndarray):
+        """ Projects the 3D box onto the image plane and provides 2D BB 
+            1. Get 3D bounding box vertices
+            2. Rotate 3D bounding box with yaw angle
+            3. Multiply with LiDAR to camera projection matrix
+            4. Multiply with camera to image projection matrix
+        """
+        rotation_angle = self.yaw
+        if int(self.heading) == 0:
+            rotation_angle = -rotation_angle
+
+        yaw_rotation_matrix = BBox.get_y_axis_rotation_matrix(
+            rotation_angle)  # rotation matrix around y-axis
+        l = self.length
+        w = self.width
+        h = self.height
+
+        # 3d bb corner coordinates in camera coordinate frame, coordinate system is at the bottom center of box
+        # x-axis -> right (length), y-axis -> bottom (height), z-axis -> forward (width)
+        #     7 -------- 4
+        #    /|         /|
+        #   6 -------- 5 .
+        #   | |        | |
+        #   . 3 -------- 0
+        #   |/         |/
+        #   2 -------- 1
+        bb_3d_x_corner_coordinates = [
+            l/2, l/2, -l/2, -l/2, l/2, l/2, -l/2, -l/2]
+        bb_3d_y_corner_coordinates = [0, 0, 0, 0, -h, -h, -h, -h]
+        bb_3d_z_corner_coordinates = [
+            w/2, -w/2, -w/2, w/2, w/2, -w/2, -w/2, w/2]
+        bb_3d_corners = np.vstack([bb_3d_x_corner_coordinates, bb_3d_y_corner_coordinates,
+                                   bb_3d_z_corner_coordinates])
+
+        # box rotation by yaw angle
+        bb_3d_corners = yaw_rotation_matrix @ bb_3d_corners
+        # box translation by centroid coordinates
+        bb_3d_corners[0, :] = bb_3d_corners[0, :] + self.x
+        bb_3d_corners[1, :] = bb_3d_corners[1, :] + self.y
+        bb_3d_corners[2, :] = bb_3d_corners[2, :] + self.z
+
+        # camera coordinate frame to image coordinate frame box projection
+        img_width = (self.x_max - self.x_min) / self.x_step
+        img_height = (self.y_max - self.y_min) / self.y_step
+        bbox_2d_image, bbox_corners_image = BBox.camera_to_image(
+            bb_3d_corners, P, img_width, img_height)
+        return bbox_2d_image, bbox_corners_image
+
+    @staticmethod
+    def get_x_axis_rotation_matrix(rotation_angle):
+        cos_theta = np.cos(rotation_angle)
+        sin_theta = np.sin(rotation_angle)
+        rotation_matrix = [[1,      0.,             0.],
+                           [0.,   cos_theta,    -sin_theta],
+                           [0.,     sin_theta,   cos_theta]]
+        return np.array(rotation_matrix)
+
+    @staticmethod
+    def get_y_axis_rotation_matrix(rotation_angle):
+        cos_theta = np.cos(rotation_angle)
+        sin_theta = np.sin(rotation_angle)
+        rotation_matrix = [[cos_theta,  0.,   sin_theta],
+                           [0.,          1.,     0.],
+                           [-sin_theta,  0.,  cos_theta]]
+        return np.array(rotation_matrix)
+
+    @staticmethod
+    def get_z_axis_rotation_matrix(rotation_angle):
+        cos_theta = np.cos(rotation_angle)
+        sin_theta = np.sin(rotation_angle)
+        rotation_matrix = [[cos_theta,  -sin_theta, 0.],
+                           [sin_theta,   cos_theta, 0.],
+                           [0.,             0.,     1.]]
+        return np.array(rotation_matrix)
+
+    @staticmethod
+    def lidar_to_camera(x: float, y: float, z: float, R: np.ndarray, V2C: np.ndarray):
+        """ Projects the box centroid from LiDAR coordinate system to camera coordinate system using calibration matrices """
+        box_centroid = [x, y, z, 1]
+        box_centroid = V2C @ box_centroid
+        box_centroid = R @ box_centroid
+        return box_centroid[:3]
+
+    @staticmethod
+    def camera_to_image(bbox_3d_corners: np.ndarray, P: np.ndarray, img_width: float, img_height: float):
+        """ box is in camera coordinate frame and reference roatation has already been done to the box 
+            1. Convert the BB coordinated into an homogenous matrix
+            2. Project the matrix from camera coodinate frame to image coordinate frame using projection matrix P
+            3. Normalize by the z-coordinate values
+        """
+        box_3d_coords_homogenous = np.concatenate(
+            (bbox_3d_corners, np.ones((1, 8))), axis=0)  # concat([3, 8], [1, 8]) -> [4, 8]
+        # matmul ([3, 4], [4, 8]) -> [3, 8]
+        box_coords_image = P @ box_3d_coords_homogenous
+        # Normalizing all the x-coords with z-coords
+        box_x_coords = box_coords_image[0, :] / box_coords_image[2, :]
+        # Normalizing all the y-coords with z-coords
+        box_y_coords = box_coords_image[1, :] / box_coords_image[2, :]
+        xmin, xmax = np.min(box_x_coords), np.max(box_x_coords)
+        ymin, ymax = np.min(box_y_coords), np.max(box_y_coords)
+
+        xmin = np.clip(xmin, 0, img_width)
+        xmax = np.clip(xmax, 0, img_width)
+        ymin = np.clip(ymin, 0, img_height)
+        ymax = np.clip(ymax, 0, img_height)
+
+        bbox_2d_image = np.concatenate(
+            (xmin.reshape(-1, 1), ymin.reshape(-1, 1), xmax.reshape(-1, 1), ymax.reshape(-1, 1)), axis=1)
+        bbox_3d_image = np.concatenate(
+            (box_x_coords.reshape(-1, 8, 1), box_y_coords.reshape(-1, 8, 1)), axis=2)
+        return bbox_2d_image, bbox_3d_image
+
+
+
+
+
 def get_formated_label(boxes: List[BBox], indices: List):
     labels = []
     for idx in indices:
@@ -158,7 +274,7 @@ def rotational_nms(set_boxes, confidences, occ_threshold=0.3, nms_iou_thr=0.5):
         return [0]
 
 
-def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims,  kdt,y_map,occ_threshold=0.5):
+def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims,y_map,occ_threshold=0.5):
     """ Generating the bounding boxes based on the regression targets """
 
     # Get only the boxes where occupancy is greater or equal threshold.
@@ -192,7 +308,7 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims,  kdt,y_
         bb_width = np.exp(siz[value][1]) * real_anchors[i][1]
         bb_height = np.exp(siz[value][2]) * real_anchors[i][2]
         # bb_yaw = ang[value] + real_anchors[i][4]
-        bb_yaw = ang[value] + get_yaw(kdt,y_map,np.array([[bb_x,bb_y]]))
+        bb_yaw = ang[value] + y_map[real_x,real_y]
         # bb_yaw = ang[value]
         bb_heading = np.round(hdg[value])
         # if bb_heading == 0:

@@ -5,11 +5,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from processors import DataProcessor
-# from inference_utils import generate_bboxes_from_pred, rotational_nms, \
-#     dump_predictions, get_formated_label, ReadGTLabel, \
-#     pillar_net_predict_server, BBox, \
-#     cal_precision, Get_finalPrecisions
-from inference_utils_map import generate_bboxes_from_pred, rotational_nms, \
+from inference_utils import generate_bboxes_from_pred, rotational_nms, \
     dump_predictions, get_formated_label, ReadGTLabel, \
     pillar_net_predict_server, BBox, \
     cal_precision, Get_finalPrecisions

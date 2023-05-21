@@ -1,65 +1,23 @@
-import math
 import numpy as np
 import pandas as pd
-from dataloader import preprocess_true_boxes
-from readers import KittiDataReader, DataReader, Label3D
-from config import Parameters
 
+# a=np.array([100,200])
+# b=np.array([200,400])
+# print(int((b/a)[0]))
+# y_map=np.loadtxt(r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\yolo\map.csv", delimiter=",")
 
-def make_ground_truth(labels):
+# ar=y_map[::2, ::2]
+# print(ar.shape)
 
-    params = Parameters()
+import tensorflow as tf
 
-    # filter labels by classes (cars, pedestrians and Trams)
-    # Label has 4 properties (Classification (0th index of labels file),
-    # centroid coordinates, dimensions, yaw)
-    labels = list(
-        filter(lambda x: x.classification in params.classes, labels))
-    print([label.classification for label in labels])
+# Create three Keras tensors with shape (3, 4, 1)
+tensor1 = tf.keras.backend.variable(tf.ones((3, 4, 1)))
+tensor2 = tf.keras.backend.variable(tf.ones((3, 4, 1)))
+tensor3 = tf.keras.backend.variable(tf.ones((3, 4, 1)))
 
-    # For each label file, generate these properties except for the Don't care class
-    target_positions = np.array(
-        [label.centroid for label in labels], dtype=np.float32)
-    target_dimension = np.array(
-        [label.dimension for label in labels], dtype=np.float32)
-    target_yaw = np.array(
-        [label.yaw for label in labels], dtype=np.float32)
+# Concatenate the tensors along the last axis
+concatenated_tensor = tf.keras.backend.concatenate([tensor1, tensor2, tensor3], axis=-1)
 
-    # change from str to int representing classes label
-    target_class = np.array([params.classes[label.classification]
-                            for label in labels], dtype=np.int32)
-
-    # assert np.all(target_yaw >= -np.pi) & np.all(target_yaw <= np.pi)
-    assert len(target_positions) == len(
-        target_dimension) == len(target_yaw) == len(target_class)
-
-    ytrue = preprocess_true_boxes(
-        target_positions,
-        target_dimension,
-        target_yaw,
-        target_class,
-        params.anchor_dims[:, 0:3],
-        params.anchor_dims[:, 3],
-        params.anchor_dims[:, 4],
-        params.positive_iou_threshold,
-        params.negative_iou_threshold,
-        params.x_step,
-        params.y_step,
-        params.x_min,
-        params.x_max,
-        params.y_min,
-        params.y_max,
-        params.z_min,
-        params.z_max,
-        params.anchors_mask,
-        num_classes=16,
-    )
-
-    return ytrue
-
-
-if __name__ == '__main__':
-    label_path = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_label\2020_12_03=00_03_35_387.bin.json'
-    reader=KittiDataReader()
-    labels = reader.read_label(label_path)
-    make_ground_truth(labels)
+# Print the shape of the concatenated tensor
+print(concatenated_tensor.shape)
