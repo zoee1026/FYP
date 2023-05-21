@@ -79,7 +79,7 @@ class PointPillarNetworkLoss:
             num_pos = tf.maximum(K.sum(K.cast(object_mask, tf.float32)), 1)
             true_class_probs = y_true[l][..., 8:]
             true_class_probs = self._smooth_labels(true_class_probs, 0.01)
-            grid, boxes, box_confidence = get_anchors_and_decode(
+            grid, boxes, box_confidence, feats = get_anchors_and_decode(
                 y_pred[l], self.anchor[self.anchors_mask[l]], self.num_classes, self.input_shape, self.mapp, True)
             focal = self.focal_loss(self, y_true[..., 0], box_confidence)
             ciou = ciou_cal(y_true[self.mask][..., 1:7],
@@ -89,11 +89,11 @@ class PointPillarNetworkLoss:
             tobj = tf.where(tf.equal(object_mask, 1), tf.maximum(
                 ciou, tf.zeros_like(ciou)), tf.zeros_like(ciou))
             confidence_loss = K.binary_crossentropy(
-                tobj, y_pred[l][..., 0], from_logits=True)
+                tobj, feats[..., 0], from_logits=True)
 
             class_loss = object_mask * \
                 K.binary_crossentropy(
-                    true_class_probs, y_pred[l][..., 5:], from_logits=True)
+                    true_class_probs, feats[..., 5:], from_logits=True)
             class_loss = K.sum(class_loss) * 0.5 / num_pos / self.num_classes
 
             location_loss = K.sum(ciou_loss) * 0.05 / num_pos

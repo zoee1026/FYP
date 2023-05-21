@@ -13,7 +13,7 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, calc_
     params = Parameters()
     num_anchors = len(anchors)
     grid_shape = K.shape(feats)[:2]
-    scale = int((input_shape/grid_shape[:2])[0])
+    scale = int((input_shape/grid_shape[:2]).numpy()[0])
 
     grid_x = K.tile(K.reshape(K.arange(0, stop=grid_shape[1]), [
                     1, -1, 1, 1]), [grid_shape[0], 1, num_anchors, 1])
@@ -50,7 +50,7 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, calc_
    
     print('box',boxes.shape)
     if calc_loss == True:
-        return grid, boxes, box_confidence
+        return grid, boxes, box_confidence, feats
     return boxes, box_confidence, box_class_probs
 
 
