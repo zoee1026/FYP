@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 import tensorflow_probability as tfp
 from tensorflow.python.keras import backend as K
-from config import Parameters
+from config_multi import Parameters
 from point_pillars import ciouraw
 from box_class_utiliti import BBox, AnchorBBox
 from box_utili import get_anchors_and_decode
@@ -31,6 +31,7 @@ class PointPillarNetworkLoss:
         self.num_classes = params.nb_classes
         self.input_shape = [params.Xn, params.Yn]
         self.mapp = np.loadtxt("map.csv", delimiter=",")
+        self.scale=params.scale
 
     def focal_loss(self, y_true: tf.Tensor, y_pred: tf.Tensor):
         """ y_true value from occ in {-1, 0, 1}, i.e. {bad match, neg box, pos box} """
@@ -69,7 +70,7 @@ class PointPillarNetworkLoss:
         return self.combine_loss
 
     def combine_loss(self, y_true: tf.Tensor, y_pred: tf.Tensor):
-        print(y_pred.shape,y_true)
+        print(y_pred.shape, y_true)
         # y_true = args[self.num_layers:]
         # y_pred = args[:self.num_layers]
         loss = 0
@@ -80,7 +81,7 @@ class PointPillarNetworkLoss:
             true_class_probs = y_true[l][..., 8:]
             true_class_probs = self._smooth_labels(true_class_probs, 0.01)
             grid, boxes, box_confidence, feats = get_anchors_and_decode(
-                y_pred[l], self.anchor[self.anchors_mask[l]], self.num_classes, self.input_shape, self.mapp, True)
+                y_pred[l], self.anchor[self.anchors_mask[l]], self.num_classes, self.input_shape, self.mapp, self.scale[l], True)
             focal = self.focal_loss(self, y_true[..., 0], box_confidence)
             ciou = ciou_cal(y_true[self.mask][..., 1:7],
                             boxes[self.mask][..., 1:7])

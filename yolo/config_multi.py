@@ -129,6 +129,7 @@ class NetworkParameters:
     anchor_dims = np.round(np.array(pd.read_csv(
         Anchor_file,index_col=0).values, dtype=np.float32).tolist(), 3)
     anchors_mask = [[3, 4, 5], [0, 1, 2]]
+    scale = {0: 2, 1: 1}
     nb_layer=len(anchors_mask)
     nb_anchors = 6
     nb_dims = 3
