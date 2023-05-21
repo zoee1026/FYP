@@ -13,7 +13,7 @@ def ciou_cal(y_true, y_pre):
     # t=K.eval(y_true)
     # p=K.eval(y_pre)
     # iou = np.vectorize(ciouraw)(t,p)
-    iou=  K.map_fn(ciou,(y_true,y_pre))
+    iou=  K.map_fn(ciouraw,(y_true,y_pre))
     print(iou.shape)
     return K.variable(iou)
 
