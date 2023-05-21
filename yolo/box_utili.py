@@ -26,7 +26,7 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
     feats = K.reshape(
         feats, [grid_shape[0], grid_shape[1], num_anchors, num_classes + 8])
 
-    map_tensor = mapp[::scale].reshape([grid_shape[0], grid_shape[1], 1, 1])
+    map_tensor = mapp[::scale].reshape([grid.shape[0], grid.shape[1], 1, 1])
     map_tensor = K.tile(map_tensor, (1, 1, num_anchors, 1))
     print('map_tensor shape', map_tensor.shape)
 
