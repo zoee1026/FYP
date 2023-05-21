@@ -7,10 +7,6 @@ from point_pillars import ciouraw
 from box_class_utiliti import BBox, AnchorBBox
 from box_utili import get_anchors_and_decode
 
-# @tf.function
-
-
-
 class PointPillarNetworkLoss:
 
     def __init__(self, params: Parameters):
@@ -74,14 +70,11 @@ class PointPillarNetworkLoss:
 
     def ciou_cal(self,y_true: tf.Tensor, y_pred: tf.Tensor):
         # conf, x, y, z, l, w, h, yaw, [classes]
-        print(type(y_true))
-        t=np.array(y_true)
-        print(type(t))
+        t=y_true.numpy()
+        print(t.shape)
         p=y_pred.numpy()
-        print(type(p))
-        # iou = np.vectorize(ciouraw)(t,p)
-        iou = np.vectorize(ciouraw)(t,p)
-        # iou=  K.map_fn(ciouraw,(y_true,y_pre))
+        iou_func = np.vectorize(ciouraw)
+        iou=iou_func(t,p)
         print('iou',iou.shape)
         return K.variable(iou)
     
