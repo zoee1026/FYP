@@ -37,8 +37,9 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
     map_tensor = K.cast(K.tile(map_tensor.reshape(
         [grid.shape[0], grid.shape[1], 1, 1]), (1, 1, num_anchors, 1)), K.dtype(feats))
     
-    box_x = (feats[..., 1]*anchors_tensor[...,-1]+grid[...,0]) * \
-        K.constant(params.x_step)*scale+K.constant(params.x_min)
+    box_x = (feats[..., 1]*anchors_tensor[...,-1]+grid[...,0])
+    # * \ K.constant(params.x_step)*scale+K.constant(params.x_min)
+       
     print('x',box_x.shape)
     box_y = (feats[..., 2]*anchors_tensor[...,-1]+grid[...,1]) * \
         K.constant(params.y_step)*scale+K.constant(params.y_min)
