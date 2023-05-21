@@ -58,8 +58,8 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
 
     print('box', boxes.shape)
     if calc_loss == True:
-        return grid, boxes.astype('float32'), box_confidence, feats
-    return boxes.astype('float32'), box_confidence, box_class_probs
+        return grid, boxes, box_confidence, feats
+    return boxes, box_confidence, box_class_probs
 
 
 def DecodeBox(outputs, mapp,
