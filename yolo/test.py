@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
-
+from tensorflow.keras.backend import tile
 # a=np.array([100,200])
 # b=np.array([200,400])
 # print(int((b/a)[0]))
-# y_map=np.loadtxt(r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\yolo\map.csv", delimiter=",")
+y_map=np.loadtxt(r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\yolo\map.csv", delimiter=",")
 
 # ar=y_map[::2, ::2]
 # print(ar.shape)
@@ -22,17 +22,12 @@ import tensorflow as tf
 # # Print the shape of the concatenated tensor
 # print(concatenated_tensor.shape)
 
-import numpy as np
-from tensorflow.keras.backend import tile
 
 # create a 3x4 numpy array
-arr = np.array([[1, 2, 3, 4],
-                [5, 6, 7, 8],
-              ])
-
+y_map=y_map[::2]
+print(y_map.shape)
 # use tile to duplicate the array
-duplicated_arr = tile(arr.reshape(*arr.shape,1, 1), (1, 1, 2, 1))
+duplicated_arr = tile(y_map.reshape(*y_map.shape,1, 1), (1, 1, 2, 1))
 
 # check the shape of the duplicated array
 print(duplicated_arr.shape)  # output: (256, 320, 3, 4)
-print(duplicated_arr)
