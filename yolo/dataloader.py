@@ -63,6 +63,7 @@ def preprocess_true_boxes(labels: List[Label3D]):
             i = int(math.floor(ii))
             j = int(math.floor(jj))
             offsets = get_near_points(ii, jj, i, j)
+            index=n//3
 
             for offset in offsets:
                 local_i = i + offset[0]
@@ -77,22 +78,16 @@ def preprocess_true_boxes(labels: List[Label3D]):
                 # x=yaw_i*params.x_step+params.x_min
                 # y=yaw_j*params.y_step+params.y_min
 
-                y_true[l][local_j, local_i, n, 0] = 1
+                y_true[l][local_j, local_i, index, 0] = 1
 
-                y_true[l][local_j, local_i, n, 1] = label.centroid[0]
-                y_true[l][local_j, local_i, n, 2] = label.centroid[1]
-                y_true[l][local_j, local_i, n, 3] = label.centroid[2]
-                y_true[l][local_j, local_i, n, 4] = label.dimension[0]
-                y_true[l][local_j, local_i, n, 5] = label.dimension[1]
-                y_true[l][local_j, local_i, n, 6] = label.dimension[2]
-                y_true[l][local_j, local_i, n, 7] = label.yaw
-                # y_true[l][local_j, local_i, n, 1] = (label.centroid[0]-x)/best_anchor.diag
-                # y_true[l][local_j, local_i, n, 2] = (label.centroid[1]-y)/best_anchor.diag
-                # y_true[l][local_j, local_i, n, 3] = (label.centroid[2]-best_anchor.z)/best_anchor.h
-                # y_true[l][local_j, local_i, n, 4] = math.log(label.dimension[0]-best_anchor.l)
-                # y_true[l][local_j, local_i, n, 5] = math.log(label.dimension[1]-best_anchor.w)
-                # y_true[l][local_j, local_i, n, 6] = math.log(label.dimension[2]-best_anchor.h)
-                # y_true[l][local_j, local_i, n, 7] = label.yaw-mapp[yaw_i,yaw_j]
+                y_true[l][local_j, local_i, index, 1] = label.centroid[0]
+                y_true[l][local_j, local_i, index, 2] = label.centroid[1]
+                y_true[l][local_j, local_i, index, 3] = label.centroid[2]
+                y_true[l][local_j, local_i, index, 4] = label.dimension[0]
+                y_true[l][local_j, local_i, index, 5] = label.dimension[1]
+                y_true[l][local_j, local_i, index, 6] = label.dimension[2]
+                y_true[l][local_j, local_i, index, 7] = label.yaw
+        
                 y_true[l][local_j, local_i, n, 8+params.classes[label.classification]] = 1
 
     print([i.shape for i in y_true]) 

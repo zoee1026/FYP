@@ -70,6 +70,7 @@ def DecodeBox(outputs, mapp,
     box_class_probs = []
 
     for i in range(len(outputs)):
+        print(anchor[anchor_mask[i]])
         box, box_conf, sub_box_class_probs= get_anchors_and_decode(
                 outputs[i], anchor[anchor_mask[i]], num_classes, input_shape, mapp)
            
