@@ -70,14 +70,11 @@ class PointPillarNetworkLoss:
 
     def ciou_cal(self,y_true: tf.Tensor, y_pred: tf.Tensor):
         # conf, x, y, z, l, w, h, yaw, [classes]
-        print(y_pred.shape, y_true.shape,'=====')
-
         if len(y_pred)==0: return 0
         t=y_true.numpy()
         print(t.shape)
         p=y_pred.numpy()
-        iou_func = np.vectorize(ciouraw)
-        iou=iou_func(t,p)
+        iou =  np.apply_along_axis(lambda x: ciouraw(x[:7], x[7:]), axis=1, arr=np.hstack((t, p)))
         print('iou',iou.shape)
         return K.variable(iou)
     
@@ -87,20 +84,22 @@ class PointPillarNetworkLoss:
         # y_pred = args[:self.num_layers]
         y_true=K.squeeze(y_true, axis=0)
         print(y_pred.shape, y_true.shape)
-
         loss = 0
         balance = [0.4, 1.0]
         object_mask = y_true[..., 0]
         print(object_mask.shape)
+        
         num_pos = tf.maximum(K.sum(K.cast(object_mask, tf.float32)), 1)
         true_class_probs = y_true[..., 8:]
         true_class_probs = self._smooth_labels(true_class_probs, 0.01)
         grid, boxes, box_confidence, feats = get_anchors_and_decode(
             y_pred[0], self.anchor[self.anchors_mask[l]], self.num_classes, self.input_shape, self.mapp, self.scale[l], True)
         focal = self.focal_loss(y_true[..., 0], feats[..., 0])
-        print(np.count_nonzero(object_mask.numpy()))
-        ciou = self.ciou_cal(y_true[..., 1:7],
-                        boxes[..., 1:7])
+        
+        if np.count_nonzero(object_mask.numpy())!=0:
+            ciou = self.ciou_cal(y_true[..., 1:7],
+                            boxes[..., 1:7])
+        else: ciou=K.constant(0)
         ciou_loss = object_mask * (1 - ciou)
 
         tobj = tf.where(tf.equal(object_mask, 1), tf.maximum(
