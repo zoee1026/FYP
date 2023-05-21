@@ -80,6 +80,6 @@ def preprocess_true_boxes(labels: List[Label3D]):
                 y_true[l][local_j, local_i, index, 6] = label.dimension[2]
                 y_true[l][local_j, local_i, index, 7] = label.yaw
         
-                y_true[l][local_j, local_i, n, 8+params.classes[label.classification]] = 1
+                y_true[l][local_j, local_i, index, 8+params.classes[label.classification]] = 1
 
     return y_true
