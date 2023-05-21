@@ -74,10 +74,10 @@ class PointPillarNetworkLoss:
         return [self.loss_layer0,self.loss_layer1]
     
     def loss_layer0(self, y_true: tf.Tensor, y_pred: tf.Tensor):
-        return cal_loss(y_true,y_pred,0)
+        return self.cal_loss(y_true,y_pred,0)
     
     def loss_layer1(self, y_true: tf.Tensor, y_pred: tf.Tensor):
-        return cal_loss(y_true,y_pred,1)
+        return self.cal_loss(y_true,y_pred,1)
 
     def cal_loss(self, y_true: tf.Tensor, y_pred: tf.Tensor, l=0):
         print(y_pred.shape, y_true.shape)
