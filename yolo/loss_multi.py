@@ -88,6 +88,7 @@ class PointPillarNetworkLoss:
         loss = 0
         balance = [0.4, 1.0]
         object_mask = y_true[0][..., 0]
+        print(object_mask.shape)
         num_pos = tf.maximum(K.sum(K.cast(object_mask, tf.float32)), 1)
         true_class_probs = y_true[0][..., 8:]
         true_class_probs = self._smooth_labels(true_class_probs, 0.01)
@@ -95,8 +96,8 @@ class PointPillarNetworkLoss:
             y_pred[0], self.anchor[self.anchors_mask[l]], self.num_classes, self.input_shape, self.mapp, self.scale[l], True)
         focal = self.focal_loss(y_true[0][..., 0], feats[..., 0])
         print(np.count_nonzero(object_mask.numpy()))
-        ciou = self.ciou_cal(y_true[0][self.mask][..., 1:7],
-                        boxes[self.mask][..., 1:7])
+        ciou = self.ciou_cal(y_true[0][object_mask][..., 1:7],
+                        boxes[object_mask][..., 1:7])
         ciou_loss = object_mask * (1 - ciou)
 
         tobj = tf.where(tf.equal(object_mask, 1), tf.maximum(
