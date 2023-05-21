@@ -99,8 +99,8 @@ class PointPillarNetworkLoss:
             y_pred[0], self.anchor[self.anchors_mask[l]], self.num_classes, self.input_shape, self.mapp, self.scale[l], True)
         focal = self.focal_loss(y_true[..., 0], feats[..., 0])
         print(np.count_nonzero(object_mask.numpy()))
-        ciou = self.ciou_cal(y_true[object_mask][..., 1:7],
-                        boxes[object_mask][..., 1:7])
+        ciou = self.ciou_cal(y_true[..., 1:7],
+                        boxes[..., 1:7])
         ciou_loss = object_mask * (1 - ciou)
 
         tobj = tf.where(tf.equal(object_mask, 1), tf.maximum(
