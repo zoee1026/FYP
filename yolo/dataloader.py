@@ -33,7 +33,7 @@ def preprocess_true_boxes(labels: List[Label3D]):
     params = Parameters()
 
     num_layers = params.nb_layer
-    input_shape = np.array([params.Xn_f, params.Yn_f], dtype='int32')
+    input_shape = np.array([params.Xn, params.Yn], dtype='int32')
     grid_shapes = np.array(
         [input_shape // {0: 2, 1: 1}[l] for l in range(num_layers)], dtype='int32')
     print('grid shape', grid_shapes.shape)
