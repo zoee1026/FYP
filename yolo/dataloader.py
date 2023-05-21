@@ -9,7 +9,7 @@ from config_multi import Parameters
 from box_class_utiliti import BBox, AnchorBBox
 
 
-def get_near_points(self, x, y, i, j):
+def get_near_points(x, y, i, j):
     sub_x = x - i
     sub_y = y - j
     if sub_x > 0.5 and sub_y > 0.5:
