@@ -12,7 +12,7 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
     params = Parameters()
     num_anchors = len(anchors)
     grid_shape = K.shape(feats)[:2]
-    scale=np.int32(scale)
+    scale = np.int32(scale)
 
     grid_x = K.tile(K.reshape(K.arange(0, stop=grid_shape[1]), [
                     1, -1, 1, 1]), [grid_shape[0], 1, num_anchors, 1])
@@ -20,9 +20,9 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
         0, stop=grid_shape[0]), [-1, 1, 1, 1]), [1, grid_shape[1], num_anchors, 1])
     grid = K.cast(K.concatenate([grid_x, grid_y]), K.dtype(feats))
 
-    anchors_tensor = K.tile(
-        anchors.reshape(1, 1, *anchors.shape), [grid_shape[0], grid_shape[1], 1, 1])
-    
+    anchors_tensor = K.cast(K.tile(
+        anchors.reshape(1, 1, *anchors.shape), [grid_shape[0], grid_shape[1], 1, 1]), K.dtype(feats))
+
     # def cal_dig(row):
     #     return np.sqrt(np.sum([np.power(row[0],2),np.power(row[1],2)]))
     # anchors_diag = K.cast(np.apply_along_axis(cal_dig,1,anchors_tensor),K.dtype(feats))
@@ -33,15 +33,15 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
     map_tensor = mapp[::scale, ::scale]
     map_tensor = K.cast(K.tile(map_tensor.reshape(
         [grid.shape[0], grid.shape[1], 1, 1]), (1, 1, num_anchors, 1)), K.dtype(feats))
-    
-    box_x = (feats[..., 1]*anchors_tensor[...,-1])
-    # * \ K.constant(params.x_step)*scale+K.constant(params.x_min)+grid[...,0]
-       
-    print('x',box_x.shape)
-    box_y = (feats[..., 2]*anchors_tensor[...,-1]+grid[...,1]) * \
+
+    box_x = (feats[..., 1]*anchors_tensor[..., -1]+grid[..., 0]) * \
+        K.constant(params.x_step)*scale+K.constant(params.x_min)
+
+    print('x', box_x.shape)
+    box_y = (feats[..., 2]*anchors_tensor[..., -1]+grid[..., 1]) * \
         K.constant(params.y_step)*scale+K.constant(params.y_min)
-    print('y',box_y.shape)
-    
+    print('y', box_y.shape)
+
     box_z = feats[..., 3]*anchors[..., 2]+anchors_tensor[..., 3]
     box_yaw = feats[..., 7]+map_tensor
     box_l = K.exp(feats[..., 4]*anchors_tensor[..., 0])
