@@ -87,7 +87,7 @@ class PointPillarNetworkLoss:
         balance = [0.4, 1.0]
         object_mask = y_true[..., 0]
         num_pos = tf.maximum(K.sum(K.cast(object_mask, tf.float32)), 1)
-        true_class_probs = y_true[l][..., 8:]
+        true_class_probs = y_true[..., 8:]
         true_class_probs = self._smooth_labels(true_class_probs, 0.01)
         grid, boxes, box_confidence, feats = get_anchors_and_decode(
             y_pred, self.anchor[self.anchors_mask[l]], self.num_classes, self.input_shape, self.mapp, self.scale[l], True)
