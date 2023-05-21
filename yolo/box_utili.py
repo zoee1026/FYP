@@ -43,7 +43,7 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
     print('y', box_y.shape)
 
     box_z = feats[..., 3]*anchors[..., 2]+anchors_tensor[..., 3]
-    box_yaw = feats[..., 7]+map_tensor
+    box_yaw = feats[..., 7]+map_tensor[...,0]
     box_l = K.exp(feats[..., 4]*anchors_tensor[..., 0])
     box_w = K.exp(feats[..., 5]*anchors_tensor[..., 1])
     box_h = K.exp(feats[..., 6]*anchors_tensor[..., 2])
