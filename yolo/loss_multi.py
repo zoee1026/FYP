@@ -10,8 +10,11 @@ from box_utili import get_anchors_and_decode
 @tf.function
 def ciou_cal(y_true, y_pre):
     # conf, x, y, z, l, w, h, yaw, [classes]
-    t=y_true.numpy()
+    t=y_true.eval()
+    print(type(t))
     p=y_pre.numpy()
+    print(type(p))
+    # iou = np.vectorize(ciouraw)(t,p)
     iou = np.vectorize(ciouraw)(t,p)
     # iou=  K.map_fn(ciouraw,(y_true,y_pre))
     print('iou',iou.shape)
