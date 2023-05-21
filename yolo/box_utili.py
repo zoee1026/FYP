@@ -51,7 +51,7 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
 
     # ------------------------------------------#
     box_confidence = K.expand_dims(K.sigmoid(feats[..., 0]), axis=-1)
-    box_class_probs = K.expand_dims(K.sigmoid(feats[..., 8:]), axis=-1)
+    box_class_probs =K.sigmoid(feats[..., 8:])
 
     boxes = K.concatenate([box_confidence, box_x, box_y, box_z,
                           box_l, box_w, box_h, box_yaw,  box_class_probs], axis=-1)
