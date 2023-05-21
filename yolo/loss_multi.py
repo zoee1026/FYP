@@ -10,9 +10,8 @@ from box_utili import get_anchors_and_decode
 @tf.function
 def ciou_cal(y_true, y_pre):
     # conf, x, y, z, l, w, h, yaw, [classes]
-    tf.compat.v1.disable_eager_execution()
     print(type(y_true))
-    t=y_true.eval(session=tf.compat.v1.Session())
+    t=np.array(tf.make_ndarray(tf.make_tensor_proto(y_true)))
     print(type(t))
     p=y_pre.numpy()
     print(type(p))
