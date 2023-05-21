@@ -24,6 +24,9 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
         anchors.reshape(1, 1, *anchors.shape), [grid_shape[0], grid_shape[1], 1, 1])
     anchors_diag = K.cast(
         K.sqrt(K.sum(K.square(anchors_tensor[..., 0:2]), axis=1)), K.dtype(feats))
+    print('anchors_tensor',anchors_tensor.shape)
+    print('anchors_diag',anchors_diag.shape)
+
 
     feats = K.reshape(
         feats, [grid_shape[0], grid_shape[1], num_anchors, num_classes + 8])
@@ -32,6 +35,7 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, mapp, scale
     print('grid',grid.shape)
     map_tensor = K.cast(K.tile(map_tensor.reshape(
         [grid.shape[0], grid.shape[1], 1, 1]), (1, 1, num_anchors, 1)), K.dtype(feats))
+    
     box_x = (feats[..., 1]*anchors_diag+grid[...,0]) * \
         K.constant(params.x_step)*scale+K.constant(params.x_min)
     print('x',box_x.shape)
