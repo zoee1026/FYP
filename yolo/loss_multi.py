@@ -91,6 +91,7 @@ class PointPillarNetworkLoss:
         true_class_probs = self._smooth_labels(true_class_probs, 0.01)
         grid, boxes, box_confidence, feats = get_anchors_and_decode(
             y_pred, self.anchor[self.anchors_mask[l]], self.num_classes, self.input_shape, self.mapp, self.scale[l], True)
+        print(feats.shape)
         focal = self.focal_loss(y_true[..., 0], feats[..., 0])
         ciou = ciou_cal(y_true[self.mask][..., 1:7],
                         boxes[self.mask][..., 1:7])
