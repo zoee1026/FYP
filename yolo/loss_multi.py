@@ -74,7 +74,9 @@ class PointPillarNetworkLoss:
         t=y_true.numpy()
         print(t.shape)
         p=y_pred.numpy()
-        iou =  np.apply_along_axis(lambda x: ciouraw(x[:7], x[7:]), axis=1, arr=np.hstack((t, p)))
+        arr=np.hstack((t, p))
+        print('arr', arr.shape)
+        iou =  np.apply_along_axis(lambda x: ciouraw(x[:7], x[7:]), axis=1, arr=arr)
         print('iou',iou.shape)
         return K.variable(iou)
     
@@ -102,7 +104,7 @@ class PointPillarNetworkLoss:
         else: ciou=K.constant(0)
         ciou_loss = object_mask * (1 - ciou)
         print(object_mask.shape,ciou.shape)
-        
+
         tobj = tf.where(tf.equal(object_mask, 1), tf.maximum(
             ciou, tf.zeros_like(ciou)), tf.zeros_like(ciou))
         confidence_loss = K.binary_crossentropy(
