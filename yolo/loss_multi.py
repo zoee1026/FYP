@@ -74,7 +74,9 @@ class PointPillarNetworkLoss:
         t=y_true.numpy()
         p=y_pred.numpy()
         arr=np.concatenate((t, p),axis=-1)
+        print('in',arr.shape)
         iou =  np.apply_along_axis(lambda x: ciouraw(x[:7], x[7:]), axis=-1, arr=arr)
+        print('out',iou.shape)
         return K.variable(iou)
     
     def cal_loss(self, y_true: tf.Tensor, y_pred: tf.Tensor, l=0):
