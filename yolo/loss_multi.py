@@ -87,6 +87,7 @@ class PointPillarNetworkLoss:
         y_true=K.squeeze(y_true, axis=0)
         print(y_pred.shape, y_true.shape)
         loss = 0
+        ciou=0
         balance = [0.4, 1.0]
         object_mask = y_true[..., 0]
         print(object_mask.shape)
