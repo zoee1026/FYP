@@ -5,14 +5,14 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from processors import DataProcessor
-# from inference_utils import generate_bboxes_from_pred, rotational_nms, \
-#     dump_predictions, get_formated_label, ReadGTLabel, \
-#     pillar_net_predict_server, BBox, \
-#     cal_precision, Get_finalPrecisions
-from inference_utils_map import generate_bboxes_from_pred, rotational_nms, \
+from inference_utils import generate_bboxes_from_pred, rotational_nms, \
     dump_predictions, get_formated_label, ReadGTLabel, \
     pillar_net_predict_server, BBox, \
     cal_precision, Get_finalPrecisions
+# from inference_utils_map import generate_bboxes_from_pred, rotational_nms, \
+#     dump_predictions, get_formated_label, ReadGTLabel, \
+#     pillar_net_predict_server, BBox, \
+#     cal_precision, Get_finalPrecisions
 
 from readers import KittiDataReader
 from config import Parameters, OutPutVehecleClasees
@@ -142,7 +142,7 @@ def load_model_and_run_inference(configs):
 
         start = time.time()
         boxes = generate_bboxes_from_pred(occupancy, position, size, angle, heading, classification, 
-                                          params.anchor_dims,kdt,y_map, occ_threshold=0.4)
+                                          params.anchor_dims,kdt,y_map, occ_threshold=configs.occ_thresh)
         stop = time.time()
         confidences = [float(box.conf) for box in boxes]
         print(len(confidences))
