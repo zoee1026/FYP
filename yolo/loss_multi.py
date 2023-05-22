@@ -99,8 +99,8 @@ class PointPillarNetworkLoss:
         focal = self.focal_loss(y_true[..., 0], feats[..., 0])
         
         if np.count_nonzero(object_mask.numpy())!=0:
-            ciou = self.ciou_cal(y_true[..., 1:7],
-                            boxes[..., 1:7])
+            ciou = self.ciou_cal(y_true[..., 1:8],
+                            boxes[..., 1:8])
         else: ciou=K.constant(0)
         ciou_loss = object_mask * (1 - ciou)
         print(object_mask.shape,ciou.shape)
