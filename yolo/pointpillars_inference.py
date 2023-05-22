@@ -5,14 +5,14 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from processors import DataProcessor
-from inference_utils import generate_bboxes_from_pred, rotational_nms, \
-    dump_predictions, get_formated_label, ReadGTLabel, \
-    pillar_net_predict_server, BBox, \
-    cal_precision, Get_finalPrecisions
-# from inference_utils_map import generate_bboxes_from_pred, rotational_nms, \
+# from inference_utils import generate_bboxes_from_pred, rotational_nms, \
 #     dump_predictions, get_formated_label, ReadGTLabel, \
 #     pillar_net_predict_server, BBox, \
 #     cal_precision, Get_finalPrecisions
+from inference_utils_map import generate_bboxes_from_pred, rotational_nms, \
+    dump_predictions, get_formated_label, ReadGTLabel, \
+    pillar_net_predict_server, BBox, \
+    cal_precision, Get_finalPrecisions
 
 from readers import KittiDataReader
 from config import Parameters, OutPutVehecleClasees
@@ -52,8 +52,8 @@ precisions = {
     14: [],
     15: [],
 }
-RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val3.csv'
-MODEL='zoe_pp_yolo11.h5'
+RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val13.csv'
+MODEL='zoe_pp_yolo13.h5'
 EVAL_PATH='test.csv'
 MODEL_ROOT = "./log"
 MODEL_SAVE = "train4.h5"
@@ -66,7 +66,7 @@ def generate_config_from_cmd_args():
         description='PointPillars inference on test data.')
     parser.add_argument('--data_root', default=EVAL_PATH, type=str, required=False,
                         help='Test data root path holding folders velodyne, calib')
-    parser.add_argument('--result_dir', default="./Result11", type=str, required=False,
+    parser.add_argument('--result_dir', default="./Result13", type=str, required=False,
                         help='Path for dumping result labels in KITTI format')
     parser.add_argument('--model_path', default=MODEL, type=str, required=False,
                         help='Path to the model weights to be used for inference')
@@ -109,8 +109,10 @@ def load_model_and_run_inference(configs):
         logging.debug("Running for file: {}".format(file_name))
         lidar_data = data_reader.read_lidar(lidar_files[idx])
 
-        kdt = pickle.load(open('kdt.sav', 'rb'))
-        y_map=pd.read_csv('knn_y_map.csv')['angle'].values
+        y_map=np.loadtxt("map.csv", delimiter=",")
+
+        # kdt = pickle.load(open('kdt.sav', 'rb'))
+        # y_map=pd.read_csv('knn_y_map.csv')['angle'].values
 
         pillars, voxels = point_cloud_processor.make_point_pillars(
             points=lidar_data, print_flag=False)
@@ -141,8 +143,10 @@ def load_model_and_run_inference(configs):
             classification = np.squeeze(classification, axis=0)
 
         start = time.time()
+        # boxes = generate_bboxes_from_pred(occupancy, position, size, angle, heading, classification, 
+        #                                   params.anchor_dims,kdt,y_map, occ_threshold=configs.occ_thresh)
         boxes = generate_bboxes_from_pred(occupancy, position, size, angle, heading, classification, 
-                                          params.anchor_dims,kdt,y_map, occ_threshold=configs.occ_thresh)
+                                          params.anchor_dims,y_map, occ_threshold=configs.occ_thresh)
         stop = time.time()
         confidences = [float(box.conf) for box in boxes]
         print(len(confidences))
