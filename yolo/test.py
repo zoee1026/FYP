@@ -64,15 +64,28 @@ import tensorflow as tf
 
 
 # create a Keras tensor with shape (None, 3, 3)
-tensor = K.variable(np.random.rand(2, 2,3, 3))
+# tensor = K.variable(np.random.rand(2, 2,3, 3))
 
-# define a function that takes a tensor and returns its mean along the last dimension
-def last_dim_mean(tensor):
-    return K.mean(tensor, axis=-1, keepdims=True)
+# # define a function that takes a tensor and returns its mean along the last dimension
+# def last_dim_mean(tensor):
+#     return K.mean(tensor, axis=-1, keepdims=True)
 
-# apply the function to the last dimension of the tensor using K.map_fn
-result_tensor = K.map_fn(last_dim_mean, tensor)
-print(type(result_tensor))
-# print the resulting tensor
-a=K.eval(result_tensor)
-print(type(a))
+# # apply the function to the last dimension of the tensor using K.map_fn
+# result_tensor = K.map_fn(last_dim_mean, tensor)
+# print(type(result_tensor))
+# # print the resulting tensor
+# a=K.eval(result_tensor)
+# print(type(a))
+
+
+# create two arrays with shape (2, 3, 3)
+a = np.array([[[1, 2, 3], [4, 5, 6], [7, 8, 9]],
+              [[10, 11, 12], [13, 14, 15], [16, 17, 18]]])
+b = np.array([[[19, 20, 21], [22, 23, 24], [25, 26, 27]],
+              [[28, 29, 30], [31, 32, 33], [34, 35, 36]]])
+
+# stack the arrays along the last axis
+c = np.concatenate((a, b), axis=-1)
+
+# print the shape of the stacked array
+print(c.shape)  # Output: (2, 3, 3, 2)

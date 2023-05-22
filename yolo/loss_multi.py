@@ -74,9 +74,9 @@ class PointPillarNetworkLoss:
         t=y_true.numpy()
         print(t.shape)
         p=y_pred.numpy()
-        arr=np.hstack((t, p))
+        arr=np.concatenate((t, p),axis=-1)
         print('arr', arr.shape)
-        iou =  np.apply_along_axis(lambda x: ciouraw(x[:7], x[7:]), axis=1, arr=arr)
+        iou =  np.apply_along_axis(lambda x: ciouraw(x[:7], x[7:]), axis=-1, arr=arr)
         print('iou',iou.shape)
         return K.variable(iou)
     
