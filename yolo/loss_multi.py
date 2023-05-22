@@ -106,7 +106,7 @@ class PointPillarNetworkLoss:
             ciou, tf.zeros_like(ciou)), tf.zeros_like(ciou))
         confidence_loss = K.binary_crossentropy(
             tobj, feats[..., 0], from_logits=True)
-
+        print(true_class_probs.shape,feats[..., 8:].shape)
         class_loss = object_mask * \
             K.binary_crossentropy(
                 true_class_probs, feats[..., 8:], from_logits=True)
