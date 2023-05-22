@@ -6,6 +6,7 @@ from config_multi import Parameters
 from point_pillars import ciouraw
 from box_class_utiliti import BBox, AnchorBBox
 from box_utili import get_anchors_and_decode
+import time
 
 class PointPillarNetworkLoss:
 
@@ -76,6 +77,7 @@ class PointPillarNetworkLoss:
         arr=np.concatenate((t, p),axis=-1)
         print('in',arr.shape)
         iou =  np.apply_along_axis(lambda x: ciouraw(x[:7], x[7:]), axis=-1, arr=arr)
+        # time.sleep(2)
         iou=K.variable(iou)
         print('out',iou.shape)
 
@@ -125,4 +127,5 @@ class PointPillarNetworkLoss:
         loss += focal + location_loss + confidence_loss + class_loss
         # tf.Print(loss, [loss, location_loss,
         #             confidence_loss, class_loss], message='loss: ')
+        del ciou
         return loss
