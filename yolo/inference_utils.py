@@ -191,8 +191,8 @@ def generate_bboxes_from_pred(occ, pos, siz, ang, hdg, clf, anchor_dims,  kdt,y_
         bb_length = np.exp(siz[value][0]) * real_anchors[i][0]
         bb_width = np.exp(siz[value][1]) * real_anchors[i][1]
         bb_height = np.exp(siz[value][2]) * real_anchors[i][2]
-        # bb_yaw = ang[value] + real_anchors[i][4]
-        bb_yaw = ang[value] + get_yaw(kdt,y_map,np.array([[bb_x,bb_y]]))
+        bb_yaw = ang[value] + real_anchors[i][4]
+        # bb_yaw = ang[value] + get_yaw(kdt,y_map,np.array([[bb_x,bb_y]]))
         # bb_yaw = ang[value]
         bb_heading = np.round(hdg[value])
         # if bb_heading == 0:
