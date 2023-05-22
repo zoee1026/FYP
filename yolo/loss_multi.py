@@ -75,9 +75,7 @@ class PointPillarNetworkLoss:
         print(t.shape)
         p=y_pred.numpy()
         arr=np.concatenate((t, p),axis=-1)
-        print('arr', arr.shape)
         iou =  np.apply_along_axis(lambda x: ciouraw(x[:7], x[7:]), axis=-1, arr=arr)
-        print('iou',iou.shape)
         return K.variable(iou)
     
     def cal_loss(self, y_true: tf.Tensor, y_pred: tf.Tensor, l=0):
@@ -102,6 +100,7 @@ class PointPillarNetworkLoss:
         if np.count_nonzero(object_mask.numpy())!=0:
             ciou = self.ciou_cal(y_true[..., 1:8],
                             boxes[..., 1:8])
+            print('ciou',ciou.shape)
         else: ciou=K.constant(0)
         print('arrrrrrrrrrrr',object_mask.shape,ciou.shape)
 
@@ -120,7 +119,6 @@ class PointPillarNetworkLoss:
 
         location_loss = K.sum(ciou_loss) * 0.05 / num_pos
         confidence_loss = K.mean(confidence_loss) * balance[l] * 1
-        print(focal.shape, location_loss.shape,confidence_loss.shape,class_loss.shape)
         loss += focal + location_loss + confidence_loss + class_loss
         # tf.Print(loss, [loss, location_loss,
         #             confidence_loss, class_loss], message='loss: ')
