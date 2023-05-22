@@ -76,8 +76,10 @@ class PointPillarNetworkLoss:
         arr=np.concatenate((t, p),axis=-1)
         print('in',arr.shape)
         iou =  np.apply_along_axis(lambda x: ciouraw(x[:7], x[7:]), axis=-1, arr=arr)
+        iou=K.variable(iou)
         print('out',iou.shape)
-        return K.variable(iou)
+
+        return iou
     
     def cal_loss(self, y_true: tf.Tensor, y_pred: tf.Tensor, l=0):
         print(y_pred.shape, y_true.shape)
@@ -86,9 +88,9 @@ class PointPillarNetworkLoss:
         y_true=K.squeeze(y_true, axis=0)
         print(y_pred.shape, y_true.shape)
         loss = 0
-        ciou=0
         balance = [0.4, 1.0]
         object_mask = y_true[..., 0]
+        ciou=tf.zeros(object_mask.shape)
         print(object_mask.shape)
 
         num_pos = tf.maximum(K.sum(K.cast(object_mask, tf.float32)), 1)
