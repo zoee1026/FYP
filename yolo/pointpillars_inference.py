@@ -142,7 +142,7 @@ def load_model_and_run_inference(configs):
 
         start = time.time()
         boxes = generate_bboxes_from_pred(occupancy, position, size, angle, heading, classification, 
-                                          params.anchor_dims,kdt,y_map, occ_threshold=configs.occ_thresh)
+                                          params.anchor_dims,kdt,y_map, occ_threshold=0.4)
         stop = time.time()
         confidences = [float(box.conf) for box in boxes]
         print(len(confidences))
