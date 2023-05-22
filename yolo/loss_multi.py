@@ -120,6 +120,6 @@ class PointPillarNetworkLoss:
         confidence_loss = K.mean(confidence_loss) * balance[l] * 1
 
         loss += focal + location_loss + confidence_loss + class_loss
-        tf.Print(loss, [loss, location_loss,
-                    confidence_loss, class_loss], message='loss: ')
+        # tf.Print(loss, [loss, location_loss,
+        #             confidence_loss, class_loss], message='loss: ')
         return loss
