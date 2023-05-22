@@ -103,8 +103,9 @@ class PointPillarNetworkLoss:
             ciou = self.ciou_cal(y_true[..., 1:8],
                             boxes[..., 1:8])
         else: ciou=K.constant(0)
-        ciou_loss = object_mask * (1 - ciou)
         print('arrrrrrrrrrrr',object_mask.shape,ciou.shape)
+
+        ciou_loss = object_mask * (1 - ciou)
 
         tobj = tf.where(tf.equal(object_mask, 1), tf.maximum(
             ciou, tf.zeros_like(ciou)), tf.zeros_like(ciou))
