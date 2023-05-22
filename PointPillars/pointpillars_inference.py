@@ -147,6 +147,7 @@ def load_model_and_run_inference(configs):
 
         # logging.debug("Number of boxes post-nms: {}".format(len(nms_indices)))
 
+
         # Print out prediction
         print(len(boxes))
         nms_boxes = [boxes[i] for i in nms_indices]
