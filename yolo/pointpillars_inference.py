@@ -17,8 +17,8 @@ from inference_utils import generate_bboxes_from_pred, rotational_nms, \
 from readers import KittiDataReader
 from config import Parameters, OutPutVehecleClasees
 # from nets.network_yolo_3feature import build_point_pillar_graph
-# from nets.network_yolo_4features import build_point_pillar_graph
-from nets.network import build_point_pillar_graph
+from nets.network_yolo_4features import build_point_pillar_graph
+# from nets.network import build_point_pillar_graph
 
 
 
@@ -53,13 +53,13 @@ precisions = {
     15: [],
 }
 RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val2.csv'
-MODEL='zoe_pp_yolo12.h5'
+MODEL='zoe_pp_yolo11.h5'
 EVAL_PATH='test.csv'
 MODEL_ROOT = "./log"
 MODEL_SAVE = "train4.h5"
 pretrained= os.path.join(MODEL_ROOT,MODEL_SAVE)
 EVAL_PATH='/media/sdb1/zoe/FYP/folder_root/Eval_CleanFiles.csv'
-SAVE=True
+SAVE=False
 
 def generate_config_from_cmd_args():
     parser = argparse.ArgumentParser(
