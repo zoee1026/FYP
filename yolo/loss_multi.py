@@ -69,7 +69,7 @@ class PointPillarNetworkLoss:
     def loss_layer1(self, y_true: tf.Tensor, y_pred: tf.Tensor):
         return self.cal_loss(y_true,y_pred,1)
 
-    async def ciou_cal(self,y_true: tf.Tensor, y_pred: tf.Tensor):
+    def ciou_cal(self,y_true: tf.Tensor, y_pred: tf.Tensor):
         # conf, x, y, z, l, w, h, yaw, [classes]
         if len(y_pred)==0: return 0
         t=y_true.numpy()
@@ -77,7 +77,7 @@ class PointPillarNetworkLoss:
         arr=np.concatenate((t, p),axis=-1)
         print('in',arr.shape)
         
-        iou =  await np.apply_along_axis(lambda x: ciouraw(x[:7], x[7:]), axis=-1, arr=arr)
+        iou =  np.apply_along_axis(lambda x: ciouraw(x[:7], x[7:]), axis=-1, arr=arr)
         time.sleep(2)
         iou=K.variable(iou)
         print('out',iou.shape)
