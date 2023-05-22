@@ -59,7 +59,7 @@ MODEL_ROOT = "./log"
 MODEL_SAVE = "train4.h5"
 pretrained= os.path.join(MODEL_ROOT,MODEL_SAVE)
 # EVAL_PATH='/media/sdb1/zoe/FYP/folder_root/Eval_CleanFiles.csv'
-SAVE=True
+SAVE=False
 
 def generate_config_from_cmd_args():
     parser = argparse.ArgumentParser(
