@@ -78,7 +78,7 @@ class PointPillarNetworkLoss:
         print('in',arr.shape)
         
         iou =  np.apply_along_axis(lambda x: ciouraw(x[:7], x[7:]), axis=-1, arr=arr)
-        time.sleep(2)
+        time.sleep(10)
         iou=K.variable(iou)
         print('out',iou.shape)
 
