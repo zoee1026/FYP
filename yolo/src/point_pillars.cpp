@@ -475,7 +475,7 @@ float ciouraw(
     anchorBox.height = anchorBoxList.at(5);
     anchorBox.yaw = anchorBoxList.at(6);
 
-    if labelBox.length==0: return 0;
+    if (labelBox.length==0) return 0;
     return ciou(labelBox,anchorBox);
 
 }
