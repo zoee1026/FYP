@@ -44,9 +44,9 @@ if __name__ == '__main__':
     resultPath=''
     # PointPath=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\train_files\2020_12_03=00_03_32_387.bin'
     # LabelPath=r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_label\2020_12_03=00_03_35_387.bin.json"
-    PointPath = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_lidar\2020_12_02=08_10_22_845.bin'
-    LabelPath = r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_label\2020_12_02=08_10_22_845.bin.json"
-    # resultPath = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\PointPillars\eval\eval_result\2020_12_02=08_10_22_845.txt'
+    PointPath = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\yolo\eval\same\labels\2020_12_03=08_59_19_707.bin'
+    LabelPath = r"C:\Users\Chan Kin Yan\Documents\GitHub\FYP\yolo\eval\same\lidar\2020_12_03=08_59_19_707.bin.json"
+    # resultPath = r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\yolo\eval\same\results\2021_08_23=16_04_25_095.txt'
 
     label_elements = ReadLabelInOneFile(LabelPath)
     # labels=[VehicaleClasses[x] for x in list(label_elements[:,-1])]

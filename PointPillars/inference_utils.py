@@ -304,8 +304,8 @@ def cal_precision(boxes, gt, precisions):
                     precisions['FP'] += 1
 
         if TP + FP > 0:
-            precision = TP / (TP + FP)
-            precisions[c].append(precision)
+            precisions[c]['TP']+=TP
+            precisions[c]['FP']+=FP
 
 
 def Get_finalPrecisions(precisions):
@@ -314,9 +314,9 @@ def Get_finalPrecisions(precisions):
 
     for k, v in precisions.items():
         if isinstance(k, int):
-            if len(v) > 0:
+            if v['TP'] > 0:
                 print("Precision of ",
-                      OutPutVehecleClasees[k], 'is ', sum(v)/len(v))
+                OutPutVehecleClasees[k], 'is ', v['TP']/(v['TP']+v['FP']))
             else:
                 continue
         else:

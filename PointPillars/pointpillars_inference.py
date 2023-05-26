@@ -22,38 +22,55 @@ import logging
 from easydict import EasyDict as edict
 import time
 from tqdm import tqdm
-from read_file_location import ReadFileFromPath,TestModel
+from read_file_location import ReadFileFromPath, TestModel
 import h5py
 
 
 precisions = {
     'TP': 0,
     'FP': 0,
-    0: [],
-    1: [],
-    2: [],
-    3: [],
-    4: [],
-    5: [],
-    6: [],
-    7: [],
-    8: [],
-    9: [],
-    10: [],
-    11: [],
-    12: [],
-    13: [],
-    14: [],
-    15: [],
+    0: {'TP': 0,
+        'FP': 0, },
+    1: {'TP': 0,
+        'FP': 0, },
+    2: {'TP': 0,
+        'FP': 0, },
+    3: {'TP': 0,
+        'FP': 0, },
+    4: {'TP': 0,
+        'FP': 0, },
+    5: {'TP': 0,
+        'FP': 0, },
+    6: {'TP': 0,
+        'FP': 0, },
+    7: {'TP': 0,
+        'FP': 0, },
+    8: {'TP': 0,
+        'FP': 0, },
+    9: {'TP': 0,
+        'FP': 0, },
+    10: {'TP': 0,
+         'FP': 0, },
+    11: {'TP': 0,
+         'FP': 0, },
+    12: {'TP': 0,
+         'FP': 0, },
+    13: {'TP': 0,
+         'FP': 0, },
+    14: {'TP': 0,
+         'FP': 0, },
+    15: {'TP': 0,
+         'FP': 0, },
 }
-RESULT_LABEL_CSV='/media/sdb1/zoe/FYP/folder_root/Val2.csv'
-MODEL='zoe_pointpillars6.h5'
+RESULT_LABEL_CSV = '/media/sdb1/zoe/FYP/folder_root/Val2.csv'
+MODEL = 'zoe_pointpillars6.h5'
 # EVAL_PATH='test.csv'
 MODEL_ROOT = "./log"
 MODEL_SAVE = "train4.h5"
-pretrained= os.path.join(MODEL_ROOT,MODEL_SAVE)
-EVAL_PATH='/media/sdb1/zoe/FYP/folder_root/big_flatted_truck.csv'
-SAVE=False
+pretrained = os.path.join(MODEL_ROOT, MODEL_SAVE)
+EVAL_PATH = '/media/sdb1/zoe/FYP/folder_root/big_flatted_truck.csv'
+SAVE = False
+
 
 def generate_config_from_cmd_args():
     parser = argparse.ArgumentParser(
@@ -77,18 +94,19 @@ def generate_config_from_cmd_args():
 
 def load_model_and_run_inference(configs):
     params = Parameters()  # Load all model related parameters
-    csv =pd.DataFrame()
+    csv = pd.DataFrame()
     pillar_net = build_point_pillar_graph(params, batch_size=1)
 
     logging.info("Loading model from path: {}".format(configs.model_path))
 
     pillar_net.load_weights(configs.model_path)
 
-    logging.info("Model loaded.=================================================")
+    logging.info(
+        "Model loaded.=================================================")
 
     # lidar_files, label_files = ReadFileFromPath(configs.data_root)
-    lidar_files, label_files = TestModel('/media/sdb1/zoe/FYP/folder_root/All.csv')
-
+    lidar_files, label_files = TestModel(
+        '/media/sdb1/zoe/FYP/folder_root/All.csv')
 
     data_reader = KittiDataReader()
     point_cloud_processor = DataProcessor()
@@ -147,7 +165,6 @@ def load_model_and_run_inference(configs):
 
         # logging.debug("Number of boxes post-nms: {}".format(len(nms_indices)))
 
-
         # Print out prediction
         print(len(boxes))
         nms_boxes = [boxes[i] for i in nms_indices]
@@ -158,10 +175,10 @@ def load_model_and_run_inference(configs):
         cal_precision(nms_boxes, gt, precisions)
 
         if SAVE:
-            csv=dump_predictions(get_formated_label(boxes, nms_indices), os.path.join(
-                out_labels_path, "{}.txt".format(file_name)),csv)
-        print('----------------------------------------------------------------------------')
-    
+            csv = dump_predictions(get_formated_label(boxes, nms_indices), os.path.join(
+                out_labels_path, "{}.txt".format(file_name)), csv)
+        print(
+            '----------------------------------------------------------------------------')
 
     model_exec_time = model_exec_time[1:]
     total_model_exec_time = sum(model_exec_time)
@@ -183,8 +200,6 @@ if __name__ == '__main__':
     # os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
     logging.info("Results will be saved at path: {}".format(
         pred_config.result_dir))
-    
+
     load_model_and_run_inference(pred_config)
     Get_finalPrecisions(precisions)
-
-

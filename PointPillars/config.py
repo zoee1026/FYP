@@ -2,11 +2,11 @@ import numpy as np
 import pandas as pd
 
 
-Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchor.csv'
+# Anchor_file='/media/sdb1/zoe/FYP/folder_root/ZoeAnchor.csv'
 # Anchor_file='/media/sdb1/zoe/FYP/folder_root/AnchorKmeans6_yaw.csv'
 
 
-# Anchor_file=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\AnchorKmeans.csv'
+Anchor_file=r'C:\Users\Chan Kin Yan\Documents\GitHub\FYP\folder_root\AnchorKmeans.csv'
 
 
 VehicaleClasses = {
@@ -90,13 +90,21 @@ class GridParameters:
     # y_step = 0.24
 
     # zoe_pp_yolo1,2,3
-    x_min = -56.32
-    x_max = 25.6
-    x_step = 0.16
+    # x_min = -56.32
+    # x_max = 25.6
+    # x_step = 0.16
 
-    y_min = -46.08
-    y_max = 56.32
-    y_step = 0.16
+    # y_min = -46.08
+    # y_max = 56.32
+    # y_step = 0.16
+
+    x_min = -53.76
+    x_max = 17.92
+    x_step = 0.28
+
+    y_min = -35.84
+    y_max = 53.76
+    y_step = 0.28
 
     z_min = 0
     z_max = 6.4
