@@ -62,6 +62,7 @@ precisions = {
     15: {'TP': 0,
          'FP': 0, },
 }
+
 RESULT_LABEL_CSV = '/media/sdb1/zoe/FYP/folder_root/Val2.csv'
 MODEL = 'zoe_pointpillars6.h5'
 # EVAL_PATH='test.csv'
